@@ -4,7 +4,7 @@ namespace EnergyHeatMap.Contracts.Models
 {
     public interface ICryptoCoinState
     {
-        CoinName CoinName { get; set; }
+        string CoinName { get; set; }
         DateTime DateTime { get; set; }
         decimal Difficulty { get; set; }
         decimal Hashrate { get; set; }

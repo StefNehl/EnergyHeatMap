@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace EnergyHeatMap.Contracts.Enums
 {
-    public enum CoinName
+    public static class CoinName
     {
-        None = 0,
-        Btc = 1,
-        Eth = 2
+        public const string None = "None";
+        public const string Btc = "Btc";
+        public const string Eth = "Eth";
     }
 }
