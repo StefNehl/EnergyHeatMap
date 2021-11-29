@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "CnLgjznvvVBKaY2BP1AJwX7qlvGVnzVBmZ0Vt7g9Z9F87NfsbSELzk/QJkRUlm4Fw9/BEbQUZ3l9EcQjMVal+w==",
+  "success": true,
+  "projectFilePath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\stefa\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",
+    "C:\\Users\\stefa\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
+    "C:\\Users\\stefa\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.0.0\\microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,17 @@
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Infrastructure.deps.json
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Infrastructure.dll
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\ref\EnergyHeatMap.Infrastructure.dll
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Infrastructure.pdb
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Contracts.dll
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Domain.dll
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Contracts.pdb
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Domain.pdb
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.csproj.AssemblyReference.cache
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.AssemblyInfoInputs.cache
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.AssemblyInfo.cs
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.csproj.CoreCompileInputs.cache
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.csproj.CopyComplete
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.dll
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\ref\EnergyHeatMap.Infrastructure.dll
+C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.pdb

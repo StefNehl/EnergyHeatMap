@@ -1,0 +1,160 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj": {}
+  },
+  "projects": {
+    "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj",
+        "projectName": "EnergyHeatMap.Contracts",
+        "projectPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj",
+        "packagesPath": "C:\\Users\\stefa\\.nuget\\packages\\",
+        "outputPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Progress\\ToolboxNugetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\stefa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WPF.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj",
+        "projectName": "EnergyHeatMap.Domain",
+        "projectPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj",
+        "packagesPath": "C:\\Users\\stefa\\.nuget\\packages\\",
+        "outputPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Progress\\ToolboxNugetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\stefa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WPF.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {
+                "projectPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
