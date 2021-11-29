@@ -170,6 +170,40 @@ namespace EnergyHeatMap.Infrastructure.Services
             return _cryptoCoinStateEntities.Select(i => i.ToModel());
         }
 
+        public async Task<IEnumerable<ICryptoCoinState>> GetCryptoCoinStateByFilter(
+            string coinname = Contracts.Enums.CoinName.None, 
+            DateTime startdate = default,
+            DateTime enddate = default,
+            CancellationToken ct = default)
+        {
+            await Task.Delay(5, ct);
+
+            if (_cryptoCoinStateEntities.Count == 0)
+                return new List<ICryptoCoinState>();
+
+            //Start of crypto (not really correct) 
+            if (startdate == default)
+                startdate = new DateTime(2000, 0, 0);
+
+            //stopped tracking data in Nov 2021
+            if (enddate == default)
+                enddate = new DateTime(2022, 0, 0);
+
+            var filterdList = _cryptoCoinStateEntities
+                .Where(j =>
+                    j.DateTime >= startdate &&
+                    j.DateTime <= enddate);
+
+            if (coinname != Contracts.Enums.CoinName.None)
+                filterdList = filterdList.Where(j => j.CoinName == coinname);
+
+            return filterdList
+                .Where(j => 
+                    j.DateTime >= startdate &&
+                    j.DateTime <= enddate)
+                .Select(i => i.ToModel());
+        }
+
         private class HashRateDataSet
         {
             public long Ticks { get; set; }

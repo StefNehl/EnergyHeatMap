@@ -5,5 +5,11 @@ namespace EnergyHeatMap.Infrastructure.Services
     public interface ICryptoCoinStateService
     {
         Task<IEnumerable<ICryptoCoinState>> GetAllAsync(CancellationToken ct);
+
+        Task<IEnumerable<ICryptoCoinState>> GetCryptoCoinStateByFilter(
+            string coinname, 
+            DateTime startdate, 
+            DateTime enddate,
+            CancellationToken ct);
     }
 }
