@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yBrabsQNwWGb0XfQ8yZsO6cS5Y+TwAUyv3UzA5tzT/q5aVJFgSxOif1ApYsU4B6b3voMVQQpbDN8J0TK+TDjRA==",
+  "dgSpecHash": "upncFJNOzNGTPtcgurUrOcJLRZnejLVwSSxE4uj/QnpA8VZJPOz0DjesJY/bsTejsVc1yZVhYdNTIemXUknQhw==",
   "success": true,
-  "projectFilePath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj",
+  "projectFilePath": "C:\\projects\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\stefa\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",

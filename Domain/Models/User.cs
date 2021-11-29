@@ -11,6 +11,6 @@ namespace EnergyHeatMap.Domain.Models
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
         public string Token { get; set; } = "";
-        public string Role { get; set; } = Models.Role.None;
+        public string Role { get; set; } = Contracts.Enums.Role.None;
     }
 }

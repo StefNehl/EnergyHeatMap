@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnergyHeatMap.Domain.Models
+namespace EnergyHeatMap.Contracts.Enums
 {
     public static class Role
     {

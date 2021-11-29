@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {}
+    "C:\\projects\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {}
   },
   "projects": {
-    "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {
+    "C:\\projects\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj",
+        "projectUniqueName": "C:\\projects\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj",
         "projectName": "EnergyHeatMap.Contracts",
-        "projectPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj",
+        "projectPath": "C:\\projects\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj",
         "packagesPath": "C:\\Users\\stefa\\.nuget\\packages\\",
-        "outputPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\obj\\",
+        "outputPath": "C:\\projects\\EnergyHeatMap\\Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

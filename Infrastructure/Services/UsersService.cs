@@ -10,6 +10,7 @@ using EnergyHeatMap.Infrastructure.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using EnergyHeatMap.Contracts.Enums;
 
 namespace EnergyHeatMap.Infrastructure.Services
 {

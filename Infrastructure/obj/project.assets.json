@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "CsvHelper/27.2.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/CsvHelper.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/CsvHelper.dll": {}
+        }
+      },
       "MediatR/9.0.0": {
         "type": "package",
         "compile": {
@@ -180,6 +189,30 @@
     }
   },
   "libraries": {
+    "CsvHelper/27.2.1": {
+      "sha512": "uS5ix5hL9gL5taiAG//CScyJa8Fn1ZOh3FDhDvf4laboESFs84mCNropfp7PIt8xCkyQofljFpqu1B5UnSXjyA==",
+      "type": "package",
+      "path": "csvhelper/27.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "csvhelper.27.2.1.nupkg.sha512",
+        "csvhelper.nuspec",
+        "lib/net45/CsvHelper.dll",
+        "lib/net45/CsvHelper.xml",
+        "lib/net47/CsvHelper.dll",
+        "lib/net47/CsvHelper.xml",
+        "lib/net5.0/CsvHelper.dll",
+        "lib/net5.0/CsvHelper.xml",
+        "lib/net6.0/CsvHelper.dll",
+        "lib/net6.0/CsvHelper.xml",
+        "lib/netstandard2.0/CsvHelper.dll",
+        "lib/netstandard2.0/CsvHelper.xml",
+        "lib/netstandard2.1/CsvHelper.dll",
+        "lib/netstandard2.1/CsvHelper.xml"
+      ]
+    },
     "MediatR/9.0.0": {
       "sha512": "8b3UYNxegHVYcJMG2zH8wn+YqxLvXG+eMfj0cMCq/jTW72p6O3PCKMkrIv0mqyxdW7bA4gblsocw7n+/9Akg5g==",
       "type": "package",
@@ -527,6 +560,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "CsvHelper >= 27.2.1",
       "EnergyHeatMap.Contracts >= 1.0.0",
       "EnergyHeatMap.Domain >= 1.0.0",
       "MediatR >= 9.0.0",
@@ -545,11 +579,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Infrastructure\\EnergyHeatMap.Infrastructure.csproj",
+      "projectUniqueName": "C:\\projects\\EnergyHeatMap\\Infrastructure\\EnergyHeatMap.Infrastructure.csproj",
       "projectName": "EnergyHeatMap.Infrastructure",
-      "projectPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Infrastructure\\EnergyHeatMap.Infrastructure.csproj",
+      "projectPath": "C:\\projects\\EnergyHeatMap\\Infrastructure\\EnergyHeatMap.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\stefa\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Infrastructure\\obj\\",
+      "outputPath": "C:\\projects\\EnergyHeatMap\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -576,11 +610,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {
-              "projectPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj"
+            "C:\\projects\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj": {
+              "projectPath": "C:\\projects\\EnergyHeatMap\\Contracts\\EnergyHeatMap.Contracts.csproj"
             },
-            "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj": {
-              "projectPath": "C:\\projects\\DigitalTwin\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj"
+            "C:\\projects\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj": {
+              "projectPath": "C:\\projects\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj"
             }
           }
         }
@@ -595,6 +629,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "CsvHelper": {
+            "target": "Package",
+            "version": "[27.2.1, )"
+          },
           "MediatR": {
             "target": "Package",
             "version": "[9.0.0, )"
