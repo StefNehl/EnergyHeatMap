@@ -4,6 +4,7 @@ import { Roles } from "./models/Roles"
 
 //Pages
 import LogInPage from "./pages/LogInPage"
+import MainPage from "./pages/MainPage"
 
 //Services
 import {
@@ -58,11 +59,17 @@ const EnergyHeatMapContainer: React.FC<Props> = () =>
         setIsLoggedIn(false);
       };
 
-      return currentUser === initUser ? (
+      return currentUser === initUser ? 
+      (
         <div className="auth-inner">
             <LogInPage logIn={logIn} isBusy={isBusy} />
       </div>
-      ) : <div>"Worked"</div>
+      ) : 
+      (
+          <div>
+            <MainPage currentUser={currentUser}/>
+          </div>
+      )
 };
 
 export default EnergyHeatMapContainer
