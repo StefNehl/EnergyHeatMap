@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnergyHeatMap.Contracts", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnergyHeatMap.Infrastructure", "..\Infrastructure\EnergyHeatMap.Infrastructure.csproj", "{8F85F523-5C00-4214-8CEB-5425F5538F21}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "EnergyHeatMap.WebClient", "..\EnergyHeatMap.WebClient\EnergyHeatMap.WebClient.esproj", "{A179D31B-1678-40B6-B4EE-356D68D59BFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,12 @@ Global
 		{8F85F523-5C00-4214-8CEB-5425F5538F21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F85F523-5C00-4214-8CEB-5425F5538F21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F85F523-5C00-4214-8CEB-5425F5538F21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A179D31B-1678-40B6-B4EE-356D68D59BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A179D31B-1678-40B6-B4EE-356D68D59BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A179D31B-1678-40B6-B4EE-356D68D59BFB}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A179D31B-1678-40B6-B4EE-356D68D59BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A179D31B-1678-40B6-B4EE-356D68D59BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A179D31B-1678-40B6-B4EE-356D68D59BFB}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

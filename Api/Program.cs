@@ -17,7 +17,7 @@ builder.Services.Configure<DataPathSettings>(dataPathSettings);
 
 builder.Services.AddInfrastructure();
 builder.Services.AddEndpointDefinitions(typeof(UserEndpointDefinition));
-
+builder.Services.AddCors();
 
 var securitySettings = appSettingsSection.Get<SecuritySettings>();
 var secret = Encoding.ASCII.GetBytes(securitySettings.Secret);
@@ -49,8 +49,16 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
-app.UseEndpointDefinitions();
 
+app.UseCors(
+    options =>
+    {
+        options.WithOrigins("http://localhost:3000")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+
+app.UseEndpointDefinitions();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -58,5 +66,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+
 
 app.Run();
