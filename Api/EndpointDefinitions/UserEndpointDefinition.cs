@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using EnergyHeatMap.Domain.Models;
 using EnergyHeatMap.Contracts.Enums;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace EnergyHeatMap.Api.EndpointDefinitions
 {
@@ -20,7 +21,24 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
             app.MapPost("/users", Post);
             app.MapPut("/users", Put);
             app.MapDelete("/users/{id}", Delete);
-            app.MapGet("/users/authenticate", AuthenticateAsync);
+            app.MapPost("/users/authenticate", AuthenticateAsync).AllowAnonymous();
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        private async Task<IResult> GetAll([FromServices] IMediator mediator)
+        {
+            var query = new GetAllUseresQuery();
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        private async Task<IResult> GetById([FromServices] IMediator mediator, Guid id)
+        {
+            var query = new GetUserByIdQuery(id);
+            var result = await mediator.Send(query);
+            return result is not null ? Results.Ok(result) : Results.NotFound();
+
         }
 
         [Authorize(Roles = Role.Admin)]
@@ -62,28 +80,17 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
             return Results.Created($"/users/{result.Id}", result);
         }
 
-        [Authorize(Roles = Role.Admin)]
-        private async Task<IResult> GetAll([FromServices] IMediator mediator)
+        private async Task<IResult> AuthenticateAsync(HttpContext http, [FromServices] IMediator mediator, [FromBody] AuthenticateModel model)
         {
-            var query = new GetAllUseresQuery();
-            var result = await mediator.Send(query);
-            return Results.Ok(result);
-        }
+            if (string.IsNullOrWhiteSpace(model?.Username) || string.IsNullOrWhiteSpace(model?.Password))
+                return Results.NoContent();
 
-        [Authorize(Roles = Role.Admin)]
-        private async Task<IResult> GetById([FromServices] IMediator mediator, Guid id)
-        {
-            var query = new GetUserByIdQuery(id);
+            var query = new AuthenticateCommand(model.Username, model.Password);
             var result = await mediator.Send(query);
-            return result is not null ? Results.Ok(result) : Results.NotFound();
-            
-        }
 
-        [AllowAnonymous]
-        private async Task<IResult> AuthenticateAsync(HttpContext http, [FromServices] IMediator mediator, string username, string password)
-        {
-            var query = new AuthenticateCommand(username, password);
-            var result = await mediator.Send(query);
+            if(result is null)
+                return Results.NotFound("Username oder Pw wrong");
+
             return Results.Ok(result);
         }
 
@@ -91,5 +98,12 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
         {
             services.AddSingleton<IUsersService, UsersService>();
         }
+    }
+
+    public class AuthorizeData : IAuthorizeData
+    {
+        public string? Policy { get; set; }
+        public string? Roles { get; set; }
+        public string? AuthenticationSchemes { get; set; }
     }
 }

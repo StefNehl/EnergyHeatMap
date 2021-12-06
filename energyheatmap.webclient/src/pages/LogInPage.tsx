@@ -26,7 +26,6 @@ const LogInPage: React.FC<Props> = ({ logIn }) => {
         var result = await logIn(username, password);
         if (!result) {
             setIsBusy(false);
-            setUsername("");
             setPassword("");
         }
     };
