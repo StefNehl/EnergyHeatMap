@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import { Container } from "react-bootstrap"
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import classNames from "classnames"
 
 //models
@@ -18,17 +18,9 @@ const MainPage: React.FC<Props> =
     return (
         <Container>
             <Routes>
-                <Route path="/">
-                    <div className="App">
-                        
-                    </div>
-                </Route>
-                <Route path="/charts">
-                    <div>Charts</div>
-                </Route>
-                <Route path="/users">
-                    <div>Users</div>
-                </Route>
+                <Route path="/" element={<div>Map</div>}/>
+                <Route path="/charts" element={<div>Charts</div>}/>
+                <Route path="/users" element={<div>Users</div>}/>
             </Routes>
         </Container>
     );

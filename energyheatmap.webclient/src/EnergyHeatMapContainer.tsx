@@ -22,10 +22,19 @@ const initUser =
     username: "Foo"
 }
 
+const devUser =           
+{
+    userId:0, 
+    active: true,
+    role: Roles.Admin,
+    token: "",
+    username: "Admin" 
+}
+
 const EnergyHeatMapContainer: React.FC<Props> = () =>
 {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [currentUser, setCurrentUser] = useState<User>(initUser);
+    const [currentUser, setCurrentUser] = useState<User>(devUser);
     const [isBusy, setIsBusy] = useState<boolean>(false);
 
     //effect
