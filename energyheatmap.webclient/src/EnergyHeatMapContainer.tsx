@@ -11,6 +11,9 @@ import {
     logInAsync
 } from "../src/services/httpService"
 
+// stylesheet
+import "./EnergyHeatMap.css"
+
 interface Props {}
 
 const initUser = 
