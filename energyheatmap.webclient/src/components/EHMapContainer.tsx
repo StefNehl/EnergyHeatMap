@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer , TileLayer, Marker, Popup } from 'react-leaflet'
-import L, { latLng, LatLngExpression, PathOptions } from "leaflet";
+import { MapContainer , TileLayer } from 'react-leaflet'
+import L from "leaflet";
 import 'leaflet/dist/leaflet.css';
 
 //models
@@ -15,8 +15,8 @@ const EHMapContainer: React.FC<Props> =
     currentUser
 }) => 
 {
-    const [map, setMap] = useState<any>(null)
-
+    const [map, setMap] = useState<any>(null);
+    currentUser = currentUser;
     useEffect(() => 
     {
         if(map !== null)
