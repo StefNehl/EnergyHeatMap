@@ -37,7 +37,7 @@ const devUser =
 const EnergyHeatMapContainer: React.FC<Props> = () =>
 {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [currentUser, setCurrentUser] = useState<User>(devUser);
+    const [currentUser, setCurrentUser] = useState<User>(initUser);
     const [isBusy, setIsBusy] = useState<boolean>(false);
 
     //effect

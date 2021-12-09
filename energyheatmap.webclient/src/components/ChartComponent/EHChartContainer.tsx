@@ -4,6 +4,9 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy"
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated"
 
+//services 
+import { getCryptoCoinStatesAsync } from "../../services/httpService"
+
 //models
 import { User } from "../../models/User"
 
@@ -16,59 +19,20 @@ interface Props{
     currentUser: User;
 }
 
-const EHChartContainer: React.FC<Props> = (currentUser) => 
+const EHChartContainer: React.FC<Props> = ( { currentUser }) => 
 {
+    currentUser = currentUser;
+
+    const [cryptoStates, setCryptoStates] = useState<unknown[]>([]);
     useEffect(() => 
-    {
-        let data = [{
-            "date": "2012-07-27",
-            "value": 13
-        }, {
-            "date": "2012-07-28",
-            "value": 11
-        }, {
-            "date": "2012-07-29",
-            "value": 15
-        }, {
-            "date": "2012-07-30",
-            "value": 16
-        }, {
-            "date": "2012-07-31",
-            "value": 18
-        }, {
-            "date": "2012-08-01",
-            "value": 13
-        }, {
-            "date": "2012-08-02",
-            "value": 22
-        }, {
-            "date": "2012-08-03",
-            "value": 23
-        }, {
-            "date": "2012-08-04",
-            "value": 20
-        }, {
-            "date": "2012-08-05",
-            "value": 17
-        }, {
-            "date": "2012-08-06",
-            "value": 16
-        }, {
-            "date": "2012-08-07",
-            "value": 18
-        }, {
-            "date": "2012-08-08",
-            "value": 21
-        }];
-
+    {        
         let root = am5.Root.new("chartdiv");
-
         root.setThemes([
             am5themes_Animated.new(root)
         ]);
 
         root.dateFormatter.setAll({
-            dateFormat: "yyyy",
+            dateFormat: "yyyy-MM-dd",
             dateFields: ["valueX"]
         });
 
@@ -108,7 +72,7 @@ const EHChartContainer: React.FC<Props> = (currentUser) =>
             xAxis: xAxis,
             yAxis: yAxis,
             valueYField: "value",
-            valueXField: "date",
+            valueXField: "dateTime",
             tooltip: am5.Tooltip.new(root, {
                 pointerOrientation: "horizontal",
                 labelText: "{valueY}"
@@ -128,10 +92,10 @@ const EHChartContainer: React.FC<Props> = (currentUser) =>
         // https://www.amcharts.com/docs/v5/concepts/data/#Pre_processing_data
         series.data.processor = am5.DataProcessor.new(root, {
             dateFormat: "yyyy-MM-dd",
-            dateFields: ["date"]
+            dateFields: ["dateTime"]
         });
 
-        series.data.setAll(data);
+
 
         series.bullets.push(function () {
             let circle = am5.Circle.new(root, {
@@ -144,22 +108,27 @@ const EHChartContainer: React.FC<Props> = (currentUser) =>
             return am5.Bullet.new(root, {
                 sprite: circle
             })
+            
         });
-  
-  
-  // Add cursor
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-  let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-    xAxis: xAxis,
-    behavior: "none"
-  }));
-  cursor.lineY.set("visible", false);
-  
-  // add scrollbar
-  chart.set("scrollbarX", am5.Scrollbar.new(root, {
-    orientation: "horizontal"
-  }));
-     }, [])
+
+        let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            xAxis: xAxis,
+            behavior: "none"
+        }));
+        cursor.lineY.set("visible", false);
+
+        chart.set("scrollbarX", am5.Scrollbar.new(root, {
+            orientation: "horizontal"
+        }));
+
+        let fetchData = async () => {
+            let data = await getCryptoCoinStatesAsync(currentUser);
+            console.log(data);
+            series.data.setAll(data as unknown[]);
+        };
+
+        setTimeout(() => fetchData(), 1000)
+    }, [])
 
     return(
         <Container>
@@ -170,3 +139,46 @@ const EHChartContainer: React.FC<Props> = (currentUser) =>
 }
 
 export default EHChartContainer; 
+
+
+
+// let data = [{
+//     "date": "2012-07-27",
+//     "value": 13
+// }, {
+//     "date": "2012-07-28",
+//     "value": 11
+// }, {
+//     "date": "2012-07-29",
+//     "value": 15
+// }, {
+//     "date": "2012-07-30",
+//     "value": 16
+// }, {
+//     "date": "2012-07-31",
+//     "value": 18
+// }, {
+//     "date": "2012-08-01",
+//     "value": 13
+// }, {
+//     "date": "2012-08-02",
+//     "value": 22
+// }, {
+//     "date": "2012-08-03",
+//     "value": 23
+// }, {
+//     "date": "2012-08-04",
+//     "value": 20
+// }, {
+//     "date": "2012-08-05",
+//     "value": 17
+// }, {
+//     "date": "2012-08-06",
+//     "value": 16
+// }, {
+//     "date": "2012-08-07",
+//     "value": 18
+// }, {
+//     "date": "2012-08-08",
+//     "value": 21
+// }];
