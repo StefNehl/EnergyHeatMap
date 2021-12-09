@@ -1,8 +1,10 @@
 import React, {useState} from "react"
 import { Container } from "react-bootstrap"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import classNames from "classnames"
+
+
 import EHMapContainer from "../components/EHMapContainer"
+import NavigationRibbonContainer from "../components/NavigationRibbonContainer"
 
 //models
 import {User} from "../models/User"
@@ -17,13 +19,14 @@ const MainPage: React.FC<Props> =
 }) => 
 {
     return (
-        <Container>
+        <div className="main-div">
+            <NavigationRibbonContainer />
             <Routes>
-                <Route path="/" element={ <EHMapContainer currentUser={ currentUser }/> }/>
+                <Route path="/home" element={ <EHMapContainer currentUser={ currentUser }/> }/>
                 <Route path="/charts" element={<div>Charts</div>}/>
                 <Route path="/users" element={<div>Users</div>}/>
             </Routes>
-        </Container>
+        </div>
     );
 }
 
