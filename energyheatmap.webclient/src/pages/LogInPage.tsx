@@ -39,28 +39,28 @@ const LogInPage: React.FC<Props> = ({ logIn }) => {
         <h3>Energy Heat Map</h3>
 
         <div className="form-group">
-          <label>Benutzername</label>
+          <label>Username</label>
           <input
             className="form-control"
-            placeholder="Benutzername"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
         <div className="form-group">
-          <label>Passwort</label>
+          <label>Password</label>
           <input
             type="password"
             className="form-control"
-            placeholder="Passwort"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="auth-ButtonDiv">
           <Button className="auth-Button" type="submit" variant="dark" disabled={isBusy}>
-            Anmelden
+            Log In
           </Button>
         </div>
       </form>

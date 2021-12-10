@@ -25,14 +25,14 @@ const initUser =
     username: "Foo"
 }
 
-const devUser =
-{
-    userId: 0,
-    active: true,
-    role: Roles.Admin,
-    token: "",
-    username: "Admin"
-}
+// const devUser =
+// {
+//     userId: 0,
+//     active: true,
+//     role: Roles.Admin,
+//     token: "",
+//     username: "Admin"
+// }
 
 const EnergyHeatMapContainer: React.FC<Props> = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -41,9 +41,7 @@ const EnergyHeatMapContainer: React.FC<Props> = () => {
 
     //useEffect
     useEffect(() => {
-
         let storedUserString = localStorage.getItem("user");
-
         if(storedUserString !== null)
         {
             let storedUser = JSON.parse(storedUserString) as User;
@@ -52,7 +50,7 @@ const EnergyHeatMapContainer: React.FC<Props> = () => {
         else
             logOut();
 
-    }, [currentUser, isLoggedIn])
+    }, [])
 
     //methods
     const logIn = async (
@@ -67,8 +65,8 @@ const EnergyHeatMapContainer: React.FC<Props> = () => {
             alert("Wrong Pw or User");
             return false;
         }
-
-
+        
+        setLogInState(user);
         return true;
     }
 
@@ -80,20 +78,18 @@ const EnergyHeatMapContainer: React.FC<Props> = () => {
     }
 
     const logOut = () => {
-        localStorage.setItem("user", "");
+        localStorage.removeItem("user");
         setCurrentUser(initUser);
         setIsLoggedIn(false);
     };
 
-    return !isLoggedIn ?
-        (
+    return isLoggedIn ?(
+            <div>
+                <MainPage currentUser={currentUser} logOut={logOut} />
+            </div>
+        ) :(
             <div className="auth-inner">
                 <LogInPage logIn={logIn} isBusy={isBusy} />
-            </div>
-        ) :
-        (
-            <div>
-                <MainPage currentUser={currentUser} />
             </div>
         )
 };

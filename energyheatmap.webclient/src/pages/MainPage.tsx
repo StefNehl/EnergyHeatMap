@@ -11,13 +11,14 @@ import {User} from "../models/User"
 
 interface Props{
     currentUser: User;
+    logOut(): void;
 }
 
-const MainPage: React.FC<Props> = ({ currentUser }) => 
+const MainPage: React.FC<Props> = ({ currentUser, logOut }) => 
 {
     return (
         <div className="main-div">
-            <NavigationRibbonContainer />
+            <NavigationRibbonContainer  logOut={logOut}/>
             <Routes>
                 <Route path="/"  element={ <EHMapContainer currentUser={ currentUser }/> }/>
                 <Route path="/charts" element={<EHChartContainer currentUser={ currentUser}/>}/>
