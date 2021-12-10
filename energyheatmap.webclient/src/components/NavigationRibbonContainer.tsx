@@ -19,7 +19,7 @@ const NavigationRibbonContainer: React.FC<Props> = () =>
             <Container className="navContent">
                 <Navbar.Brand>Energy Heat Map</Navbar.Brand>
                 <Nav className="me-auto" >
-                    <Nav.Link href="/home">Map</Nav.Link>
+                    <Nav.Link href="/">Map</Nav.Link>
                     <Nav.Link href="/charts">Charts</Nav.Link>
                     <Nav.Link href="/users">Users</Nav.Link>
                 </Nav>

@@ -10,13 +10,9 @@ interface Props{
     currentUser: User;
 }
 
-const EHMapContainer: React.FC<Props> = 
-({
-    currentUser
-}) => 
+const EHMapContainer: React.FC<Props> = ({ currentUser }) => 
 {
     const [map, setMap] = useState<any>(null);
-    currentUser = currentUser;
     useEffect(() => 
     {
         if(map !== null)
@@ -27,7 +23,6 @@ const EHMapContainer: React.FC<Props> =
         }
     });
     
-    //return(<div className="leaflet-container">Test</div>)
     return (
         <MapContainer
             id="leaflet-map"

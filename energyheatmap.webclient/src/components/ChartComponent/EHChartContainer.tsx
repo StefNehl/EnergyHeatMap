@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy"
@@ -21,9 +21,6 @@ interface Props{
 
 const EHChartContainer: React.FC<Props> = ( { currentUser }) => 
 {
-    currentUser = currentUser;
-
-    const [cryptoStates, setCryptoStates] = useState<unknown[]>([]);
     useEffect(() => 
     {        
         let root = am5.Root.new("chartdiv");
@@ -43,8 +40,6 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
             wheelX: "panX",
             wheelY: "zoomX"
         }));
-
-        let easing = am5.ease.linear;
 
         let xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
             maxDeviation: 0.1,
@@ -128,7 +123,7 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
         };
 
         setTimeout(() => fetchData(), 1000)
-    }, [])
+    }, [currentUser])
 
     return(
         <Container>
@@ -139,46 +134,3 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
 }
 
 export default EHChartContainer; 
-
-
-
-// let data = [{
-//     "date": "2012-07-27",
-//     "value": 13
-// }, {
-//     "date": "2012-07-28",
-//     "value": 11
-// }, {
-//     "date": "2012-07-29",
-//     "value": 15
-// }, {
-//     "date": "2012-07-30",
-//     "value": 16
-// }, {
-//     "date": "2012-07-31",
-//     "value": 18
-// }, {
-//     "date": "2012-08-01",
-//     "value": 13
-// }, {
-//     "date": "2012-08-02",
-//     "value": 22
-// }, {
-//     "date": "2012-08-03",
-//     "value": 23
-// }, {
-//     "date": "2012-08-04",
-//     "value": 20
-// }, {
-//     "date": "2012-08-05",
-//     "value": 17
-// }, {
-//     "date": "2012-08-06",
-//     "value": 16
-// }, {
-//     "date": "2012-08-07",
-//     "value": 18
-// }, {
-//     "date": "2012-08-08",
-//     "value": 21
-// }];

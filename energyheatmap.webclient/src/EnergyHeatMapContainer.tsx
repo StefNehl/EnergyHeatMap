@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from "react"
 import { User } from "./models/User"
 import { Roles } from "./models/Roles"
 
@@ -14,74 +14,88 @@ import {
 // stylesheet
 import "./EnergyHeatMap.css"
 
-interface Props {}
+interface Props { }
 
-const initUser = 
+const initUser =
 {
     userId: -1,
-    active:false,
+    active: false,
     role: Roles.Foo,
     token: "",
     username: "Foo"
 }
 
-const devUser =           
+const devUser =
 {
-    userId:0, 
+    userId: 0,
     active: true,
     role: Roles.Admin,
     token: "",
-    username: "Admin" 
+    username: "Admin"
 }
 
-const EnergyHeatMapContainer: React.FC<Props> = () =>
-{
+const EnergyHeatMapContainer: React.FC<Props> = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<User>(initUser);
     const [isBusy, setIsBusy] = useState<boolean>(false);
 
-    //effect
+    //useEffect
     useEffect(() => {
 
-    });
+        let storedUserString = localStorage.getItem("user");
+
+        if(storedUserString !== null)
+        {
+            let storedUser = JSON.parse(storedUserString) as User;
+            setLogInState(storedUser);
+        }
+        else
+            logOut();
+
+    }, [currentUser, isLoggedIn])
 
     //methods
-    const logIn = async(
-        userName:string, 
-        password:string
-    ) : Promise<boolean> => 
-    {
+    const logIn = async (
+        userName: string,
+        password: string
+    ): Promise<boolean> => {
         setIsBusy(true);
         let user = await logInAsync(userName, password);
         setIsBusy(false);
 
-        if(user == null)
-        {
+        if (user == null) {
             alert("Wrong Pw or User");
             return false;
         }
 
-        setCurrentUser(user);
-        setIsLoggedIn(true);
+
         return true;
     }
 
+    const setLogInState = (user: User) =>
+    {
+        localStorage.setItem("user", JSON.stringify(user));
+        setCurrentUser(user);
+        setIsLoggedIn(true);
+    }
+
     const logOut = () => {
+        localStorage.setItem("user", "");
         setCurrentUser(initUser);
         setIsLoggedIn(false);
-      };
+    };
 
-      return currentUser === initUser ? 
-      (
-        <div className="auth-inner">
-            <LogInPage logIn={logIn} isBusy={isBusy} />
-      </div>
-      ) : 
-      (
-          <div>
-            <MainPage currentUser={currentUser}/>
-          </div>
-      )
+    return !isLoggedIn ?
+        (
+            <div className="auth-inner">
+                <LogInPage logIn={logIn} isBusy={isBusy} />
+            </div>
+        ) :
+        (
+            <div>
+                <MainPage currentUser={currentUser} />
+            </div>
+        )
 };
 
 export default EnergyHeatMapContainer
