@@ -204,6 +204,14 @@ namespace EnergyHeatMap.Infrastructure.Services
                 .Select(i => i.ToModel());
         }
 
+        public async Task<IEnumerable<string>> GetCryptoCoins(CancellationToken ct)
+        {
+            var groups = _cryptoCoinStateEntities.GroupBy(i => i.CoinName);
+            await Task.Yield();
+
+            return groups.Select(i => i.Key);
+        }
+
         private class HashRateDataSet
         {
             public long Ticks { get; set; }

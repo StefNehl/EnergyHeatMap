@@ -11,5 +11,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             DateTime startdate, 
             DateTime enddate,
             CancellationToken ct);
+
+        Task<IEnumerable<string>> GetCryptoCoins(CancellationToken ct);
     }
 }

@@ -13,6 +13,7 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
         {
             app.MapGet("/cryptocoinstates/", GetAllAsync);
             app.MapGet("/cryoticoinstates/", GetFilterdAsync);
+            app.MapGet("/cryptocoins/", GetCryptoCoins);
         }
 
         public void DefineServices(IServiceCollection services)
@@ -28,12 +29,21 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
             return Results.Ok(result);
         }
 
+        [Authorize(Roles = $"{Role.User},{Role.Admin}")]
         private async Task<IResult> GetFilterdAsync([FromServices] IMediator mediator, 
             string coinname, 
             DateTime startdate,
             DateTime enddate)
         {
             var query = new GetFilteredCryptoCoinStatesQuery(coinname, startdate, enddate);
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
+        }
+
+        [Authorize(Roles = $"{Role.User},{Role.Admin}")]
+        private async Task<IResult> GetCryptoCoins([FromServices] IMediator mediator)
+        {
+            var query = new GetCryptoCoinsQuery();
             var result = await mediator.Send(query);
             return Results.Ok(result);
         }
