@@ -3,6 +3,7 @@ import {
     useLoading,
     Circles,
 } from '@agney/react-loading';
+import  EHChartCryptoCoinsListContainer  from "./EHChartCryptoCoinsListContainer"
 
 //services
 import { getCryptoCoins } from "../../services/httpService";
@@ -10,6 +11,10 @@ import { getCryptoCoins } from "../../services/httpService";
 //models
 import { User } from "../../models/User"
 import { sleep } from "@amcharts/amcharts5/.internal/core/util/Time";
+import { Container } from "react-bootstrap";
+
+//styles
+import "./EHCryptoCoinsContainer.css"
 
 interface Props {
     currentUser: User;
@@ -20,7 +25,9 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
     const [cryptoCoins, setCryptoCoins] = useState<string[]>([]);
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
-        indicator: <Circles />
+        indicator: <Circles/>,
+        loaderProps: {
+        }
     });
 
     let testData = ["Test1", "Test2"];
@@ -54,13 +61,18 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
 
     }, [isBusy, currentUser]);
 
-    return isBusy ? (
-        <section {...containerProps}>
-            {indicatorEl}
-        </section>
-    ) : (
-        <div>
-        </div>
+    return (
+        <Container className="cryptoCoinsContainer">
+            {
+                isBusy ? (
+                    <section {...containerProps}>
+                        {indicatorEl}
+                    </section>
+                ) : (
+                    <EHChartCryptoCoinsListContainer coins={cryptoCoins}/>
+                )
+            }
+        </Container>
     )
 }
 
