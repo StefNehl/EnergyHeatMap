@@ -4,6 +4,7 @@ const url = "https://localhost:7176"
 const AUTHENTICATE = "/users/authenticate";
 
 const CRYPTOCOINSTATES_GET_ALL = "/cryptocoinstates";
+const CRYPTOCOINS_GET_ALL = "/cryptocoins";
 
 export async function logInAsync(
     username: string,
@@ -44,6 +45,23 @@ export async function getCryptoCoinStatesAsync(currentUser: User): Promise<unkno
         return result;
     }
     catch (error) {
+        console.log(error);
+        throw new Error("API call " + AUTHENTICATE + " throws an exception");
+    }
+}
+
+export async function getCryptoCoins(currentUser: User): Promise<string[] | null>
+{
+    try
+    {
+        let result = await callService<string[]>(
+            CRYPTOCOINS_GET_ALL, 
+            getAuthRequestInit(currentUser.token, "GET"));
+            
+        return result;
+    }
+    catch(error)
+    {
         console.log(error);
         throw new Error("API call " + AUTHENTICATE + " throws an exception");
     }

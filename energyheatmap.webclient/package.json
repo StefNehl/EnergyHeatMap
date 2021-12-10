@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@agney/react-loading": "^0.1.2",
     "@amcharts/amcharts5": "^5.0.15",
     "@testing-library/jest-dom": "^5.16.0",
     "@testing-library/react": "^11.2.7",
