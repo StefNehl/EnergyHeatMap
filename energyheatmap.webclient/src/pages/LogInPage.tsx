@@ -1,38 +1,41 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
+import "./LoginPage.css"
+
 interface Props {
-    isBusy: boolean;
-    logIn(userName: string, password: string): Promise<boolean>;
+  isBusy: boolean;
+  logIn(userName: string, password: string): Promise<boolean>;
 }
 
 const LogInPage: React.FC<Props> = ({ logIn }) => {
 
-    // state
-    const [username, setUsername] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [isBusy, setIsBusy] = useState<boolean>(false);
+  // state
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isBusy, setIsBusy] = useState<boolean>(false);
 
-    // methods
-    const logInClicked = async (e: any) => {
-        if (isBusy) 
-            return;
-        e.preventDefault();
-        if (username.length <= 0 || password.length <= 0) {
-            alert("Benutzername oder Passwort leer!");
-            return;
-        }
-        setIsBusy(true);
-        var result = await logIn(username, password);
-        if (!result) {
-            setIsBusy(false);
-            setPassword("");
-        }
-    };
+  // methods
+  const logInClicked = async (e: any) => {
+    if (isBusy)
+      return;
+    e.preventDefault();
+    if (username.length <= 0 || password.length <= 0) {
+      alert("Benutzername oder Passwort leer!");
+      return;
+    }
+    setIsBusy(true);
+    var result = await logIn(username, password);
+    if (!result) {
+      setIsBusy(false);
+      setPassword("");
+    }
+  };
 
-    // render
-    return (
-      <form onSubmit={logInClicked}>
+  // render
+  return (
+    <div className="formDiv">
+      <form onSubmit={logInClicked} className="logInForm">
         <h3>Energy Heat Map</h3>
 
         <div className="form-group">
@@ -55,13 +58,15 @@ const LogInPage: React.FC<Props> = ({ logIn }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div className={"auth-ButtonDiv"}>
-                <Button className={"auth-Button"} type="submit" disabled={isBusy}>
+        <div className="auth-ButtonDiv">
+          <Button className="auth-Button" type="submit" variant="dark" disabled={isBusy}>
             Anmelden
           </Button>
         </div>
       </form>
-    );
+    </div>
+
+  );
 };
 
 export default LogInPage;
