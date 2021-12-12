@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
     useLoading,
-    Circles,
+    ThreeDots
 } from '@agney/react-loading';
 import  EHChartCryptoCoinsListContainer  from "./EHChartCryptoCoinsListContainer"
 
@@ -25,7 +25,7 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
     const [cryptoCoins, setCryptoCoins] = useState<string[]>([]);
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
-        indicator: <Circles/>,
+        indicator: <ThreeDots/>,
         loaderProps: {
         }
     });
@@ -52,7 +52,7 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
             
 
             setIsBusy(true);
-            await sleep(5000);
+            await sleep(1000);
             setCryptoCoins(testData);
             setIsBusy(false);
         }
@@ -65,7 +65,7 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
         <Container className="cryptoCoinsContainer">
             {
                 isBusy ? (
-                    <section {...containerProps}>
+                    <section className="busyIndicator" {...containerProps}>
                         {indicatorEl}
                     </section>
                 ) : (

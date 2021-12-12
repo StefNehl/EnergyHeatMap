@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import InputGroup from "react-bootstrap";
 
 interface Props {
     coins: string[]

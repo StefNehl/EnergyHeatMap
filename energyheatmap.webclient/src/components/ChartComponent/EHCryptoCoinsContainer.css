@@ -1,6 +1,10 @@
 .cryptoCoinsContainer{
-    background-color: pink;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    text-align: end;
+    margin: 5%;
+}
+
+.busyIndicator{
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 100px;
 }

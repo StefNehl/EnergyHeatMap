@@ -25,15 +25,6 @@ const initUser =
     username: "Foo"
 }
 
-// const devUser =
-// {
-//     userId: 0,
-//     active: true,
-//     role: Roles.Admin,
-//     token: "",
-//     username: "Admin"
-// }
-
 const EnergyHeatMapContainer: React.FC<Props> = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<User>(initUser);
@@ -41,14 +32,18 @@ const EnergyHeatMapContainer: React.FC<Props> = () => {
 
     //useEffect
     useEffect(() => {
-        let storedUserString = localStorage.getItem("user");
-        if(storedUserString !== null)
-        {
-            let storedUser = JSON.parse(storedUserString) as User;
-            setLogInState(storedUser);
-        }
-        else
-            logOut();
+        setIsLoggedIn(true);
+        return;
+
+
+        // let storedUserString = localStorage.getItem("user");
+        // if(storedUserString !== null)
+        // {
+        //     let storedUser = JSON.parse(storedUserString) as User;
+        //     setLogInState(storedUser);
+        // }
+        // else
+        //     logOut();
 
     }, [])
 

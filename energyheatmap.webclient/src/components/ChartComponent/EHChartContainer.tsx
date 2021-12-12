@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import EHCryptoCoinsContainer from "./EHCryptoCoinsContainer"
 
@@ -49,8 +49,17 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
 
     return(
         <Container>
-            <EHCryptoCoinsContainer currentUser={currentUser}/>
-            <div id="chartdiv" className="chartdiv" />
+            <Row>
+                <Col>
+                    DropDown
+                </Col>
+                <Col>
+                    <EHCryptoCoinsContainer currentUser={currentUser}/>
+                </Col>
+            </Row>
+            <Row>
+                <div id="chartdiv" className="chartdiv" />
+            </Row>
         </Container>
     )
 
