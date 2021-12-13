@@ -6,10 +6,10 @@ import {
 import  EHChartCryptoCoinsListContainer  from "./EHChartCryptoCoinsListContainer"
 
 //services
-import { getCryptoCoins } from "../../services/httpService";
+import { getCryptoCoins } from "../../../../services/httpService";
 
 //models
-import { User } from "../../models/User"
+import { User } from "../../../../models/User"
 import { sleep } from "@amcharts/amcharts5/.internal/core/util/Time";
 import { Container } from "react-bootstrap";
 
@@ -30,11 +30,10 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
         }
     });
 
-    let testData = ["Test1", "Test2"];
-
     useEffect(() => {
         let fetchCryptoCoins = async () => {
             setIsBusy(true);
+            await sleep(1000);
             let data = await getCryptoCoins(currentUser);
 
             if (data === null)
@@ -45,21 +44,10 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
             setIsBusy(false);
         }
 
-        let busyTest = async () => 
-        {
-            if(cryptoCoins.length !== 0)
-                return;
-            
+        if(cryptoCoins.length == 0)
+            setTimeout(() => fetchCryptoCoins(), 1000);
 
-            setIsBusy(true);
-            await sleep(1000);
-            setCryptoCoins(testData);
-            setIsBusy(false);
-        }
-
-        setTimeout(() => busyTest(), 1000);
-
-    }, [isBusy, currentUser]);
+    }, [isBusy, currentUser, cryptoCoins]);
 
     return (
         <Container className="cryptoCoinsContainer">

@@ -32,18 +32,14 @@ const EnergyHeatMapContainer: React.FC<Props> = () => {
 
     //useEffect
     useEffect(() => {
-        setIsLoggedIn(true);
-        return;
-
-
-        // let storedUserString = localStorage.getItem("user");
-        // if(storedUserString !== null)
-        // {
-        //     let storedUser = JSON.parse(storedUserString) as User;
-        //     setLogInState(storedUser);
-        // }
-        // else
-        //     logOut();
+        let storedUserString = localStorage.getItem("user");
+        if(storedUserString !== null)
+        {
+            let storedUser = JSON.parse(storedUserString) as User;
+            setLogInState(storedUser);
+        }
+        else
+            logOut();
 
     }, [])
 

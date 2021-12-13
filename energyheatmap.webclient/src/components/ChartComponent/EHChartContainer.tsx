@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import { Container, Row, Col } from "react-bootstrap";
 
-import EHCryptoCoinsContainer from "./EHCryptoCoinsContainer"
+import EHCryptoCoinsContainer from "./EHChartFilterComponent/CoinsComponent/EHCryptoCoinsContainer"
 
 //services 
 import { createXYChart } from "../../services/chartService";
@@ -32,7 +32,6 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
 
 
         let fetchCryptoCoinStates = async () => {
-            return;
             let data = await getCryptoCoinStatesAsync(currentUser);
             
             if(data === null)
