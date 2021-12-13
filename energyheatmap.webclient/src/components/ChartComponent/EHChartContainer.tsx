@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import { Container, Row, Col } from "react-bootstrap";
 
-import EHCryptoCoinsContainer from "./EHChartFilterComponent/CoinsComponent/EHCryptoCoinsContainer"
+import EHChartFilterContainer from "./EHChartFilterComponent/EHChartFilterContainer"
 
 //services 
 import { createXYChart } from "../../services/chartService";
@@ -13,8 +13,6 @@ import { User } from "../../models/User"
 
 //import css
 import './EHChartContainer.css'
-
-
 
 
 interface Props{
@@ -49,12 +47,7 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
     return(
         <Container>
             <Row>
-                <Col>
-                    DropDown
-                </Col>
-                <Col>
-                    <EHCryptoCoinsContainer currentUser={currentUser}/>
-                </Col>
+                <EHChartFilterContainer currentUser={currentUser}/>                
             </Row>
             <Row>
                 <div id="chartdiv" className="chartdiv" />

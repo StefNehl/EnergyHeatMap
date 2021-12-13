@@ -10,7 +10,7 @@ interface Props{
 const EHCountryContainer: React.FC<Props> = ({ currentUser }) =>
 {
     return(
-        <div></div>
+        <div>Country Dropdown</div>
     );
 } 
 
