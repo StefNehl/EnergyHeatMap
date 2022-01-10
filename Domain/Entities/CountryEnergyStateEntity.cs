@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using EnergyHeatMap.Contracts.Entities;
 
 namespace EnergyHeatMap.Domain.Entities
 {
-    public class CountryEnergyState
+    public class CountryEnergyStateEntity : ICountryEnergyStateEntity 
     {
         public string IsoCode { get; set; }
         public string Country { get; set; }
-        public int Year { get; set; }
+        public DateTime DateTime { get; set; }
+        public long Population { get; set; }
+        public decimal Primary_energy_consuption { get; set; }
+        public decimal Electricity_generation { get; set; }
+
+
+        //Maybe not needed
         public decimal Coal_prod_change_pct { get; set; }
         public decimal Coal_prod_change_twh { get; set; }
         public decimal Gas_prod_change_pct { get; set; }
@@ -36,7 +39,6 @@ namespace EnergyHeatMap.Domain.Entities
         public decimal Coal_cons_per_capita { get; set; }
         public decimal Ccoal_production { get; set; }
         public decimal Coal_prod_per_capita { get; set; }
-        public decimal Electricity_generation { get; set; }
         public decimal Biofuel_electricity { get; set; }
         public decimal Coal_electricity { get; set; }
         public decimal Fossil_electricity { get; set; }

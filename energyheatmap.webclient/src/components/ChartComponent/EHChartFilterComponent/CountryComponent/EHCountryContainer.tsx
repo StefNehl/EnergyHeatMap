@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
 
 //models
 import { User } from "../../../../models/User"
@@ -10,7 +11,9 @@ interface Props{
 const EHCountryContainer: React.FC<Props> = ({ currentUser }) =>
 {
     return(
-        <div>Country Dropdown</div>
+        <Container>
+            <div>Country Dropdown</div>
+        </Container>
     );
 } 
 

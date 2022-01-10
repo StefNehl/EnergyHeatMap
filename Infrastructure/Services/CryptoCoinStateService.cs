@@ -46,41 +46,42 @@ namespace EnergyHeatMap.Infrastructure.Services
             LoadEthDifficulty();
         }
 
-        private bool LoadBtcHistoricalData()
+        private void LoadBtcHistoricalData()
         {
-            return LoadCsvData(BtcHistoricalDataFilename, true);
+            LoadCsvData(BtcHistoricalDataFilename, true);
         }
 
-        private bool LoadBtcHashrateData()
+        private void LoadBtcHashrateData()
         {
-            return LoadJsonData(BtcHashRateFilename, true);
+            LoadJsonData(BtcHashRateFilename, true);
         }
 
-        private bool LoadBtcDifficulty()
+        private void LoadBtcDifficulty()
         {
-            return LoadJsonData(BtcDifficultyFilename, false);
-        }
-
-
-        private bool LoadEthHistoricaldata()
-        {
-            return LoadCsvData(EthHistoricalDataFilename, false);
-        }
-
-        private bool LoadEthHashrateData()
-        {
-            return LoadJsonData(EthHashRateFilename, true);
-        }
-
-        private bool LoadEthDifficulty()
-        {
-            return LoadJsonData(EthDifficultyFilename, false);
+            LoadJsonData(BtcDifficultyFilename, false);
         }
 
 
-        private bool LoadCsvData(string filename, bool isBtc)
+        private void LoadEthHistoricaldata()
+        {
+            LoadCsvData(EthHistoricalDataFilename, false);
+        }
+
+        private void LoadEthHashrateData()
+        {
+            LoadJsonData(EthHashRateFilename, true);
+        }
+
+        private void LoadEthDifficulty()
+        {
+            LoadJsonData(EthDifficultyFilename, false);
+        }
+
+
+        private void LoadCsvData(string filename, bool isBtc)
         {
             var path = CryptoDataPath + filename;
+
             try
             {
                 using var csvReader = new CsvReader(
@@ -118,8 +119,6 @@ namespace EnergyHeatMap.Infrastructure.Services
             {
                 throw;
             }
-
-            return true;
         }
 
         private bool LoadJsonData(string filename, bool isHashRate)
