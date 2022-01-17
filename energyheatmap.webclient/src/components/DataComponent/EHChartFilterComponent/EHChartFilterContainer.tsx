@@ -17,6 +17,9 @@ const EHChartFilterContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsFo
         <Container>
             <Row>
                 <Col>
+                    
+                </Col>
+                <Col>
                     <EHCountryContainer currentUser={currentUser}/>
                 </Col>
                 <Col>
