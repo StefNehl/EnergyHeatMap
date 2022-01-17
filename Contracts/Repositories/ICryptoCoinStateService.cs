@@ -7,7 +7,7 @@ namespace EnergyHeatMap.Infrastructure.Services
         Task<IEnumerable<ICryptoCoinState>> GetAllAsync(CancellationToken ct);
 
         Task<IEnumerable<ICryptoCoinState>> GetCryptoCoinStateByFilter(
-            string coinname, 
+            string[] coinname, 
             DateTime startdate, 
             DateTime enddate,
             CancellationToken ct);

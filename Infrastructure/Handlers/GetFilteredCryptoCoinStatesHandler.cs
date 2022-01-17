@@ -18,7 +18,7 @@ namespace EnergyHeatMap.Infrastructure.Handlers
         {
             return _repo
                 .GetCryptoCoinStateByFilter(
-                request.Coinname,
+                request.Coinnames,
                 request.Startdate,
                 request.Enddate,
                 default);

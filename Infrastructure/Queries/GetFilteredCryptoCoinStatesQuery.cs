@@ -10,14 +10,14 @@ namespace EnergyHeatMap.Infrastructure.Queries
 {
     public class GetFilteredCryptoCoinStatesQuery : IRequest<IEnumerable<ICryptoCoinState>>
     {
-        public GetFilteredCryptoCoinStatesQuery(string coinname, DateTime startdate, DateTime enddate)
+        public GetFilteredCryptoCoinStatesQuery(string[] coinnames, DateTime startdate, DateTime enddate)
         {
-            Coinname = coinname;
+            Coinnames = coinnames;
             Startdate = startdate;
             Enddate = enddate;
         }
 
-        public string Coinname { get; set; }
+        public string[] Coinnames { get; set; }
         public DateTime Startdate { get; set; }
         public DateTime Enddate { get; set; }
     }

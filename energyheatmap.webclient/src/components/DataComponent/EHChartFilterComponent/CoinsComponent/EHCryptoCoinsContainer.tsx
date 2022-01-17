@@ -45,7 +45,7 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsFo
         }
 
         if(cryptoCoins.length === 0)
-            setTimeout(() => fetchCryptoCoins(), 1000);
+            setTimeout(() => fetchCryptoCoins(), 100);
 
     }, [isBusy, currentUser, cryptoCoins]);
 

@@ -170,7 +170,7 @@ namespace EnergyHeatMap.Infrastructure.Services
         }
 
         public async Task<IEnumerable<ICryptoCoinState>> GetCryptoCoinStateByFilter(
-            string coinname = Contracts.Enums.CoinName.None, 
+            string[] coinnames, 
             DateTime startdate = default,
             DateTime enddate = default,
             CancellationToken ct = default)
@@ -193,13 +193,12 @@ namespace EnergyHeatMap.Infrastructure.Services
                     j.DateTime >= startdate &&
                     j.DateTime <= enddate);
 
-            if (coinname != Contracts.Enums.CoinName.None)
-                filterdList = filterdList.Where(j => j.CoinName == coinname);
+            if (coinnames.Length != 0)
+            {                
+                filterdList = filterdList.Where(j => coinnames.Contains(j.CoinName));
+            }
 
             return filterdList
-                .Where(j => 
-                    j.DateTime >= startdate &&
-                    j.DateTime <= enddate)
                 .Select(i => i.ToModel());
         }
 

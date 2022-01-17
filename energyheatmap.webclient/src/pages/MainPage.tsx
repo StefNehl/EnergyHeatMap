@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 
 import EHMapContainer from "../components/EHMapContainer"
 import NavigationRibbonContainer from "../components/NavigationRibbonContainer"
-import EHChartContainer from "../components/ChartComponent/EHChartContainer"
+import EHDataContainer from "../components/DataComponent/EHDataContainer"
 
 //models
 import {User} from "../models/User"
@@ -21,7 +21,7 @@ const MainPage: React.FC<Props> = ({ currentUser, logOut }) =>
             <NavigationRibbonContainer  logOut={logOut}/>
             <Routes>
                 <Route path="/"  element={ <EHMapContainer currentUser={ currentUser }/> }/>
-                <Route path="/charts" element={<EHChartContainer currentUser={ currentUser}/>}/>
+                <Route path="/charts" element={<EHDataContainer currentUser={ currentUser}/>}/>
                 <Route path="/users" element={<div>Users</div>}/>
             </Routes>
         </div>
