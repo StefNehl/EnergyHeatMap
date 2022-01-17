@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-
+import { useLoading, ThreeDots } from '@agney/react-loading';
 import { Container, Row } from "react-bootstrap";
 
+//Components
 import EHChartFilterContainer from "./EHChartFilterComponent/EHChartFilterContainer"
 import EHChartContainer from "./EHChartContainer"
 
@@ -23,19 +24,29 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
     const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
     const [data, setData] = useState<unknown[]>([]);
 
+    const [isBusy, setIsBusy] = useState<boolean>(false);
+    const { containerProps, indicatorEl } = useLoading({
+        loading: true,
+        indicator: <ThreeDots/>,
+        loaderProps: {
+        }
+    });
+
 
     let fetchCryptoCoinStates = async () => {
+        setIsBusy(true);
         let newData = await getCryptoCoinStatesFilteredAsync(currentUser, selectedCryptoCoins);
         
         if(newData === null)
             return;
         console.log(newData.length + " items loaded");
         setData(newData);
+        setIsBusy(false);
     };
 
     useEffect(() => 
     {   
-        setTimeout(() => fetchCryptoCoinStates(), 1000);
+        setTimeout(() => fetchCryptoCoinStates(), 100);        
     }, [selectedCryptoCoins])
 
     let setCryptoCoinsForFilter = (coins:string[]) => 
@@ -48,6 +59,15 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
             <Row>
                 <EHChartFilterContainer currentUser={currentUser} 
                     setCryptoCoinsForFilter={setCryptoCoinsForFilter}/>                
+            </Row>
+            {
+                isBusy ? (
+                    <section className="busyIndicator" {...containerProps}>
+                        {indicatorEl}
+                    </section>
+                ) : <div className="busyIndicator"/>
+            }
+            <Row>
             </Row>
             <Row>
                 <EHChartContainer data={data}/>
