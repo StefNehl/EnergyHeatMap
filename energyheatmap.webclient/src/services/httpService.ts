@@ -4,10 +4,12 @@ const url = "https://localhost:7176"
 const AUTHENTICATE = "/users/authenticate";
 
 const CRYPTOCOINSTATES_GET_ALL = "/cryptocoinstates";
-const CRYPTOCOINSTATES_GET_FILTERED = "/cryoticoinstatesfiltered"
-const CRYPTOCOINSTATES_GET_COIN_FILTER = "/?coinnames="
-const CRYPTOCOINSTATES_GET_STARTDATE = "&startdate=2015.01.01"
-const CRYPTOCOINSTATES_GET_ENDDATE = "&enddate=2022.01.01"
+const CRYPTOCOINSTATES_GET_FILTERED = "/cryoticoinstatesfiltered";
+const CRYPTOCOINSTATES_GET_FILTERED_WITHTYPE = "/cryoticoinstatesfilteredwithtype";
+const CRYPTOCOINSTATES_GET_FILTERED_TYPES = "/cryptovaluetypes";
+const CRYPTOCOINSTATES_GET_COIN_FILTER = "/?coinnames=";
+const CRYPTOCOINSTATES_GET_STARTDATE = "&startdate=2015.01.01";
+const CRYPTOCOINSTATES_GET_ENDDATE = "&enddate=2022.01.01";
 const CRYPTOCOINS_GET_ALL = "/cryptocoins";
 
 export async function logInAsync(
@@ -71,6 +73,52 @@ export async function getCryptoCoinStatesFilteredAsync(
 
         let result = await callService<unknown[]>(
             filterString,
+            getAuthRequestInit(currentUser.token, "GET"));
+
+        return result;
+    }
+    catch (error) 
+    {
+        console.log(error);
+        throw new Error("API call " + CRYPTOCOINSTATES_GET_FILTERED + " throws an exception");
+    }
+}
+
+export async function getCryptoCoinStatesFilteredWithTypeAsync(
+    currentUser: User, 
+    coins:string[], 
+    type:string) : Promise<unknown[] | null>
+{
+    try
+    {
+        let coinsString = coins.join();
+        var filterString = CRYPTOCOINSTATES_GET_FILTERED_WITHTYPE + 
+            CRYPTOCOINSTATES_GET_COIN_FILTER + 
+            coinsString + 
+            "&type=" + type +
+            CRYPTOCOINSTATES_GET_STARTDATE + 
+            CRYPTOCOINSTATES_GET_ENDDATE; 
+
+        let result = await callService<unknown[]>(
+            filterString,
+            getAuthRequestInit(currentUser.token, "GET"));
+
+        return result;
+    }
+    catch (error) 
+    {
+        console.log(error);
+        throw new Error("API call " + CRYPTOCOINSTATES_GET_FILTERED_WITHTYPE + " throws an exception");
+    }
+}
+
+export async function getCryptoCoinStatesValueTypes(
+    currentUser: User) : Promise<unknown[] | null>
+{
+    try
+    {
+        let result = await callService<unknown[]>(
+            CRYPTOCOINSTATES_GET_FILTERED_TYPES,
             getAuthRequestInit(currentUser.token, "GET"));
 
         return result;

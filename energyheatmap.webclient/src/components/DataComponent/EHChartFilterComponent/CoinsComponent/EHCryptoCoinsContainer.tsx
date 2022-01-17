@@ -4,6 +4,7 @@ import {
     ThreeDots
 } from '@agney/react-loading';
 import  EHChartCryptoCoinsListContainer  from "./EHChartCryptoCoinsListContainer"
+import { Container } from "react-bootstrap";
 
 //services
 import { getCryptoCoins } from "../../../../services/httpService";
@@ -11,7 +12,7 @@ import { getCryptoCoins } from "../../../../services/httpService";
 //models
 import { User } from "../../../../models/User"
 import { sleep } from "@amcharts/amcharts5/.internal/core/util/Time";
-import { Container } from "react-bootstrap";
+
 
 //styles
 import "./EHCryptoCoinsContainer.css"
@@ -34,7 +35,7 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsFo
     useEffect(() => {
         let fetchCryptoCoins = async () => {
             setIsBusy(true);
-            await sleep(1000);
+            await sleep(100);
             let data = await getCryptoCoins(currentUser);
 
             if (data === null)

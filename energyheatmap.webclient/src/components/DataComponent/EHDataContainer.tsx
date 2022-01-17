@@ -22,6 +22,7 @@ interface Props{
 const EHDataContainer: React.FC<Props> = ( { currentUser }) => 
 {
     const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
+    const [selectedValueType, setSelectedValueType] = useState<string>();
     const [data, setData] = useState<unknown[]>([]);
 
     const [isBusy, setIsBusy] = useState<boolean>(false);
@@ -58,7 +59,8 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
         <Container>
             <Row>
                 <EHChartFilterContainer currentUser={currentUser} 
-                    setCryptoCoinsForFilter={setCryptoCoinsForFilter}/>                
+                    setCryptoCoinsForFilter={setCryptoCoinsForFilter}
+                    setSelectedValueType={setSelectedValueType}/>                
             </Row>
             {
                 isBusy ? (
