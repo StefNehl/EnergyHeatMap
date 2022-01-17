@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 
 import EHChartFilterContainer from "./EHChartFilterComponent/EHChartFilterContainer"
 
@@ -21,6 +21,8 @@ interface Props{
 
 const EHChartContainer: React.FC<Props> = ( { currentUser }) => 
 {
+    const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
+
     useEffect(() => 
     {      
         let root = am5.Root.new("chartdiv");
@@ -34,7 +36,7 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
             
             if(data === null)
                 return
-            console.log(data);
+            //console.log(data);
             series.data.setAll(data as unknown[]);
         };
 
@@ -44,10 +46,17 @@ const EHChartContainer: React.FC<Props> = ( { currentUser }) =>
         
     }, [currentUser])
 
+    let setCryptoCoinsForFilter = (coins:string[]) => 
+    {
+        console.log(coins);
+        setSelectedCryptoCoins(coins);
+    }
+
     return(
         <Container>
             <Row>
-                <EHChartFilterContainer currentUser={currentUser}/>                
+                <EHChartFilterContainer currentUser={currentUser} 
+                    setCryptoCoinsForFilter={setCryptoCoinsForFilter}/>                
             </Row>
             <Row>
                 <div id="chartdiv" className="chartdiv" />

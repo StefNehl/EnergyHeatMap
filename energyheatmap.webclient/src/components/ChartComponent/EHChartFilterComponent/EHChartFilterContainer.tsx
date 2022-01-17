@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {Container, Col, Row} from "react-bootstrap"
 import EHChartCoinsContainer from "./CoinsComponent/EHCryptoCoinsContainer"
 import EHCountryContainer from "./CountryComponent/EHCountryContainer"
@@ -8,9 +8,10 @@ import { User } from "../../../models/User"
 
 interface Props{
     currentUser: User;
+    setCryptoCoinsForFilter: (coins: string[]) => void;
 }
 
-const EHChartFilterContainer: React.FC<Props> = ({ currentUser }) =>
+const EHChartFilterContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsForFilter }) =>
 {
     return(
         <Container>
@@ -19,7 +20,8 @@ const EHChartFilterContainer: React.FC<Props> = ({ currentUser }) =>
                     <EHCountryContainer currentUser={currentUser}/>
                 </Col>
                 <Col>
-                    <EHChartCoinsContainer currentUser={currentUser}/>
+                    <EHChartCoinsContainer currentUser={currentUser} 
+                        setCryptoCoinsForFilter={setCryptoCoinsForFilter}/>
                 </Col>
             </Row>
         </Container>

@@ -18,9 +18,10 @@ import "./EHCryptoCoinsContainer.css"
 
 interface Props {
     currentUser: User;
+    setCryptoCoinsForFilter: (coins: string[]) => void;
 }
 
-const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
+const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsForFilter }) => {
     const [isBusy, setIsBusy] = useState<boolean>(false);
     const [cryptoCoins, setCryptoCoins] = useState<string[]>([]);
     const { containerProps, indicatorEl } = useLoading({
@@ -39,12 +40,11 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
             if (data === null)
                 return;
 
-            console.log(data);
             setCryptoCoins(data);
             setIsBusy(false);
         }
 
-        if(cryptoCoins.length == 0)
+        if(cryptoCoins.length === 0)
             setTimeout(() => fetchCryptoCoins(), 1000);
 
     }, [isBusy, currentUser, cryptoCoins]);
@@ -57,7 +57,8 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser }) => {
                         {indicatorEl}
                     </section>
                 ) : (
-                    <EHChartCryptoCoinsListContainer coins={cryptoCoins}/>
+                    <EHChartCryptoCoinsListContainer coins={cryptoCoins}
+                        setCryptoCoinsForFilter={setCryptoCoinsForFilter} />
                 )
             }
         </Container>
