@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLoading, ThreeDots } from '@agney/react-loading';
 import { Container } from "react-bootstrap";
+import Select from 'react-select'
 
 //services
 import { getCryptoCoinStatesValueTypes } from "../../../../services/httpService";
@@ -15,7 +16,7 @@ interface Props{
 
 const EHChartTypeContainer : React.FC<Props> = ({currentUser, setSelectedValueType}) => 
 {
-    const [cryptoValueTypes, setCryptoValueTypes] = useState<unknown[]>([]);
+    const [cryptoValueTypes, setCryptoValueTypes] = useState<{value:string, label:string}[]>([]);
     const [isBusy, setIsBusy] = useState<boolean>(false);
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
@@ -33,7 +34,12 @@ const EHChartTypeContainer : React.FC<Props> = ({currentUser, setSelectedValueTy
             if (data === null)
                 return;
 
-            setCryptoValueTypes(data);
+            const options = data.map(i => 
+            {
+                return { value: i as string, label: i as string};
+            }); 
+
+            setCryptoValueTypes(options);
             setIsBusy(false);
         }
 
@@ -49,7 +55,15 @@ const EHChartTypeContainer : React.FC<Props> = ({currentUser, setSelectedValueTy
                         {indicatorEl}
                     </section>
                 ) : (
-                    <div>Test</div>
+                    <Select options={cryptoValueTypes} 
+                        isSearchable={false}
+                        isClearable={false}
+                        isMulti={false}
+                        onChange={(e) => 
+                        {
+                            if(e?.value !== undefined)
+                                setSelectedValueType(e?.value as string);
+                        }}/>
                 )
             }
         </Container>

@@ -7,7 +7,7 @@ import EHChartFilterContainer from "./EHChartFilterComponent/EHChartFilterContai
 import EHChartContainer from "./EHChartContainer"
 
 //services 
-import { getCryptoCoinStatesFilteredAsync } from "../../services/httpService";
+import { getCryptoCoinStatesFilteredAsync, getCryptoCoinStatesFilteredWithTypeAsync } from "../../services/httpService";
 
 //models
 import { User } from "../../models/User"
@@ -22,7 +22,7 @@ interface Props{
 const EHDataContainer: React.FC<Props> = ( { currentUser }) => 
 {
     const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
-    const [selectedValueType, setSelectedValueType] = useState<string>();
+    const [selectedValueType, setSelectedValueType] = useState<string>("All");
     const [data, setData] = useState<unknown[]>([]);
 
     const [isBusy, setIsBusy] = useState<boolean>(false);
@@ -36,11 +36,15 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
 
     let fetchCryptoCoinStates = async () => {
         setIsBusy(true);
-        let newData = await getCryptoCoinStatesFilteredAsync(currentUser, selectedCryptoCoins);
+        let newData = await getCryptoCoinStatesFilteredWithTypeAsync(
+            currentUser, 
+            selectedCryptoCoins, 
+            selectedValueType);
         
         if(newData === null)
             return;
         console.log(newData.length + " items loaded");
+        
         setData(newData);
         setIsBusy(false);
     };
@@ -48,7 +52,7 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
     useEffect(() => 
     {   
         setTimeout(() => fetchCryptoCoinStates(), 100);        
-    }, [selectedCryptoCoins])
+    }, [selectedCryptoCoins, selectedValueType])
 
     let setCryptoCoinsForFilter = (coins:string[]) => 
     {
