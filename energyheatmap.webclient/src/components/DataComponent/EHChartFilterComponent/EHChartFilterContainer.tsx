@@ -10,17 +10,23 @@ import { User } from "../../../models/User"
 interface Props{
     currentUser: User;
     setCryptoCoinsForFilter: (coins: string[]) => void;
-    setSelectedValueType: (type:string) => void;
+    setSelectedValueTypes: (types:string[]) => void;
+    selectedValueTypes: string[];
 }
 
-const EHChartFilterContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsForFilter, setSelectedValueType }) =>
+const EHChartFilterContainer: React.FC<Props> = ({ 
+    currentUser, 
+    setCryptoCoinsForFilter, 
+    setSelectedValueTypes,
+    selectedValueTypes }) =>
 {
     return(
         <Container>
             <Row>
                 <Col>
                     <EHChartTypeContainer currentUser={currentUser} 
-                        setSelectedValueType={setSelectedValueType}/>
+                        setSelectedValueTypes={setSelectedValueTypes}
+                        selectedValueTypes={selectedValueTypes}/>
                 </Col>
                 <Col>
                     <EHCountryContainer currentUser={currentUser}/>

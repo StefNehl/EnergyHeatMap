@@ -54,21 +54,60 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
             string coinnames,
             DateTime startdate,
             DateTime enddate,
-            CryptoValueTypes type = CryptoValueTypes.All)
+            string types)
         {
             var coins = coinnames.Split(',');
+            var typesString = types.Split(',');
+
+            var typeEnums = new List<CryptoValueTypes>();
+
+            if (typesString.Length == 0)
+                typeEnums.Add(CryptoValueTypes.All);
+            else
+            {
+                foreach(var typeString in typesString)
+                {
+                    if(Enum.TryParse(typeString, out CryptoValueTypes type))
+                    {
+                        typeEnums.Add(type);
+                    }
+                }
+            }
+
 
             var query = new GetFilteredCryptoCoinStatesQuery(coins, startdate, enddate);
             var result = await mediator.Send(query);
 
-            return type switch
+            var resultsByType = new List<Tuple<DateTime, decimal, string, string>>();
+
+            foreach (var type in typeEnums)
             {
-                CryptoValueTypes.All => Results.Ok(result),
-                CryptoValueTypes.Hashrate => Results.Ok(result.Select(x => new Tuple<DateTime, decimal>(x.DateTime, x.Hashrate))),
-                CryptoValueTypes.Difficulty => Results.Ok(result.Select(x => new Tuple<DateTime, decimal>(x.DateTime, x.Difficulty))),
-                CryptoValueTypes.Value => Results.Ok(result.Select(x => new Tuple<DateTime, decimal>(x.DateTime, x.Value))),
-                _ => Results.Ok(result),
-            };
+                switch (type)
+                {
+                    case CryptoValueTypes.All:
+                        return Results.Ok(result);
+                    case CryptoValueTypes.Value:
+                        resultsByType.AddRange(result
+                            .Select(x => new Tuple<DateTime, decimal, string, string>(
+                                x.DateTime, x.Value, x.CoinName, CryptoValueTypes.Value.ToString())));
+                        break;
+                    case CryptoValueTypes.Hashrate:
+                        resultsByType.AddRange(result
+                            .Select(x => new Tuple<DateTime, decimal, string, string>(
+                                x.DateTime, x.Hashrate, x.CoinName, CryptoValueTypes.Hashrate.ToString())));
+                        break;
+                    case CryptoValueTypes.Difficulty:
+                        resultsByType.AddRange(result
+                            .Select(x => new Tuple<DateTime, decimal, string, string>(
+                                x.DateTime, x.Difficulty, x.CoinName, CryptoValueTypes.Difficulty.ToString())));
+                        break;
+                    default:
+                        return Results.Ok(result);
+
+                }
+            }
+
+            return Results.Ok(resultsByType);
         }
 
         [Authorize(Roles = $"{Role.User}, {Role.Admin}")]

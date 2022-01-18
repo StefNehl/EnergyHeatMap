@@ -22,7 +22,7 @@ interface Props{
 const EHDataContainer: React.FC<Props> = ( { currentUser }) => 
 {
     const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
-    const [selectedValueType, setSelectedValueType] = useState<string>("All");
+    const [selectedValueTypes, setSelectedValueTypes] = useState<string[]>(["Value"]);
     const [data, setData] = useState<unknown[]>([]);
 
     const [isBusy, setIsBusy] = useState<boolean>(false);
@@ -39,7 +39,7 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
         let newData = await getCryptoCoinStatesFilteredWithTypeAsync(
             currentUser, 
             selectedCryptoCoins, 
-            selectedValueType);
+            selectedValueTypes);
         
         if(newData === null)
             return;
@@ -52,7 +52,7 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
     useEffect(() => 
     {   
         setTimeout(() => fetchCryptoCoinStates(), 100);        
-    }, [selectedCryptoCoins, selectedValueType])
+    }, [selectedCryptoCoins, selectedValueTypes])
 
     let setCryptoCoinsForFilter = (coins:string[]) => 
     {
@@ -64,7 +64,8 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
             <Row>
                 <EHChartFilterContainer currentUser={currentUser} 
                     setCryptoCoinsForFilter={setCryptoCoinsForFilter}
-                    setSelectedValueType={setSelectedValueType}/>                
+                    setSelectedValueTypes={setSelectedValueTypes}
+                    selectedValueTypes={selectedValueTypes}/>                
             </Row>
             {
                 isBusy ? (

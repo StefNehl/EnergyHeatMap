@@ -44,11 +44,11 @@ export function createXYChart(
 
     let series = chart.series.push(am5xy.LineSeries.new(root, {
         minBulletDistance: 10,
-        connect: false,
+        connect: true,
         xAxis: xAxis,
         yAxis: yAxis,
-        valueYField: "value",
-        valueXField: "dateTime",
+        valueYField: "item2",
+        valueXField: "item1",
         tooltip: am5.Tooltip.new(root, {
             pointerOrientation: "horizontal",
             labelText: "{valueY}"

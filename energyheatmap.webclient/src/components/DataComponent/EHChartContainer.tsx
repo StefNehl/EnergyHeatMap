@@ -27,7 +27,6 @@ const EHChartContainer: React.FC<Props> = ({ data }) =>
         console.log(data.length + " items passed to chart");
         chart?.data.setAll(data);
         console.log(chart?.data.length + " items loaded in chart")
-        console.log(data);
     }, [data]);
 
 

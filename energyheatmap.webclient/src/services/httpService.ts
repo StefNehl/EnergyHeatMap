@@ -87,15 +87,16 @@ export async function getCryptoCoinStatesFilteredAsync(
 export async function getCryptoCoinStatesFilteredWithTypeAsync(
     currentUser: User, 
     coins:string[], 
-    type:string) : Promise<unknown[] | null>
+    types:string[]) : Promise<unknown[] | null>
 {
     try
     {
         let coinsString = coins.join();
+        let typesString = types.join();
         var filterString = CRYPTOCOINSTATES_GET_FILTERED_WITHTYPE + 
             CRYPTOCOINSTATES_GET_COIN_FILTER + 
             coinsString + 
-            "&type=" + type +
+            "&types=" + typesString +
             CRYPTOCOINSTATES_GET_STARTDATE + 
             CRYPTOCOINSTATES_GET_ENDDATE; 
 
@@ -121,7 +122,9 @@ export async function getCryptoCoinStatesValueTypes(
             CRYPTOCOINSTATES_GET_FILTERED_TYPES,
             getAuthRequestInit(currentUser.token, "GET"));
 
-        return result;
+        //filter all, because of multi select
+        let filteredResult = result?.filter(i => i !== "All");
+        return filteredResult as string[];
     }
     catch (error) 
     {
