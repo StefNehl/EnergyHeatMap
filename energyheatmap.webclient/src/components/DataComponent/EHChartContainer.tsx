@@ -37,15 +37,13 @@ const EHChartContainer: React.FC<Props> = ({ data }) =>
         if(chart !== undefined && chartRoot !== undefined && data.length !== 0) 
         {          
             chart.series.clear();
-            chart.xAxes.clear();
-            chart.yAxes.clear();
 
             data.forEach(d => 
             {
                 var series = creatSeriesForChart(chart, chartRoot)
                 console.log(d.values.length + " items passed to chart");
                 series?.data.setAll(d.values);
-                console.log(chart?.series.length + " items loaded in chart")
+                console.log(series?.data.length + " items loaded in chart")
             });
         }
 

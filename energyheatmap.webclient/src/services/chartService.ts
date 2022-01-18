@@ -26,13 +26,7 @@ export function createXYChart(
         orientation: "horizontal"
     }));
 
-    return chart;
-}
-
-export function creatSeriesForChart(chart : am5xy.XYChart, root : am5.Root) : am5xy.LineSeries
-{
-    chart.xAxes.clear();
-    let xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+    chart.xAxes.push(am5xy.DateAxis.new(root, {
         maxDeviation: 0.1,
         groupData: false,
         baseInterval: {
@@ -45,10 +39,25 @@ export function creatSeriesForChart(chart : am5xy.XYChart, root : am5.Root) : am
         tooltip: am5.Tooltip.new(root, {})
     }));
 
-    let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+    chart.yAxes.push(am5xy.ValueAxis.new(root, {
         maxDeviation: 0.2,
         renderer: am5xy.AxisRendererY.new(root, {})
     }));
+
+    return chart;
+}
+
+export function creatSeriesForChart(chart : am5xy.XYChart, 
+    root : am5.Root) : am5xy.LineSeries | undefined
+{
+    let xAxis = chart.xAxes.getIndex(0);
+    let yAxis = chart.yAxes.getIndex(0); 
+
+    if(xAxis === undefined)
+        return undefined;
+
+    if(yAxis === undefined)
+        return undefined;
 
     let series = chart.series.push(am5xy.LineSeries.new(root, {
         minBulletDistance: 10,
@@ -56,11 +65,7 @@ export function creatSeriesForChart(chart : am5xy.XYChart, root : am5.Root) : am
         xAxis: xAxis,
         yAxis: yAxis,
         valueYField: "value",
-        valueXField: "dateTime",
-        tooltip: am5.Tooltip.new(root, {
-            pointerOrientation: "horizontal",
-            labelText: "{valueY}"
-        })
+        valueXField: "dateTime"
     }));
 
     series.fills.template.setAll({
@@ -95,7 +100,8 @@ export function creatSeriesForChart(chart : am5xy.XYChart, root : am5.Root) : am
 
     let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
         xAxis: xAxis,
-        behavior: "none"
+        yAxis: yAxis,
+        behavior: "zoomX"
     }));
     cursor.lineY.set("visible", false);
 
