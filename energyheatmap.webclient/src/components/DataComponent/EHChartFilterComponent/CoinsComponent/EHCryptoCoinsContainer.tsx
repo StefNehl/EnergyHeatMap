@@ -3,15 +3,14 @@ import {
     useLoading,
     ThreeDots
 } from '@agney/react-loading';
-import  EHChartCryptoCoinsListContainer  from "./EHChartCryptoCoinsListContainer"
 import { Container } from "react-bootstrap";
+import Select from 'react-select'
 
 //services
 import { getCryptoCoins } from "../../../../services/httpService";
 
 //models
 import { User } from "../../../../models/User"
-import { sleep } from "@amcharts/amcharts5/.internal/core/util/Time";
 
 
 //styles
@@ -24,7 +23,7 @@ interface Props {
 
 const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsForFilter }) => {
     const [isBusy, setIsBusy] = useState<boolean>(false);
-    const [cryptoCoins, setCryptoCoins] = useState<string[]>([]);
+    const [cryptoCoins, setCryptoCoins] = useState<{value:string, label:string}[]>([]);
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
         indicator: <ThreeDots/>,
@@ -35,13 +34,17 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsFo
     useEffect(() => {
         let fetchCryptoCoins = async () => {
             setIsBusy(true);
-            await sleep(100);
             let data = await getCryptoCoins(currentUser);
 
             if (data === null)
                 return;
 
-            setCryptoCoins(data);
+            const options = data.map(i => 
+            {
+                return { value: i as string, label: i as string};
+            }); 
+
+            setCryptoCoins(options);
             setIsBusy(false);
         }
 
@@ -57,10 +60,14 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsFo
                     <section className="busyIndicator" {...containerProps}>
                         {indicatorEl}
                     </section>
-                ) : (
-                    <EHChartCryptoCoinsListContainer coins={cryptoCoins}
-                        setCryptoCoinsForFilter={setCryptoCoinsForFilter} />
-                )
+                ) :  <Select options={cryptoCoins}                     
+                            isSearchable={false}
+                            isClearable={false}
+                            isMulti={false}
+                            onChange={(e) => 
+                            {
+                                setCryptoCoinsForFilter([e?.value as string])
+                            }}/>
             }
         </Container>
     )
