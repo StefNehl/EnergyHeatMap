@@ -1,4 +1,5 @@
 import { User } from "../models/User"
+import { CryptoStateData } from "../models/CryptoStateData";
 
 const url = "https://localhost:7176"
 const AUTHENTICATE = "/users/authenticate";
@@ -87,7 +88,7 @@ export async function getCryptoCoinStatesFilteredAsync(
 export async function getCryptoCoinStatesFilteredWithTypeAsync(
     currentUser: User, 
     coins:string[], 
-    types:string[]) : Promise<unknown[] | null>
+    types:string[]) : Promise<CryptoStateData[] | null>
 {
     try
     {
@@ -100,7 +101,7 @@ export async function getCryptoCoinStatesFilteredWithTypeAsync(
             CRYPTOCOINSTATES_GET_STARTDATE + 
             CRYPTOCOINSTATES_GET_ENDDATE; 
 
-        let result = await callService<unknown[]>(
+        let result = await callService<CryptoStateData[]>(
             filterString,
             getAuthRequestInit(currentUser.token, "GET"));
 

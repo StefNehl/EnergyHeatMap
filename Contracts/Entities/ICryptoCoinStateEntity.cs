@@ -6,8 +6,8 @@ namespace EnergyHeatMap.Contracts.Entities
     {
         string CoinName { get; set; }
         DateTime DateTime { get; set; }
-        decimal Difficulty { get; set; }
-        decimal Hashrate { get; set; }
-        decimal Value { get; set; }
+        double Difficulty { get; set; }
+        double Hashrate { get; set; }
+        double Value { get; set; }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using CsvHelper;
 using EnergyHeatMap.Contracts.Entities;
 using EnergyHeatMap.Contracts.Models;
+using EnergyHeatMap.Domain;
 using EnergyHeatMap.Domain.Entities;
 using EnergyHeatMap.Domain.Extensions;
+using EnergyHeatMap.Domain.Models;
 using Microsoft.Extensions.Options;
 using System.Data;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace EnergyHeatMap.Infrastructure.Services
@@ -21,8 +24,13 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string EthHashRateFilename = @"eth_hashrate.json";
         private const string EthDifficultyFilename = @"eth_difficulty.json";
 
+        private readonly double peta;
+        private const string hashRateUnit = "TH/s";
+
         public CryptoCoinStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
         {
+            peta = Math.Pow(10, 15);
+
             try
             {
                 var path = optionsMonitor.CurrentValue.DataPathCrypto;
@@ -44,6 +52,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             LoadEthHistoricaldata();
             LoadEthHashrateData();
             LoadEthDifficulty();
+
         }
 
         private void LoadBtcHistoricalData()
@@ -53,12 +62,12 @@ namespace EnergyHeatMap.Infrastructure.Services
 
         private void LoadBtcHashrateData()
         {
-            LoadJsonData(BtcHashRateFilename, true);
+            LoadJsonData(BtcHashRateFilename, true, Contracts.Enums.CoinName.Btc);
         }
 
         private void LoadBtcDifficulty()
         {
-            LoadJsonData(BtcDifficultyFilename, false);
+            LoadJsonData(BtcDifficultyFilename, false, Contracts.Enums.CoinName.Btc);
         }
 
 
@@ -69,12 +78,12 @@ namespace EnergyHeatMap.Infrastructure.Services
 
         private void LoadEthHashrateData()
         {
-            LoadJsonData(EthHashRateFilename, true);
+            LoadJsonData(EthHashRateFilename, true, Contracts.Enums.CoinName.Eth);
         }
 
         private void LoadEthDifficulty()
         {
-            LoadJsonData(EthDifficultyFilename, false);
+            LoadJsonData(EthDifficultyFilename, false, Contracts.Enums.CoinName.Eth);
         }
 
 
@@ -109,7 +118,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
                     //Take high value 
                     var valueString = csvReader.GetField(2);
-                    if (decimal.TryParse(valueString, out decimal value))
+                    if (double.TryParse(valueString, out double value))
                         btcDataItem.Value = value;
 
                     _cryptoCoinStateEntities.Add(btcDataItem);
@@ -121,7 +130,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             }
         }
 
-        private bool LoadJsonData(string filename, bool isHashRate)
+        private bool LoadJsonData(string filename, bool isHashRate, string coinname)
         {
             try
             {
@@ -136,18 +145,21 @@ namespace EnergyHeatMap.Infrastructure.Services
                     var jsonElement = (JsonElement)dataSet;
 
                     var ticks = jsonElement[0].GetInt64();
-                    var value = jsonElement[1].GetDecimal();
+                    var value = jsonElement[1].GetDouble();
 
                     var timeSpan = TimeSpan.FromMilliseconds(ticks);
                     var dateTime = new DateTime(1970, 1, 1) + timeSpan;
                     var hdSet = _cryptoCoinStateEntities
-                        .FirstOrDefault(i => i.DateTime.Ticks == dateTime.Ticks);
+                        .FirstOrDefault(i => i.CoinName == coinname && 
+                        i.DateTime.Ticks == dateTime.Ticks);
 
                     if (hdSet == null)
                         continue;
 
                     if (isHashRate)
+                    {
                         hdSet.Hashrate = value;
+                    }
                     else
                         hdSet.Difficulty = value;
                 }
@@ -200,6 +212,76 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             return filterdList
                 .Select(i => i.ToModel());
+        }
+
+        public async Task<IEnumerable<ICryptoStateData>> GetCryptoCoinDataFilteredByType(
+            string[] coinNames,
+            string[] types,
+            DateTime startdate,
+            DateTime enddate, 
+            CancellationToken ct)
+        {
+            var fileredData = await GetCryptoCoinStateByFilter(coinNames, startdate, enddate, ct);
+            var resultByType = new List<ICryptoStateData>();
+
+            foreach (var coin in coinNames)
+            {
+                foreach (var typeString in types)
+                {
+                    if (!Enum.TryParse(typeString, out CryptoValueTypes type))
+                        continue;
+
+                    var newData = new CryptoStateData()
+                    {
+                        CoinName = coin,
+                        ValueType = type.ToString()
+                    };
+
+                    var filteredResult = fileredData.Where(i => i.CoinName == coin);
+
+                    switch (type)
+                    {
+                        case CryptoValueTypes.Value:
+                            newData.Values = filteredResult.Select(i =>
+                            {
+                                return new DateTimeWithValue()
+                                {
+                                    DateTime = i.DateTime,
+                                    Value = i.Value
+                                };
+                            }).ToArray();
+                            break;
+                        case CryptoValueTypes.Hashrate:
+                            newData.Values = filteredResult.Select(i =>
+                            {
+                                return new DateTimeWithValue()
+                                {
+                                    DateTime = i.DateTime,
+                                    Value = i.Hashrate / peta
+                                };
+                            }).ToArray();
+                            newData.Unit = hashRateUnit;
+                            break;
+                        case CryptoValueTypes.Difficulty:
+                            newData.Values = filteredResult.Select(i =>
+                            {
+                                return new DateTimeWithValue()
+                                {
+                                    DateTime = i.DateTime,
+                                    Value = i.Difficulty / peta
+                                };
+                            }).ToArray();
+                            break;
+                        default:
+                            continue;
+
+                    }
+
+                    resultByType.Add(newData);
+                }
+            }
+
+            return resultByType;
         }
 
         public async Task<IEnumerable<string>> GetCryptoCoins(CancellationToken ct)

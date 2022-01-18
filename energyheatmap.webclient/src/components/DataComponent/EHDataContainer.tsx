@@ -11,7 +11,7 @@ import { getCryptoCoinStatesFilteredAsync, getCryptoCoinStatesFilteredWithTypeAs
 
 //models
 import { User } from "../../models/User"
-
+import {CryptoStateData} from './../../models/CryptoStateData';
 
 
 
@@ -23,7 +23,7 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
 {
     const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
     const [selectedValueTypes, setSelectedValueTypes] = useState<string[]>(["Value"]);
-    const [data, setData] = useState<unknown[]>([]);
+    const [data, setData] = useState<CryptoStateData[]>([]);
 
     const [isBusy, setIsBusy] = useState<boolean>(false);
     const { containerProps, indicatorEl } = useLoading({

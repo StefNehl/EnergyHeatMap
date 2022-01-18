@@ -5,20 +5,21 @@ using MediatR;
 
 namespace EnergyHeatMap.Infrastructure.Handlers
 {
-    public class GetFilteredCryptoCoinStatesHandler : IRequestHandler<GetFilteredCryptoCoinStatesQuery, IEnumerable<ICryptoCoinState>>
+    public class GetFilteredCryptoCoinStatesByTypeHandler : IRequestHandler<GetFilteredCryptoCoinStatesByTypeQuery, IEnumerable<ICryptoStateData>>
     {
         private readonly ICryptoCoinStateService _repo;
-        public GetFilteredCryptoCoinStatesHandler(ICryptoCoinStateService repo)
+        public GetFilteredCryptoCoinStatesByTypeHandler(ICryptoCoinStateService repo)
         {
             _repo = repo;
         }
 
-        public async Task<IEnumerable<ICryptoCoinState>> Handle(GetFilteredCryptoCoinStatesQuery request, 
+        public async Task<IEnumerable<ICryptoStateData>> Handle(GetFilteredCryptoCoinStatesByTypeQuery request, 
             CancellationToken cancellationToken)
         {
             return await _repo
-                .GetCryptoCoinStateByFilter(
+                .GetCryptoCoinDataFilteredByType(
                 request.Coinnames,
+                request.Types,
                 request.Startdate,
                 request.Enddate,
                 default);

@@ -3,30 +3,52 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy"
 
 import { createXYChart } from "../../services/chartService";
+import { creatSeriesForChart } from "../../services/chartService";
 
 //import css
 import './EHChartContainer.css'
 
+//models
+import {CryptoStateData} from './../../models/CryptoStateData';
+
 interface Props{
-    data: unknown[]
+    data: CryptoStateData[]
 }
+
+
 
 const EHChartContainer: React.FC<Props> = ({ data }) =>
 {
-    const [chart, setChart] = useState<am5xy.LineSeries>()
+    const [chartRoot, setChartRoot] = useState<am5.Root>();
+    const [chart, setChart] = useState<am5xy.XYChart>();
 
     useEffect(() => 
     {
-        if(chart === undefined)
+        if(chartRoot === undefined)
         {
-            let root = am5.Root.new("chartdiv");
-            let currentChart = createXYChart(root);
-            setChart(currentChart);
+            setChartRoot(am5.Root.new("chartdiv"));
         }
 
-        console.log(data.length + " items passed to chart");
-        chart?.data.setAll(data);
-        console.log(chart?.data.length + " items loaded in chart")
+        if(chart === undefined && chartRoot !== undefined)
+        {
+            setChart(createXYChart(chartRoot as am5.Root));
+        }
+
+        if(chart !== undefined && chartRoot !== undefined && data.length !== 0) 
+        {          
+            chart.series.clear();
+            chart.xAxes.clear();
+            chart.yAxes.clear();
+
+            data.forEach(d => 
+            {
+                var series = creatSeriesForChart(chart, chartRoot)
+                console.log(d.values.length + " items passed to chart");
+                series?.data.setAll(d.values);
+                console.log(chart?.series.length + " items loaded in chart")
+            });
+        }
+
     }, [data]);
 
 

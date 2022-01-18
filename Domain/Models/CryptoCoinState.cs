@@ -7,8 +7,8 @@ namespace EnergyHeatMap.Domain.Models
     {
         public DateTime DateTime { get; set; }
         public string CoinName { get; set; } = Contracts.Enums.CoinName.None;
-        public decimal Value { get; set; }
-        public decimal Hashrate { get; set; }
-        public decimal Difficulty { get; set; }
+        public double Value { get; set; }
+        public double Hashrate { get; set; }
+        public double Difficulty { get; set; }
     }
 }
