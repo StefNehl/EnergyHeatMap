@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import Select from 'react-select'
 
 //services
-import { getEnergyStateValueTypes } from "../../../../services/httpEnergyStatesService";
+import { getEnergyStateValueTypesAsync } from "../../../../services/httpEnergyStatesService";
 
 //models
 import { User } from "../../../../models/User"
@@ -35,7 +35,7 @@ const EHEnergyStateValueContainer: React.FC<Props> = ({ currentUser,
     {
         let fetchCryptoTypes = async () => {
             setIsBusy(true);
-            let data = await getEnergyStateValueTypes(currentUser);
+            let data = await getEnergyStateValueTypesAsync(currentUser);
 
             if (data === null)
                 return;

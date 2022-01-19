@@ -72,7 +72,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
                     var dataItem = new CountryEnergyStateEntity()
                     {
-                        DateTime = new DateTime(year, 1, 1)
+                        DateTime = new DateTime(year, 12, 31)
                     };
 
                     dataItem.IsoCode = csvReader.GetField(0);
@@ -124,11 +124,11 @@ namespace EnergyHeatMap.Infrastructure.Services
         {
             //Start of crypto (not really correct) 
             if (startdate == default)
-                startdate = new DateTime(2000, 0, 0);
+                startdate = new DateTime(2000, 1, 1);
 
             //stopped tracking data in Nov 2021
             if (enddate == default)
-                enddate = new DateTime(2022, 0, 0);
+                enddate = new DateTime(2022, 1, 1);
 
 
 

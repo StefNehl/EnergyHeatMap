@@ -1,10 +1,17 @@
 import { User } from "../models/User"
+import { EnergyStateData } from "../models/EnergyStateData"
 
 import { getAuthRequestInit } from "./httpService"
 import { callService } from "./httpService"
 
 const COUNTRIES_GET_ALL = "/countries";
 const ENERGYSTATE_VALUE_TYPES = "/energystatevaluetypes";
+
+const ENERGYSTATEDATA_GET_FILTERED_TYPES = "/energystatedata";
+const ENERGYSTATEDATA_GET_COUNTRIES_FILTER = "/?countries=";
+const ENERGYSTATEDATA_GET_TYPES_FILTER = "&types=";
+const ENERGYSTATEDATA_GET_STARTDATE = "&startdate=2015.01.01";
+const ENERGYSTATEDATA_GET_ENDDATE = "&enddate=2022.01.01";
 
 export async function getCountries(currentUser: User): Promise<string[] | null>
 {
@@ -23,7 +30,7 @@ export async function getCountries(currentUser: User): Promise<string[] | null>
     }
 }
 
-export async function getEnergyStateValueTypes(currentUser: User): 
+export async function getEnergyStateValueTypesAsync(currentUser: User): 
     Promise<{type:string, name:string}[] | null>
 {
     try
@@ -38,5 +45,33 @@ export async function getEnergyStateValueTypes(currentUser: User):
     {
         console.log(error);
         throw new Error("API call " + ENERGYSTATE_VALUE_TYPES + " throws an exception");
+    }
+}
+
+export async function getEnergyStatesFilteredWithTypeAsync(
+    currentUser: User, 
+    countries:string[], 
+    types:string[]) : Promise<EnergyStateData[] | null>
+{
+    try
+    {
+        let countriesString = countries.join();
+        let typesString = types.join();
+        var filterString = ENERGYSTATEDATA_GET_FILTERED_TYPES + 
+            ENERGYSTATEDATA_GET_COUNTRIES_FILTER + countriesString + 
+            ENERGYSTATEDATA_GET_TYPES_FILTER + typesString +
+            ENERGYSTATEDATA_GET_STARTDATE + 
+            ENERGYSTATEDATA_GET_ENDDATE; 
+
+        let result = await callService<EnergyStateData[]>(
+            filterString,
+            getAuthRequestInit(currentUser.token, "GET"));
+
+        return result;
+    }
+    catch (error) 
+    {
+        console.log(error);
+        throw new Error("API call " + ENERGYSTATEDATA_GET_FILTERED_TYPES + " throws an exception");
     }
 }

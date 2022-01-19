@@ -10,14 +10,14 @@ import './EHChartContainer.css'
 
 //models
 import {CryptoStateData} from './../../models/CryptoStateData';
+import { EnergyStateData } from "../../models/EnergyStateData";
 
 interface Props{
-    data: CryptoStateData[]
+    cryptoData: CryptoStateData[];
+    energyData: EnergyStateData[];
 }
 
-
-
-const EHChartContainer: React.FC<Props> = ({ data }) =>
+const EHChartContainer: React.FC<Props> = ({ cryptoData, energyData }) =>
 {
     const [chartRoot, setChartRoot] = useState<am5.Root>();
     const [chart, setChart] = useState<am5xy.XYChart>();
@@ -34,20 +34,34 @@ const EHChartContainer: React.FC<Props> = ({ data }) =>
             setChart(createXYChart(chartRoot as am5.Root));
         }
 
-        if(chart !== undefined && chartRoot !== undefined && data.length !== 0) 
-        {          
+        if(chart !== undefined && chartRoot !== undefined) 
+        {       
             chart.series.clear();
-
-            data.forEach(d => 
+            if(cryptoData.length !== 0)
             {
-                var series = creatSeriesForChart(chart, chartRoot)
-                console.log(d.values.length + " items passed to chart");
-                series?.data.setAll(d.values);
-                console.log(series?.data.length + " items loaded in chart")
-            });
+                cryptoData.forEach(d => 
+                {
+                    var series = creatSeriesForChart(chart, chartRoot)
+                    console.log(d.values.length + " items passed to chart");
+                    series?.data.setAll(d.values);
+                    console.log(series?.data.length + " items loaded in chart")
+                });
+            }
+
+            if(energyData.length !== 0)
+            {
+                energyData.forEach(d => 
+                {
+                    var series = creatSeriesForChart(chart, chartRoot)
+                    console.log(d.values.length + " items passed to chart");
+                    series?.data.setAll(d.values);
+                    console.log(series?.data.length + " items loaded in chart")
+                });
+            }
+
         }
 
-    }, [data]);
+    }, [cryptoData, energyData]);
 
 
 

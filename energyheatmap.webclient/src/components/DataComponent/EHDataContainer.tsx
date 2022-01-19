@@ -8,10 +8,12 @@ import EHChartContainer from "./EHChartContainer"
 
 //services 
 import { getCryptoCoinStatesFilteredWithTypeAsync } from "../../services/httpCryptoCoinStatesService";
+import { getEnergyStatesFilteredWithTypeAsync } from "../../services/httpEnergyStatesService";
 
 //models
 import { User } from "../../models/User"
 import {CryptoStateData} from './../../models/CryptoStateData';
+import { EnergyStateData } from "../../models/EnergyStateData";
 
 
 
@@ -25,7 +27,8 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
     const [selectedValueTypes, setSelectedValueTypes] = useState<string[]>([]);
     const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
     const [selectedEnergyStateValueTypes, setSelectedEnergyStateValueTypes] = useState<string[]>([]);
-    const [data, setData] = useState<CryptoStateData[]>([]);
+    const [cryptoData, setCryptoData] = useState<CryptoStateData[]>([]);
+    const [energyData, setEnergyData] = useState<EnergyStateData[]>([]);
 
     const [isBusy, setIsBusy] = useState<boolean>(false);
     const { containerProps, indicatorEl } = useLoading({
@@ -45,16 +48,33 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
         
         if(newData === null)
             return;
-        console.log(newData.length + " items loaded");
+        console.log(newData.length + " crypto items loaded");
         
-        setData(newData);
+        setCryptoData(newData);
+        setIsBusy(false);
+    };
+
+    let fetchEnergyStates = async () => {
+        setIsBusy(true);
+        let newData = await getEnergyStatesFilteredWithTypeAsync(
+            currentUser, 
+            selectedCountries, 
+            selectedEnergyStateValueTypes);
+        
+        if(newData === null)
+            return;
+        console.log(newData.length + " energy items loaded");
+        
+        setEnergyData(newData);
         setIsBusy(false);
     };
 
     useEffect(() => 
     {   
         setTimeout(() => fetchCryptoCoinStates(), 100);        
-    }, [selectedCryptoCoins, selectedValueTypes])
+        setTimeout(() => fetchEnergyStates(), 100);    
+    }, [selectedCryptoCoins, selectedValueTypes, 
+        selectedEnergyStateValueTypes, selectedEnergyStateValueTypes])
 
     let setCryptoCoinsForFilter = (coins:string[]) => 
     {
@@ -83,7 +103,8 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
             <Row>
             </Row>
             <Row>
-                <EHChartContainer data={data}/>
+                <EHChartContainer cryptoData={cryptoData} 
+                    energyData={energyData}/>
             </Row>
         </Container>
     )
