@@ -6,7 +6,7 @@ namespace EnergyHeatMap.Domain.Models
     {
         public string IsoCode { get; set; }
         public string Country { get; set; }
-        public int Year { get; set; }
+        public DateTime Year { get; set; }
         public decimal Population { get; set; }
         public decimal Primary_energy_consuption { get; set; }
         public decimal Electricity_generation { get; set; }

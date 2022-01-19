@@ -3,7 +3,7 @@ import {Container, Col, Row} from "react-bootstrap"
 import EHChartCoinsContainer from "./CoinsComponent/EHCryptoCoinsContainer"
 import EHCountryContainer from "./CountryComponent/EHCountryContainer"
 import EHChartTypeContainer from "./ChartTypeComponent/EHChartTypeContainer"
-
+import EHEnergyStateValueContainer from "./EnergyStateValueTypeComponent/EHEnergyStateValueTypeContainer"
 //models
 import { User } from "../../../models/User"
 
@@ -14,6 +14,8 @@ interface Props{
     selectedValueTypes: string[];
     setSlectedCountries: (types:string[]) => void;
     selectedCountries: string[];
+    setSelectedEnergyStateValueTypes: (types:string[]) => void;
+    selectedEnergyStateValueTypes: string[];
 }
 
 const EHChartFilterContainer: React.FC<Props> = ({ 
@@ -22,7 +24,9 @@ const EHChartFilterContainer: React.FC<Props> = ({
     setSelectedValueTypes,
     selectedValueTypes, 
     setSlectedCountries, 
-    selectedCountries }) =>
+    selectedCountries,
+    setSelectedEnergyStateValueTypes, 
+    selectedEnergyStateValueTypes  }) =>
 {
     return(
         <Container>
@@ -43,6 +47,9 @@ const EHChartFilterContainer: React.FC<Props> = ({
                     <EHCountryContainer currentUser={currentUser}
                         setSlectedCountries={setSlectedCountries}
                         selectedCountries={selectedCountries}/>
+                    <EHEnergyStateValueContainer currentUser={currentUser}
+                        setSelectedEnergyStateValueTypes={setSelectedEnergyStateValueTypes}
+                        selectedEnergyStateValueTypes={selectedEnergyStateValueTypes}/>
                 </Col>
             </Row>
         </Container>

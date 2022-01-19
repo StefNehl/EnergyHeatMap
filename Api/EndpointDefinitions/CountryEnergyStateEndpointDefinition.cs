@@ -1,5 +1,6 @@
 ﻿using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Contracts.Repositories;
+using EnergyHeatMap.Domain.Enums;
 using EnergyHeatMap.Infrastructure.Queries;
 using EnergyHeatMap.Infrastructure.Services;
 using MediatR;
@@ -13,6 +14,7 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
         public void DefineEndpoints(WebApplication app)
         {
             app.MapGet("/countries/", GetCountries);
+            app.MapGet("/energystatevaluetypes/", GetEnergyStateValueTypes);
         }
 
         public void DefineServices(IServiceCollection services)
@@ -26,6 +28,13 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
             var query = new GetCountriesQuery();
             var result = await mediator.Send(query);
             return Results.Ok(result);
+        }
+
+        [Authorize(Roles = $"{Role.User},{Role.Admin}")]
+        private IResult GetEnergyStateValueTypes([FromServices] IMediator mediator)
+        {
+            var types = EnergyStateValueTypesExtensions.GetValues();
+            return Results.Ok(types);
         }
 
     }

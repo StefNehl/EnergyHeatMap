@@ -4,23 +4,25 @@ import { Container } from "react-bootstrap";
 import Select from 'react-select'
 
 //services
-import { getCountries } from "../../../../services/httpEnergyStatesService";
+import { getEnergyStateValueTypes } from "../../../../services/httpEnergyStatesService";
 
 //models
 import { User } from "../../../../models/User"
 
 //styles
-import "./EHCountryContainer.css"
+import "./EHEnergyStateValueTypeContainer.css"
 
 interface Props{
     currentUser: User;
-    setSlectedCountries: (types:string[]) => void;
-    selectedCountries: string[];
+    setSelectedEnergyStateValueTypes: (types:string[]) => void;
+    selectedEnergyStateValueTypes: string[];
 }
 
-const EHCountryContainer: React.FC<Props> = ({ currentUser, setSlectedCountries, selectedCountries }) =>
+const EHEnergyStateValueContainer: React.FC<Props> = ({ currentUser, 
+    setSelectedEnergyStateValueTypes, 
+    selectedEnergyStateValueTypes }) =>
 {
-    const [countries, setCountries] = useState<{value:string, label:string}[]>([]);
+    const [energyStateValueTypes, setEnergyStateValueTypes] = useState<{value:string, label:string}[]>([]);
     const [isBusy, setIsBusy] = useState<boolean>(false);
     const { containerProps, indicatorEl } = useLoading({
         loading: true,
@@ -33,34 +35,34 @@ const EHCountryContainer: React.FC<Props> = ({ currentUser, setSlectedCountries,
     {
         let fetchCryptoTypes = async () => {
             setIsBusy(true);
-            let data = await getCountries(currentUser);
+            let data = await getEnergyStateValueTypes(currentUser);
 
             if (data === null)
                 return;
 
             const options = data.map(i => 
             {
-                return { value: i as string, label: i as string};
+                return { value: i.type, label: i.name};
             }); 
 
-            setCountries(options);
+            setEnergyStateValueTypes(options);
             setIsBusy(false);
         }
 
-        if(countries.length === 0)
+        if(energyStateValueTypes.length === 0)
             setTimeout(() => fetchCryptoTypes(), 100);
     })
 
     return(
-        <Container className="countriesContainer">
+        <Container className="energyStateContainer">
             {
                 isBusy ? (
                     <section className="busyIndicator" {...containerProps}>
                         {indicatorEl}
                     </section>
                 ) : (
-                    <Select options={countries}                     
-                        isSearchable={true}
+                    <Select options={energyStateValueTypes}                     
+                        isSearchable={false}
                         isClearable={false}
                         isMulti={true}
                         onChange={(e) => 
@@ -68,7 +70,7 @@ const EHCountryContainer: React.FC<Props> = ({ currentUser, setSlectedCountries,
                             if(e !== undefined)
                             {
                                 var values = e.map(i => i.value);
-                                setSlectedCountries(values);
+                                setSelectedEnergyStateValueTypes(values);
                             }
                         }}/>
                 )
@@ -77,4 +79,4 @@ const EHCountryContainer: React.FC<Props> = ({ currentUser, setSlectedCountries,
     )
 } 
 
-export default EHCountryContainer;
+export default EHEnergyStateValueContainer;

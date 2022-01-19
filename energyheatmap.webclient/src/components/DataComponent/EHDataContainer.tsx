@@ -24,6 +24,7 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
     const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
     const [selectedValueTypes, setSelectedValueTypes] = useState<string[]>([]);
     const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+    const [selectedEnergyStateValueTypes, setSelectedEnergyStateValueTypes] = useState<string[]>([]);
     const [data, setData] = useState<CryptoStateData[]>([]);
 
     const [isBusy, setIsBusy] = useState<boolean>(false);
@@ -68,7 +69,9 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
                     setSelectedValueTypes={setSelectedValueTypes}
                     selectedValueTypes={selectedValueTypes}
                     setSlectedCountries={setSelectedCountries}
-                    selectedCountries={selectedCountries}/>                
+                    selectedCountries={selectedCountries}
+                    setSelectedEnergyStateValueTypes={setSelectedEnergyStateValueTypes}
+                    selectedEnergyStateValueTypes={selectedEnergyStateValueTypes}/>                
             </Row>
             {
                 isBusy ? (

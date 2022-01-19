@@ -1,12 +1,10 @@
 ﻿using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Domain;
-using EnergyHeatMap.Domain.Models;
 using EnergyHeatMap.Infrastructure.Queries;
 using EnergyHeatMap.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace EnergyHeatMap.Api.EndpointDefinitions
 {
