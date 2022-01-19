@@ -1,7 +1,15 @@
-﻿namespace EnergyHeatMap.Contracts.Repositories
+﻿using EnergyHeatMap.Contracts.Models;
+
+namespace EnergyHeatMap.Contracts.Repositories
 {
     public interface ICountryEnergyStateServices
     {
-        public Task<IEnumerable<string>> GetCountries(CancellationToken ct);
+        Task<IEnumerable<string>> GetCountries(CancellationToken ct);
+
+        Task<IEnumerable<IEnergyStateData>> GetEnergyStateDataByType(string[] countries,
+           string[] types,
+           DateTime startdate = default,
+           DateTime enddate = default,
+           CancellationToken ct = default);
     }
 }
