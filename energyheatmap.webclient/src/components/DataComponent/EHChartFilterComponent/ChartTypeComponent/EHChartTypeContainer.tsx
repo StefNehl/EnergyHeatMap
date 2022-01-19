@@ -9,6 +9,9 @@ import { getCryptoCoinStatesValueTypes } from "../../../../services/httpService"
 //models
 import { User } from "../../../../models/User"
 
+//styles
+import "./EHChartTypeContainer.css"
+
 interface Props{
     currentUser: User;
     setSelectedValueTypes: (types:string[]) => void;

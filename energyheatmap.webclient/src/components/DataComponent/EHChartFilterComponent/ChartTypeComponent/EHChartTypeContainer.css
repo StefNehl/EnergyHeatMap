@@ -1,0 +1,10 @@
+.cryptoTypeContainer{
+    margin: 5%;
+}
+
+.busyIndicator{
+    display: flex;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+}

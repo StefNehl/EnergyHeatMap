@@ -262,16 +262,16 @@ namespace EnergyHeatMap.Infrastructure.Services
                             }).ToArray();
                             newData.Unit = hashRateUnit;
                             break;
-                        case CryptoValueTypes.Difficulty:
-                            newData.Values = filteredResult.Select(i =>
-                            {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = i.Difficulty / peta
-                                };
-                            }).ToArray();
-                            break;
+                        //case CryptoValueTypes.Difficulty:
+                        //    newData.Values = filteredResult.Select(i =>
+                        //    {
+                        //        return new DateTimeWithValue()
+                        //        {
+                        //            DateTime = i.DateTime,
+                        //            Value = i.Difficulty / peta
+                        //        };
+                        //    }).ToArray();
+                        //    break;
                         default:
                             continue;
 
@@ -290,12 +290,6 @@ namespace EnergyHeatMap.Infrastructure.Services
             await Task.Yield();
 
             return groups.Select(i => i.Key);
-        }
-
-        private class HashRateDataSet
-        {
-            public long Ticks { get; set; }
-            public decimal Hashrate { get; set; }
         }
     }
 }

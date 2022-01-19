@@ -11,6 +11,6 @@ namespace EnergyHeatMap.Domain
         All = 0,
         Value = 1,
         Hashrate = 2,
-        Difficulty = 3
+        //Difficulty = 3
     }
 }

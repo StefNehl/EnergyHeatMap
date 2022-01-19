@@ -24,15 +24,18 @@ const EHChartFilterContainer: React.FC<Props> = ({
         <Container>
             <Row>
                 <Col>
+                    Crypto Coin Filter
                     <EHChartCoinsContainer currentUser={currentUser} 
                         setCryptoCoinsForFilter={setCryptoCoinsForFilter}/>
-                </Col>
-                <Col>
                     <EHChartTypeContainer currentUser={currentUser} 
                         setSelectedValueTypes={setSelectedValueTypes}
                         selectedValueTypes={selectedValueTypes}/>
                 </Col>
                 <Col>
+
+                </Col>
+                <Col>
+                    Energy Filter
                     <EHCountryContainer currentUser={currentUser}/>
                 </Col>
             </Row>
