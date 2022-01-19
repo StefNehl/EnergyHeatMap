@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import Select from 'react-select'
 
 //services
-import { getCryptoCoinStatesValueTypes } from "../../../../services/httpService";
+import { getCryptoCoinStatesValueTypes } from "../../../../services/httpCryptoCoinStatesService";
 
 //models
 import { User } from "../../../../models/User"

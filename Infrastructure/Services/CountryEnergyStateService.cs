@@ -18,6 +18,8 @@ namespace EnergyHeatMap.Infrastructure.Services
         private readonly string _countryEnergyStatesPath;
         private const string CountryEnergyStateFileName = "owid-energy-data.csv";
 
+        private const string AllCountries = "All";
+
         public CountryEnergyStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
         {
             try
@@ -60,7 +62,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                     if (string.IsNullOrWhiteSpace(dateString))
                         continue;
 
-                    if (int.TryParse(dateString, out var year))
+                    if (!int.TryParse(dateString, out var year))
                         continue;
 
 
@@ -99,7 +101,12 @@ namespace EnergyHeatMap.Infrastructure.Services
         {
             var groups = _countryEnergyStates.GroupBy(x => x.Country);
             await Task.Yield();
-            return groups.Select(i => i.Key);
+
+            var countries = new List<string>();
+            countries.Add(AllCountries);
+
+            countries.AddRange(groups.Select(i => i.Key).OrderBy(i => i).ToList());
+            return countries;
         }
     }
 }

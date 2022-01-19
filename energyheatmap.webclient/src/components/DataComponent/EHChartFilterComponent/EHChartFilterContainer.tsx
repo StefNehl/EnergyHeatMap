@@ -12,13 +12,17 @@ interface Props{
     setCryptoCoinsForFilter: (coins: string[]) => void;
     setSelectedValueTypes: (types:string[]) => void;
     selectedValueTypes: string[];
+    setSlectedCountries: (types:string[]) => void;
+    selectedCountries: string[];
 }
 
 const EHChartFilterContainer: React.FC<Props> = ({ 
     currentUser, 
     setCryptoCoinsForFilter, 
     setSelectedValueTypes,
-    selectedValueTypes }) =>
+    selectedValueTypes, 
+    setSlectedCountries, 
+    selectedCountries }) =>
 {
     return(
         <Container>
@@ -36,7 +40,9 @@ const EHChartFilterContainer: React.FC<Props> = ({
                 </Col>
                 <Col>
                     Energy Filter
-                    <EHCountryContainer currentUser={currentUser}/>
+                    <EHCountryContainer currentUser={currentUser}
+                        setSlectedCountries={setSlectedCountries}
+                        selectedCountries={selectedCountries}/>
                 </Col>
             </Row>
         </Container>

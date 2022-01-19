@@ -7,7 +7,7 @@ import EHChartFilterContainer from "./EHChartFilterComponent/EHChartFilterContai
 import EHChartContainer from "./EHChartContainer"
 
 //services 
-import { getCryptoCoinStatesFilteredAsync, getCryptoCoinStatesFilteredWithTypeAsync } from "../../services/httpService";
+import { getCryptoCoinStatesFilteredWithTypeAsync } from "../../services/httpCryptoCoinStatesService";
 
 //models
 import { User } from "../../models/User"
@@ -22,7 +22,8 @@ interface Props{
 const EHDataContainer: React.FC<Props> = ( { currentUser }) => 
 {
     const [selectedCryptoCoins, setSelectedCryptoCoins] = useState<string[]>([]);
-    const [selectedValueTypes, setSelectedValueTypes] = useState<string[]>(["Value"]);
+    const [selectedValueTypes, setSelectedValueTypes] = useState<string[]>([]);
+    const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
     const [data, setData] = useState<CryptoStateData[]>([]);
 
     const [isBusy, setIsBusy] = useState<boolean>(false);
@@ -65,7 +66,9 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
                 <EHChartFilterContainer currentUser={currentUser} 
                     setCryptoCoinsForFilter={setCryptoCoinsForFilter}
                     setSelectedValueTypes={setSelectedValueTypes}
-                    selectedValueTypes={selectedValueTypes}/>                
+                    selectedValueTypes={selectedValueTypes}
+                    setSlectedCountries={setSelectedCountries}
+                    selectedCountries={selectedCountries}/>                
             </Row>
             {
                 isBusy ? (
