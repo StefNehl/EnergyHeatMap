@@ -24,12 +24,14 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string EthHashRateFilename = @"eth_hashrate.json";
         private const string EthDifficultyFilename = @"eth_difficulty.json";
 
-        private readonly double peta;
+        private readonly double tera;
         private const string hashRateUnit = "TH/s";
+
+        private const string CoinValueUnit = "USD";
 
         public CryptoCoinStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
         {
-            peta = Math.Pow(10, 15);
+            tera = Math.Pow(10, 12);
 
             try
             {
@@ -231,18 +233,15 @@ namespace EnergyHeatMap.Infrastructure.Services
                     if (!Enum.TryParse(typeString, out CryptoValueTypes type))
                         continue;
 
-                    var newData = new CryptoStateData()
-                    {
-                        CoinName = coin,
-                        ValueType = type.ToString()
-                    };
+                    var values = Array.Empty<IDateTimeWithValue>();
+                    var unit = string.Empty;
 
                     var filteredResult = fileredData.Where(i => i.CoinName == coin);
 
                     switch (type)
                     {
                         case CryptoValueTypes.Value:
-                            newData.Values = filteredResult.Select(i =>
+                            values = filteredResult.Select(i =>
                             {
                                 return new DateTimeWithValue()
                                 {
@@ -250,33 +249,25 @@ namespace EnergyHeatMap.Infrastructure.Services
                                     Value = i.Value
                                 };
                             }).ToArray();
+                            unit = CoinValueUnit;
                             break;
                         case CryptoValueTypes.Hashrate:
-                            newData.Values = filteredResult.Select(i =>
+                            values = filteredResult.Select(i =>
                             {
                                 return new DateTimeWithValue()
                                 {
                                     DateTime = i.DateTime,
-                                    Value = i.Hashrate / peta
+                                    Value = i.Hashrate / tera
                                 };
                             }).ToArray();
-                            newData.Unit = hashRateUnit;
+                            unit = hashRateUnit;
                             break;
-                        //case CryptoValueTypes.Difficulty:
-                        //    newData.Values = filteredResult.Select(i =>
-                        //    {
-                        //        return new DateTimeWithValue()
-                        //        {
-                        //            DateTime = i.DateTime,
-                        //            Value = i.Difficulty / peta
-                        //        };
-                        //    }).ToArray();
-                        //    break;
                         default:
                             continue;
 
                     }
 
+                    var newData = new CryptoStateData(coin, typeString, unit, values);
                     resultByType.Add(newData);
                 }
             }

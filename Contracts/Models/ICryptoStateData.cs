@@ -2,9 +2,9 @@
 {
     public interface ICryptoStateData
     {
-        string CoinName { get; set; }
-        string Unit { get; set; }
-        IDateTimeWithValue[]? Values { get; set; }
-        string ValueType { get; set; }
+        string CoinName { get; }
+        string Unit { get; }
+        IDateTimeWithValue[]? Values { get; }
+        string ValueType { get; }
     }
 }

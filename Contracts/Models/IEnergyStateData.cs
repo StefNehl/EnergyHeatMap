@@ -8,9 +8,10 @@ namespace EnergyHeatMap.Contracts.Models
 {
     public interface IEnergyStateData
     {
-        string ISOCode { get; set; }
-        string Country { get; set; }
-        string EnergyStateValueTypes { get; set; }
-        IDateTimeWithValue[]? Values {get;set;}
+        string ISOCode { get;}
+        string Country { get;}
+        string EnergyStateValueType { get;}
+        string Unit { get;}
+        IDateTimeWithValue[]? Values {get;}
     }
 }

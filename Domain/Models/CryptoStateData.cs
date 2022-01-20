@@ -3,11 +3,19 @@ using EnergyHeatMap.Contracts.Models;
 
 namespace EnergyHeatMap.Domain.Models
 {
-    public class CryptoStateData : ICryptoStateData
+    public record CryptoStateData : ICryptoStateData
     {
-        public string CoinName { get; set; } = string.Empty;
-        public string ValueType { get; set; } = string.Empty;
-        public string Unit { get; set; } = string.Empty;
-        public IDateTimeWithValue[]? Values { get; set; }
+        public CryptoStateData(string coinName, string valueType, string unit, IDateTimeWithValue[] values)
+        {
+            CoinName = coinName;
+            ValueType = valueType;
+            Unit = unit;
+            Values = values;
+        }
+
+        public string CoinName { get; } = string.Empty;
+        public string ValueType { get; } = string.Empty;
+        public string Unit { get; } = string.Empty;
+        public IDateTimeWithValue[]? Values { get; }
     }
 }

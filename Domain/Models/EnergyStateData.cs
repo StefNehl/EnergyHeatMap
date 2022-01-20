@@ -7,11 +7,21 @@ using System.Threading.Tasks;
 
 namespace EnergyHeatMap.Domain.Models
 {
-    public class EnergyStateData : IEnergyStateData
+    public record EnergyStateData : IEnergyStateData
     {
-        public string ISOCode { get; set; } = string.Empty;
-        public string Country { get; set; } = string.Empty;
-        public string EnergyStateValueTypes { get; set; } = string.Empty;
-        public IDateTimeWithValue[]? Values { get; set; }
+        public EnergyStateData(string isoCode, string country, string energyStateValueType, string unit, IDateTimeWithValue[] values)
+        {
+            ISOCode = isoCode;
+            Country = country;  
+            EnergyStateValueType = energyStateValueType;
+            Values = values;
+            Unit = unit;
+        }
+
+        public string ISOCode { get; } = string.Empty;
+        public string Country { get; } = string.Empty;
+        public string EnergyStateValueType { get; } = string.Empty;
+        public string Unit { get; } = string.Empty;
+        public IDateTimeWithValue[]? Values { get; }
     }
 }
