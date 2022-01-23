@@ -61,9 +61,7 @@ const EHChartContainer: React.FC<Props> = ({ cryptoData, energyData }) =>
 
         }
 
-    }, [cryptoData, energyData]);
-
-
+    }, [chartRoot, chart, cryptoData, energyData]);
 
     return (
         <div id="chartdiv" className="chartdiv" />

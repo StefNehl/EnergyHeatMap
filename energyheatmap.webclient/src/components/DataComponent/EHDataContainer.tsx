@@ -74,7 +74,7 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
         setTimeout(() => fetchCryptoCoinStates(), 100);        
         setTimeout(() => fetchEnergyStates(), 100);    
     }, [selectedCryptoCoins, selectedValueTypes, 
-        selectedEnergyStateValueTypes, selectedEnergyStateValueTypes])
+        selectedCountries, selectedEnergyStateValueTypes])
 
     let setCryptoCoinsForFilter = (coins:string[]) => 
     {
