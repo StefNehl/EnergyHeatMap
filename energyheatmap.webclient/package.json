@@ -5,6 +5,7 @@
   "dependencies": {
     "@agney/react-loading": "^0.1.2",
     "@amcharts/amcharts5": "^5.0.15",
+    "@amcharts/amcharts5-geodata": "^5.0.2",
     "@testing-library/jest-dom": "^5.16.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
