@@ -11,11 +11,13 @@ namespace EnergyHeatMap.Domain.Models
             ValueType = valueType;
             Unit = unit;
             Values = values;
+            Longname = $"{CoinName} {ValueType} ({Unit})";
         }
 
         public string CoinName { get; } = string.Empty;
         public string ValueType { get; } = string.Empty;
         public string Unit { get; } = string.Empty;
         public IDateTimeWithValue[]? Values { get; }
+        public string Longname { get; }
     }
 }

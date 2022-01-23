@@ -1,5 +1,5 @@
 .chartdiv{
-    height: 750px;
+    height: 800px;
     padding-bottom: 50px;
     margin-bottom: 50px;
     border-color: black;
@@ -9,6 +9,5 @@
 }
 
 .outerdiv{
-    height: 800px;
     background-color: transparent;
 }

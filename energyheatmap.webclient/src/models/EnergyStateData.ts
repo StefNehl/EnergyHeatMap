@@ -1,6 +1,8 @@
 export interface EnergyStateData
 {
     country: string;
-    type: string;
+    energyStateValueType: string;
     values: unknown[];
+    unit:string;
+    longname:string;
 }

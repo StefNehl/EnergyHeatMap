@@ -13,5 +13,6 @@ namespace EnergyHeatMap.Contracts.Models
         string EnergyStateValueType { get;}
         string Unit { get;}
         IDateTimeWithValue[]? Values {get;}
+        public string Longname { get; }
     }
 }

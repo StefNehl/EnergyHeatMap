@@ -23,7 +23,7 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string HashrateProductionFileName = "hashrate_production.csv";
         
         private readonly double convRate;
-        private const string hashRateUnit = "PH/s";
+        private const string UnitHashrate = "PH/s";
 
         private const string AllCountries = "World";
         private const string UnitEnergy = "TWh";
@@ -285,13 +285,14 @@ namespace EnergyHeatMap.Infrastructure.Services
                                     Value = (double)i.MonthlyHashrateAbsolut * convRate
                                 };
                             }).ToArray();
-                            unit = hashRateUnit;
+                            unit = UnitHashrate;
                             break;
                         default:
                             continue;
                     }
 
-                    var newData = new EnergyStateData("", country, typeString, unit, values.ToArray());
+                    var prettyTypeString = EnergyStateValueTypesExtensions.GetPrettyString(type);
+                    var newData = new EnergyStateData("", country, prettyTypeString, unit, values.ToArray());
                     resultByType.Add(newData);
                 }
             }

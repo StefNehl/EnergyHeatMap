@@ -1,6 +1,8 @@
 export interface CryptoStateData
 {
-    coinname: string;
-    type: string;
+    coinName: string;
+    valueType: string;
     values: unknown[];
+    unit:string;
+    longname:string;
 }

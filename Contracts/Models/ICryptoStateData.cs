@@ -6,5 +6,6 @@
         string Unit { get; }
         IDateTimeWithValue[]? Values { get; }
         string ValueType { get; }
+        string Longname { get; }
     }
 }

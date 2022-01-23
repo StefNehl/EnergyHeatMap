@@ -16,6 +16,7 @@ namespace EnergyHeatMap.Domain.Models
             EnergyStateValueType = energyStateValueType;
             Values = values;
             Unit = unit;
+            Longname = $"{Country} {EnergyStateValueType} ({Unit})";
         }
 
         public string ISOCode { get; } = string.Empty;
@@ -23,5 +24,7 @@ namespace EnergyHeatMap.Domain.Models
         public string EnergyStateValueType { get; } = string.Empty;
         public string Unit { get; } = string.Empty;
         public IDateTimeWithValue[]? Values { get; }
+
+        public string Longname { get; } = string.Empty;
     }
 }

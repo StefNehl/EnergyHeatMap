@@ -19,7 +19,9 @@ export function createXYChart(
         panX: true,
         panY: true,
         wheelX: "panX",
-        wheelY: "zoomX"
+        wheelY: "zoomX",
+        height:700,
+        layout: root.verticalLayout
     }));
 
     chart.set("scrollbarX", am5.Scrollbar.new(root, {
@@ -32,10 +34,8 @@ export function createXYChart(
             timeUnit: "day",
             count: 1
         },
-        renderer: am5xy.AxisRendererX.new(root, {}), 
-        tooltip: am5.Tooltip.new(root, {
-            labelText: "Test[/]\n PH/s"
-        })
+        renderer: am5xy.AxisRendererX.new(root, {}),
+        tooltip: am5.Tooltip.new(root, {})
     }));
 
     chart.yAxes.push(am5xy.ValueAxis.new(root, {
@@ -43,11 +43,14 @@ export function createXYChart(
         renderer: am5xy.AxisRendererY.new(root, {})
     }));
 
+    let legend = chart.children.push(am5.Legend.new(root, {}));
+    legend.data.setAll(chart.series.values);
+
     return chart;
 }
 
 export function creatSeriesForChart(chart : am5xy.XYChart, 
-    root : am5.Root) : am5xy.LineSeries | undefined
+    root : am5.Root, name:string) : am5xy.LineSeries | undefined
 {
     let xAxis = chart.xAxes.getIndex(0);
     let yAxis = chart.yAxes.getIndex(0); 
@@ -60,11 +63,17 @@ export function creatSeriesForChart(chart : am5xy.XYChart,
 
     let series = chart.series.push(am5xy.LineSeries.new(root, {
         minBulletDistance: 10,
+        name: name,
         connect: true,
         xAxis: xAxis,
         yAxis: yAxis,
         valueYField: "value",
-        valueXField: "dateTime"
+        valueXField: "dateTime",
+        legendValueText: "{valueY}",
+        tooltip: am5.Tooltip.new(root, {
+            pointerOrientation: "horizontal",
+            labelText: "{valueY}"
+          })
     }));
 
     series.fills.template.setAll({
@@ -104,5 +113,17 @@ export function creatSeriesForChart(chart : am5xy.XYChart,
     }));
     cursor.lineY.set("visible", false);
 
+    var legend = chart.children.getIndex(1) as am5.Legend;
+    if(legend === undefined)
+    {
+        legend = chart.children.push(am5.Legend.new(root, {
+            centerX: am5.p50,
+            x: am5.p50
+          }));
+    }
+
+    legend.data.setAll(chart.series.values);
+
+    series.appear();
     return series;
 }

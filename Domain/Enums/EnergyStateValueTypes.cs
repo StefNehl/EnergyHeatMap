@@ -30,6 +30,14 @@ namespace EnergyHeatMap.Domain.Enums
             return result;
         }
 
+        public static string GetPrettyString(EnergyStateValueTypes energyStateValueTypes)
+        {
+            var value = GetValues().FirstOrDefault(i => i.Type == energyStateValueTypes.ToString());
+            if(value == null)
+                return string.Empty;
+
+            return value.Name;
+        }
     }
 
     public class EnergyStateValueType
