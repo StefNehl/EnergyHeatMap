@@ -37,6 +37,7 @@ const EHChartContainer: React.FC<Props> = ({ cryptoData, energyData }) =>
         if(chart !== undefined && chartRoot !== undefined) 
         {       
             chart.series.clear();
+
             if(cryptoData.length !== 0)
             {
                 cryptoData.forEach(d => 
@@ -58,7 +59,6 @@ const EHChartContainer: React.FC<Props> = ({ cryptoData, energyData }) =>
                     console.log(series?.data.length + " energy loaded in chart")
                 });
             }
-
         }
 
     }, [chartRoot, chart, cryptoData, energyData]);
