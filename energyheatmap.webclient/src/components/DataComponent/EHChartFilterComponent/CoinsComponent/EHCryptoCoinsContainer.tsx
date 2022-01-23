@@ -64,6 +64,7 @@ const EHCryptoCoinsContainer: React.FC<Props> = ({ currentUser, setCryptoCoinsFo
                             isSearchable={false}
                             isClearable={false}
                             isMulti={false}
+                            placeholder="Select coin..."
                             onChange={(e) => 
                             {
                                 setCryptoCoinsForFilter([e?.value as string])

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLoading, ThreeDots } from '@agney/react-loading';
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 //Components
 import EHChartFilterContainer from "./EHChartFilterComponent/EHChartFilterContainer"
@@ -15,7 +14,8 @@ import { User } from "../../models/User"
 import {CryptoStateData} from './../../models/CryptoStateData';
 import { EnergyStateData } from "../../models/EnergyStateData";
 
-
+//Styles
+import "./EHDataContainer.css"
 
 interface Props{
     currentUser: User;
@@ -30,17 +30,8 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
     const [cryptoData, setCryptoData] = useState<CryptoStateData[]>([]);
     const [energyData, setEnergyData] = useState<EnergyStateData[]>([]);
 
-    const [isBusy, setIsBusy] = useState<boolean>(false);
-    const { containerProps, indicatorEl } = useLoading({
-        loading: true,
-        indicator: <ThreeDots/>,
-        loaderProps: {
-        }
-    });
-
 
     let fetchCryptoCoinStates = async () => {
-        setIsBusy(true);
         let newData = await getCryptoCoinStatesFilteredWithTypeAsync(
             currentUser, 
             selectedCryptoCoins, 
@@ -51,11 +42,9 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
         console.log(newData.length + " crypto items loaded");
         
         setCryptoData(newData);
-        setIsBusy(false);
     };
 
     let fetchEnergyStates = async () => {
-        setIsBusy(true);
         let newData = await getEnergyStatesFilteredWithTypeAsync(
             currentUser, 
             selectedCountries, 
@@ -66,7 +55,6 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
         console.log(newData.length + " energy items loaded");
         
         setEnergyData(newData);
-        setIsBusy(false);
     };
 
     useEffect(() => 
@@ -82,29 +70,22 @@ const EHDataContainer: React.FC<Props> = ( { currentUser }) =>
     }
 
     return(
-        <Container>
-            <Row>
-                <EHChartFilterContainer currentUser={currentUser} 
-                    setCryptoCoinsForFilter={setCryptoCoinsForFilter}
-                    setSelectedValueTypes={setSelectedValueTypes}
-                    selectedValueTypes={selectedValueTypes}
-                    setSlectedCountries={setSelectedCountries}
-                    selectedCountries={selectedCountries}
-                    setSelectedEnergyStateValueTypes={setSelectedEnergyStateValueTypes}
-                    selectedEnergyStateValueTypes={selectedEnergyStateValueTypes}/>                
-            </Row>
-            {
-                isBusy ? (
-                    <section className="busyIndicator" {...containerProps}>
-                        {indicatorEl}
-                    </section>
-                ) : <div className="busyIndicator"/>
-            }
-            <Row>
-            </Row>
-            <Row>
-                <EHChartContainer cryptoData={cryptoData} 
-                    energyData={energyData}/>
+        <Container className="dataContainer" id="dataContainer">
+            <Row className="chartFilterRow">
+                <Col md="10">
+                    <EHChartContainer cryptoData={cryptoData} 
+                        energyData={energyData}/>
+                </Col>
+                <Col md="2">
+                    <EHChartFilterContainer currentUser={currentUser} 
+                        setCryptoCoinsForFilter={setCryptoCoinsForFilter}
+                        setSelectedValueTypes={setSelectedValueTypes}
+                        selectedValueTypes={selectedValueTypes}
+                        setSlectedCountries={setSelectedCountries}
+                        selectedCountries={selectedCountries}
+                        setSelectedEnergyStateValueTypes={setSelectedEnergyStateValueTypes}
+                        selectedEnergyStateValueTypes={selectedEnergyStateValueTypes}/>  
+                </Col>
             </Row>
         </Container>
     )

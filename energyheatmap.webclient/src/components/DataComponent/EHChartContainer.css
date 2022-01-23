@@ -1,7 +1,14 @@
 .chartdiv{
-    height: 600px;
-    margin-top: 10%;
+    height: 750px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
     border-color: black;
     border-width: 1px;
     border-style: none;
+    background-color: transparent;
+}
+
+.outerdiv{
+    height: 800px;
+    background-color: transparent;
 }

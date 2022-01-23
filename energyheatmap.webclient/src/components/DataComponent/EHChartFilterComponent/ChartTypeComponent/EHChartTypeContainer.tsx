@@ -63,6 +63,7 @@ const EHChartTypeContainer : React.FC<Props> = ({currentUser, setSelectedValueTy
                         isSearchable={false}
                         isClearable={false}
                         isMulti={true}
+                        placeholder="Select coin value types..."
                         onChange={(e) => 
                         {
                             if(e !== undefined)
@@ -70,7 +71,6 @@ const EHChartTypeContainer : React.FC<Props> = ({currentUser, setSelectedValueTy
                                 var values = e.map(i => i.value);
                                 setSelectedValueTypes(values);
                             }
-                            //setSelectedValueTypes([e?.value as string])
                         }}/>
                 )
             }

@@ -4,8 +4,12 @@ import EHChartCoinsContainer from "./CoinsComponent/EHCryptoCoinsContainer"
 import EHCountryContainer from "./CountryComponent/EHCountryContainer"
 import EHChartTypeContainer from "./ChartTypeComponent/EHChartTypeContainer"
 import EHEnergyStateValueContainer from "./EnergyStateValueTypeComponent/EHEnergyStateValueTypeContainer"
+
 //models
 import { User } from "../../../models/User"
+
+//Style
+import './EHChartFilterContainer.css'
 
 interface Props{
     currentUser: User;
@@ -29,21 +33,19 @@ const EHChartFilterContainer: React.FC<Props> = ({
     selectedEnergyStateValueTypes  }) =>
 {
     return(
-        <Container>
+        <Container id="filterContainer" className="filterContainer">
+            <h5>Filter</h5>
             <Row>
                 <Col>
-                    Crypto Coin Filter
                     <EHChartCoinsContainer currentUser={currentUser} 
                         setCryptoCoinsForFilter={setCryptoCoinsForFilter}/>
                     <EHChartTypeContainer currentUser={currentUser} 
                         setSelectedValueTypes={setSelectedValueTypes}
                         selectedValueTypes={selectedValueTypes}/>
                 </Col>
+            </Row>
+            <Row>
                 <Col>
-
-                </Col>
-                <Col>
-                    Energy Filter
                     <EHCountryContainer currentUser={currentUser}
                         setSlectedCountries={setSlectedCountries}
                         selectedCountries={selectedCountries}/>
@@ -52,6 +54,7 @@ const EHChartFilterContainer: React.FC<Props> = ({
                         selectedEnergyStateValueTypes={selectedEnergyStateValueTypes}/>
                 </Col>
             </Row>
+
         </Container>
     );
 } 

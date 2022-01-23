@@ -65,6 +65,7 @@ const EHEnergyStateValueContainer: React.FC<Props> = ({ currentUser,
                         isSearchable={false}
                         isClearable={false}
                         isMulti={true}
+                        placeholder="Select country value types..."
                         onChange={(e) => 
                         {
                             if(e !== undefined)

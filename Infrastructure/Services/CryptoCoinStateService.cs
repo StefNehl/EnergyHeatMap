@@ -280,7 +280,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             var groups = _cryptoCoinStateEntities.GroupBy(i => i.CoinName);
             await Task.Yield();
 
-            return groups.Select(i => i.Key);
+            return groups.Where(i => i.Key == Contracts.Enums.CoinName.Btc).Select(i => i.Key);
         }
     }
 }

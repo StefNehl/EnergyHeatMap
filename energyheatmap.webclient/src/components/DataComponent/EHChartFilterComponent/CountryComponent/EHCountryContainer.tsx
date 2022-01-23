@@ -63,6 +63,7 @@ const EHCountryContainer: React.FC<Props> = ({ currentUser, setSlectedCountries,
                         isSearchable={true}
                         isClearable={false}
                         isMulti={true}
+                        placeholder="Select countries..."
                         onChange={(e) => 
                         {
                             if(e !== undefined)

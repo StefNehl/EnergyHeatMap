@@ -22,21 +22,20 @@ export function createXYChart(
         wheelY: "zoomX"
     }));
 
-    // chart.set("scrollbarX", am5.Scrollbar.new(root, {
-    //     orientation: "horizontal"
-    // }));
+    chart.set("scrollbarX", am5.Scrollbar.new(root, {
+        orientation: "horizontal"
+    }));
 
     chart.xAxes.push(am5xy.DateAxis.new(root, {
         maxDeviation: 0.1,
-        groupData: false,
         baseInterval: {
             timeUnit: "day",
             count: 1
         },
-        renderer: am5xy.AxisRendererX.new(root, {
-
-        }), 
-        //tooltip: am5.Tooltip.new(root, {})
+        renderer: am5xy.AxisRendererX.new(root, {}), 
+        tooltip: am5.Tooltip.new(root, {
+            labelText: "Test[/]\n PH/s"
+        })
     }));
 
     chart.yAxes.push(am5xy.ValueAxis.new(root, {
