@@ -22,9 +22,9 @@ export function createXYChart(
         wheelY: "zoomX"
     }));
 
-    chart.set("scrollbarX", am5.Scrollbar.new(root, {
-        orientation: "horizontal"
-    }));
+    // chart.set("scrollbarX", am5.Scrollbar.new(root, {
+    //     orientation: "horizontal"
+    // }));
 
     chart.xAxes.push(am5xy.DateAxis.new(root, {
         maxDeviation: 0.1,
@@ -36,7 +36,7 @@ export function createXYChart(
         renderer: am5xy.AxisRendererX.new(root, {
 
         }), 
-        tooltip: am5.Tooltip.new(root, {})
+        //tooltip: am5.Tooltip.new(root, {})
     }));
 
     chart.yAxes.push(am5xy.ValueAxis.new(root, {

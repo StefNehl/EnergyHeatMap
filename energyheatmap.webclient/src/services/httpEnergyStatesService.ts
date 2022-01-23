@@ -10,8 +10,8 @@ const ENERGYSTATE_VALUE_TYPES = "/energystatevaluetypes";
 const ENERGYSTATEDATA_GET_FILTERED_TYPES = "/energystatedata";
 const ENERGYSTATEDATA_GET_COUNTRIES_FILTER = "/?countries=";
 const ENERGYSTATEDATA_GET_TYPES_FILTER = "&types=";
-const ENERGYSTATEDATA_GET_STARTDATE = "&startdate=2015.01.01";
-const ENERGYSTATEDATA_GET_ENDDATE = "&enddate=2022.01.01";
+const ENERGYSTATEDATA_GET_STARTDATE = "&startdate=2019.09.01";
+const ENERGYSTATEDATA_GET_ENDDATE = "&enddate=2023.01.01";
 
 export async function getCountries(currentUser: User): Promise<string[] | null>
 {

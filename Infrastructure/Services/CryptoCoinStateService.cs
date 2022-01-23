@@ -24,14 +24,14 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string EthHashRateFilename = @"eth_hashrate.json";
         private const string EthDifficultyFilename = @"eth_difficulty.json";
 
-        private readonly double tera;
-        private const string hashRateUnit = "TH/s";
+        private readonly double convRate;
+        private const string hashRateUnit = "PH/s";
 
         private const string CoinValueUnit = "USD";
 
         public CryptoCoinStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
         {
-            tera = Math.Pow(10, 12);
+            convRate = Math.Pow(10, 15);
 
             try
             {
@@ -196,11 +196,11 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             //Start of crypto (not really correct) 
             if (startdate == default)
-                startdate = new DateTime(2000, 0, 0);
+                startdate = new DateTime(2000, 1, 1);
 
-            //stopped tracking data in Nov 2021
+            //stopped tracking data in Jan 2022
             if (enddate == default)
-                enddate = new DateTime(2022, 0, 0);
+                enddate = DateTime.Now;
 
             var filterdList = _cryptoCoinStateEntities
                 .Where(j =>
@@ -257,7 +257,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                                 return new DateTimeWithValue()
                                 {
                                     DateTime = i.DateTime,
-                                    Value = i.Hashrate / tera
+                                    Value = i.Hashrate / convRate
                                 };
                             }).ToArray();
                             unit = hashRateUnit;

@@ -42,9 +42,9 @@ const EHChartContainer: React.FC<Props> = ({ cryptoData, energyData }) =>
                 cryptoData.forEach(d => 
                 {
                     var series = creatSeriesForChart(chart, chartRoot)
-                    console.log(d.values.length + " items passed to chart");
+                    console.log(d.values.length + " crypto passed to chart");
                     series?.data.setAll(d.values);
-                    console.log(series?.data.length + " items loaded in chart")
+                    console.log(series?.data.length + " crypto loaded in chart")
                 });
             }
 
@@ -53,9 +53,9 @@ const EHChartContainer: React.FC<Props> = ({ cryptoData, energyData }) =>
                 energyData.forEach(d => 
                 {
                     var series = creatSeriesForChart(chart, chartRoot)
-                    console.log(d.values.length + " items passed to chart");
+                    console.log(d.values.length + " energy passed to chart");
                     series?.data.setAll(d.values);
-                    console.log(series?.data.length + " items loaded in chart")
+                    console.log(series?.data.length + " energy loaded in chart")
                 });
             }
 

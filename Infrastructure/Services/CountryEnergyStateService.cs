@@ -22,8 +22,8 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string CountryEnergyStateFileName = "owid-energy-data.csv";
         private const string HashrateProductionFileName = "hashrate_production.csv";
         
-        private readonly double mega;
-        private const string hashRateUnit = "TH/s";
+        private readonly double convRate;
+        private const string hashRateUnit = "PH/s";
 
         private const string AllCountries = "World";
         private const string UnitEnergy = "TWh";
@@ -43,7 +43,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                 throw;
             }
 
-            mega = Math.Pow(10, 6);
+            convRate = Math.Pow(10, 3);
 
             _countryEnergyStates = new List<ICountryEnergyStateEntity>();
             _countryHashrate = new List<ICountryHashrateEntity>();
@@ -202,9 +202,9 @@ namespace EnergyHeatMap.Infrastructure.Services
             if (startdate == default)
                 startdate = new DateTime(2000, 1, 1);
 
-            //stopped tracking data in Nov 2021
+            //stopped tracking data in Jan 2022
             if (enddate == default)
-                enddate = new DateTime(2022, 1, 1);
+                enddate = DateTime.Now;
 
 
 
@@ -282,7 +282,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                                 return new DateTimeWithValue()
                                 {
                                     DateTime = i.DateTime,
-                                    Value = (double)i.MonthlyHashrateAbsolut * mega
+                                    Value = (double)i.MonthlyHashrateAbsolut * convRate
                                 };
                             }).ToArray();
                             unit = hashRateUnit;
