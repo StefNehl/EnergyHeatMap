@@ -9,7 +9,7 @@ const CRYPTOCOINSTATES_GET_FILTERED = "/cryoticoinstatesfiltered";
 const CRYPTOCOINSTATES_GET_FILTERED_WITHTYPE = "/cryoticoinstatesfilteredwithtype";
 const CRYPTOCOINSTATES_GET_FILTERED_TYPES = "/cryptovaluetypes";
 const CRYPTOCOINSTATES_GET_COIN_FILTER = "/?coinnames=";
-const CRYPTOCOINSTATES_GET_STARTDATE = "&startdate=2019.09.01";
+const CRYPTOCOINSTATES_GET_STARTDATE = "&startdate=2012.09.01";
 const CRYPTOCOINSTATES_GET_ENDDATE = "&enddate=2023.01.01";
 const CRYPTOCOINS_GET_ALL = "/cryptocoins";
 

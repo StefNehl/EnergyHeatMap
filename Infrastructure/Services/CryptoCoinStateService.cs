@@ -24,14 +24,16 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string EthHashRateFilename = @"eth_hashrate.json";
         private const string EthDifficultyFilename = @"eth_difficulty.json";
 
-        private readonly double convRate;
-        private const string hashRateUnit = "PH/s";
+        private readonly double hashrateConvRate;
+        private const string hashRateUnit = "EH/s";
 
-        private const string CoinValueUnit = "USD";
+        private readonly double valueConvRate;
+        private const string CoinValueUnit = "TUSD";
 
         public CryptoCoinStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
         {
-            convRate = Math.Pow(10, 15);
+            hashrateConvRate = Math.Pow(10, 18);
+            valueConvRate = Math.Pow(10, 3);
 
             try
             {
@@ -246,7 +248,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                                 return new DateTimeWithValue()
                                 {
                                     DateTime = i.DateTime,
-                                    Value = i.Value
+                                    Value = i.Value / valueConvRate
                                 };
                             }).ToArray();
                             unit = CoinValueUnit;
@@ -257,7 +259,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                                 return new DateTimeWithValue()
                                 {
                                     DateTime = i.DateTime,
-                                    Value = i.Hashrate / convRate
+                                    Value = i.Hashrate / hashrateConvRate
                                 };
                             }).ToArray();
                             unit = hashRateUnit;

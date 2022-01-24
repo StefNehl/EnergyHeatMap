@@ -6,9 +6,9 @@ export function createMapChart(root: am5.Root) : am5map.MapChart
 {    
     let map = root.container.children.push(
         am5map.MapChart.new(root, {
-          panX: "none",
-          panY: "none",
-          wheelY: "none",
+          panX: "rotateX",
+          panY: "translateY",
+          wheelY: "zoom",
           projection: am5map.geoEqualEarth(),
         }));
 

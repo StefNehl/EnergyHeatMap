@@ -22,10 +22,11 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string CountryEnergyStateFileName = "owid-energy-data.csv";
         private const string HashrateProductionFileName = "hashrate_production.csv";
         
-        private readonly double convRate;
-        private const string UnitHashrate = "PH/s";
+        private readonly double hashrateConvRate;
+        private const string UnitHashrate = "EH/s";
 
         private const string AllCountries = "World";
+        private readonly double energyConvRate;
         private const string UnitEnergy = "TWh";
 
         public CountryEnergyStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
@@ -43,7 +44,8 @@ namespace EnergyHeatMap.Infrastructure.Services
                 throw;
             }
 
-            convRate = Math.Pow(10, 3);
+            hashrateConvRate = 1;//Math.Pow(10, 3);
+            energyConvRate = 1;// Math.Pow(10, 3);
 
             _countryEnergyStates = new List<ICountryEnergyStateEntity>();
             _countryHashrate = new List<ICountryHashrateEntity>();
@@ -106,7 +108,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             var electricGenerationString = csvReader.GetField(29);
             if (decimal.TryParse(electricGenerationString, out decimal electricGeneration))
-                dataItem.Electricity_generation = electricGeneration;
+                dataItem.Electricity_generation = electricGeneration * (decimal)energyConvRate;
 
             var populationString = csvReader.GetField(99);
             if (long.TryParse(populationString, out long population))
@@ -114,7 +116,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             var primaryEnergyConString = csvReader.GetField(100);
             if (decimal.TryParse(primaryEnergyConString, out decimal primaryEnergyCon))
-                dataItem.Primary_energy_consuption = primaryEnergyCon;
+                dataItem.Primary_energy_consuption = primaryEnergyCon * (decimal)energyConvRate;
 
             _countryEnergyStates.Add(dataItem);
         }
@@ -282,7 +284,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                                 return new DateTimeWithValue()
                                 {
                                     DateTime = i.DateTime,
-                                    Value = (double)i.MonthlyHashrateAbsolut * convRate
+                                    Value = (double)i.MonthlyHashrateAbsolut * hashrateConvRate
                                 };
                             }).ToArray();
                             unit = UnitHashrate;
