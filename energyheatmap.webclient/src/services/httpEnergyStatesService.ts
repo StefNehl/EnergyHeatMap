@@ -1,10 +1,12 @@
 import { User } from "../models/User"
 import { EnergyStateData } from "../models/EnergyStateData"
+import { CountryData } from "../models/CountryData"
 
 import { getAuthRequestInit } from "./httpService"
 import { callService } from "./httpService"
 
 const COUNTRIES_GET_ALL = "/countries";
+const COUNTRIES_DATA_GET_ALL = "/countriesdata";
 const ENERGYSTATE_VALUE_TYPES = "/energystatevaluetypes";
 
 const ENERGYSTATEDATA_GET_FILTERED_TYPES = "/energystatedata";
@@ -27,6 +29,23 @@ export async function getCountries(currentUser: User): Promise<string[] | null>
     {
         console.log(error);
         throw new Error("API call " + COUNTRIES_GET_ALL + " throws an exception");
+    }
+}
+
+export async function getCountriesData(currentUser : User) : Promise<CountryData[] | null>
+{
+    try
+    {
+        let result = await callService<CountryData[]>(
+            COUNTRIES_DATA_GET_ALL, 
+            getAuthRequestInit(currentUser.token, "GET"));
+            
+        return result;
+    }
+    catch(error)
+    {
+        console.log(error);
+        throw new Error("API call " + COUNTRIES_DATA_GET_ALL + " throws an exception");
     }
 }
 

@@ -2,8 +2,6 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5map from "@amcharts/amcharts5/map"
 import am5geodata_world from "@amcharts/amcharts5-geodata/worldHigh"
 
-import { EnergyStateData } from "../models/EnergyStateData";
-
 export function createMapChart(root: am5.Root) : am5map.MapChart
 {    
     let map = root.container.children.push(
