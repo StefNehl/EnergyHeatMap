@@ -301,5 +301,50 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             return resultByType;
         }
+
+        public async Task<IEnumerable<ICountryDataModel>> GetCountriesData()
+        {
+            var hashrateData = _countryHashrate.Where(c => c.Country != AllCountries).ToList();
+            var countries = hashrateData.Select(c => c.Country).ToList();
+            var energyData = _countryEnergyStates.Where(j => countries.Contains(j.Country)).ToList();
+            var worldEnergyStates = _countryEnergyStates.Where(i => i.Country == AllCountries);
+
+            var result = new List<ICountryDataModel>();
+
+            foreach(var country in countries)
+            {
+                var hashrates = hashrateData.Where(c => c.Country == country);
+
+                if (hashrates == null)
+                    continue;
+
+                foreach (var hashrate in hashrates)
+                {
+                    var energy = energyData.FirstOrDefault(e => e.Country == country && e.DateTime.Year == hashrate.DateTime.Year);
+                    if (energy == null)
+                        continue;
+
+                    var worldEnergy = worldEnergyStates.FirstOrDefault(e => e.DateTime == energy.DateTime);
+                    if (worldEnergy == null )
+                        continue;
+
+                    var energyPercentage = 0.0m;
+                    if(worldEnergy.Primary_energy_consuption != 0)
+                        energyPercentage = energy.Primary_energy_consuption / worldEnergy.Primary_energy_consuption;
+
+                    var newCountryData = new CountryDataModel(country, hashrate.DateTime, 
+                        hashrate.MonthlyHashrateAbsolut, 
+                        UnitHashrate,
+                        hashrate.MonthlyHashratePercentage, 
+                        (double)energy.Primary_energy_consuption, 
+                        UnitEnergy,
+                        (double)energyPercentage);
+
+                    result.Add(newCountryData);
+                }
+            }
+
+            return result;
+        }
     }
 }

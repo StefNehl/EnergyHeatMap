@@ -11,5 +11,7 @@ namespace EnergyHeatMap.Contracts.Repositories
            DateTime startdate = default,
            DateTime enddate = default,
            CancellationToken ct = default);
+
+        Task<IEnumerable<ICountryDataModel>> GetCountriesData();
     }
 }
