@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { Row } from "react-bootstrap";
 import EHAmMapContainer from "./MapComponent/EHAmMapContainer"
+import EHSliderComponent from "./DateSelectionComponent/EHSliderComponent"
 
 //Services
 import { getCountriesData } from "../../services/httpEnergyStatesService";
 
 //models
+import { CountryData } from "../../models/CountryData";
 import {User} from "../../models/User"
 
 //Styles
 import "./EHMapDataContainer.css";
-import { CountryData } from "../../models/CountryData";
-import { Row } from "react-bootstrap";
 
 interface Props{
     currentUser:User;
@@ -22,7 +23,7 @@ const EHMapDataContainer: React.FC<Props> = ({ currentUser }) =>
     const [countryData, setCountryData] = useState<CountryData[]>([]);
     
     let fetchEnergyStates = async () => {
-        if(countryData !== undefined)
+        if(countryData.length !== 0)
             return;
 
         let newData = await getCountriesData(
@@ -49,7 +50,7 @@ const EHMapDataContainer: React.FC<Props> = ({ currentUser }) =>
                 <EHAmMapContainer selectedCountryData={selectedCountryData}/>
             </Row>
             <Row>
-                
+                <EHSliderComponent countryData={countryData} setSelectedCountryData={setSelectedCountryData}/>
             </Row>
         </div>
     );
