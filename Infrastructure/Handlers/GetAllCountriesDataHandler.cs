@@ -5,11 +5,11 @@ using MediatR;
 
 namespace EnergyHeatMap.Infrastructure.Handlers
 {
-    public class GetAllCountriesDataHelper : IRequestHandler<GetAllCountriesDataQuery, IEnumerable<ICountryDataModel>>
+    public class GetAllCountriesDataHandler : IRequestHandler<GetAllCountriesDataQuery, IEnumerable<ICountryDataModel>>
     {
         private readonly ICountryEnergyStateServices _service;
 
-        public GetAllCountriesDataHelper(ICountryEnergyStateServices service)
+        public GetAllCountriesDataHandler(ICountryEnergyStateServices service)
         {
             _service = service;
         }

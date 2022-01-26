@@ -24,9 +24,9 @@ const EHAmMapContainer : React.FC<Props> = ({ selectedCountryData }) =>
             setMapRoot(am5.Root.new("chartdiv"));
         }
 
-        if(map === undefined && mapRoot !== undefined)
+        if(mapRoot !== undefined && selectedCountryData !== undefined)
         {
-            setMap(createMapChart(mapRoot as am5.Root));
+            setMap(createMapChart(mapRoot as am5.Root, selectedCountryData));
         }
     }, [mapRoot, map, selectedCountryData])
 

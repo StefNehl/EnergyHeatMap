@@ -17,6 +17,7 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
             app.MapGet("/energystatevaluetypes/", GetEnergyStateValueTypes);
             app.MapGet("/energystatedata/", GetEnergyStateDataByType);
             app.MapGet("/countriesdata", GetCountriesData);
+            app.MapGet("/countriesdatagrouped", GetCountriesDataGroupedByCountry);
         }
 
         public void DefineServices(IServiceCollection services)
@@ -58,6 +59,13 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
         private async Task<IResult> GetCountriesData([FromServices] IMediator mediator)
         {
             var query = new GetAllCountriesDataQuery();
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
+        }
+
+        private async Task<IResult> GetCountriesDataGroupedByCountry([FromServices] IMediator mediator)
+        {
+            var query = new GetAllCountriesDataGroupedByCountryQuery();
             var result = await mediator.Send(query);
             return Results.Ok(result);
         }

@@ -21,7 +21,7 @@ namespace EnergyHeatMap.Infrastructure.Services
         private readonly string _countryEnergyStatesPath;
         private const string CountryEnergyStateFileName = "owid-energy-data.csv";
         private const string HashrateProductionFileName = "hashrate_production.csv";
-        
+
         private readonly double hashrateConvRate;
         private const string UnitHashrate = "EH/s";
 
@@ -187,7 +187,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             await Task.Yield();
 
             var countries = new List<string>();
-            
+
             groups.Remove(AllCountries);
             countries.Add(AllCountries);
             countries.AddRange(groups);
@@ -311,7 +311,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             var result = new List<ICountryDataModel>();
 
-            foreach(var country in countries)
+            foreach (var country in countries)
             {
                 var hashrates = hashrateData.Where(c => c.Country == country);
 
@@ -325,18 +325,18 @@ namespace EnergyHeatMap.Infrastructure.Services
                         continue;
 
                     var worldEnergy = worldEnergyStates.FirstOrDefault(e => e.DateTime == energy.DateTime);
-                    if (worldEnergy == null )
+                    if (worldEnergy == null)
                         continue;
 
                     var energyPercentage = 0.0m;
-                    if(worldEnergy.Primary_energy_consuption != 0)
+                    if (worldEnergy.Primary_energy_consuption != 0)
                         energyPercentage = energy.Primary_energy_consuption / worldEnergy.Primary_energy_consuption;
 
-                    var newCountryData = new CountryDataModel(country, hashrate.DateTime, 
-                        hashrate.MonthlyHashrateAbsolut, 
+                    var newCountryData = new CountryDataModel(country, hashrate.DateTime,
+                        hashrate.MonthlyHashrateAbsolut,
                         UnitHashrate,
-                        hashrate.MonthlyHashratePercentage, 
-                        (double)energy.Primary_energy_consuption, 
+                        hashrate.MonthlyHashratePercentage,
+                        (double)energy.Primary_energy_consuption,
                         UnitEnergy,
                         (double)energyPercentage);
 
@@ -346,5 +346,23 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             return result;
         }
+
+        public async Task<Dictionary<string, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByCountry()
+        {
+            var countriesData = await GetCountriesData();
+
+            var groups = countriesData.GroupBy(i => i.CountryName);
+            var result = new Dictionary<string, IEnumerable<ICountryDataModel>>();  
+
+            foreach (var group in groups)
+            {
+                var countryGroupKey = group.Key;
+                var values = group;
+                result.Add(countryGroupKey, group.ToList());
+            }
+
+            return result;
+        }
+
     }
 }

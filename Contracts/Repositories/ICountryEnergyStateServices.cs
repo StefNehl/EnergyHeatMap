@@ -13,5 +13,7 @@ namespace EnergyHeatMap.Contracts.Repositories
            CancellationToken ct = default);
 
         Task<IEnumerable<ICountryDataModel>> GetCountriesData();
+
+        Task<Dictionary<string, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByCountry();
     }
 }
