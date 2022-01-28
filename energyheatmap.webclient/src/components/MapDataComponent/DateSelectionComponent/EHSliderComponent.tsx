@@ -5,12 +5,12 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 //models
-import { CountryData } from "../../../models/CountryData";
+import { CountryDataGroupByDate } from "../../../models/CountryDataGroupByDate";
 
 interface Props
 {
-    countryData:CountryData[];
-    setSelectedCountryData: (types:CountryData) => void;
+    countryData:CountryDataGroupByDate[];
+    setSelectedCountryData: (types:CountryDataGroupByDate) => void;
 }
 
 const EHSliderComponent : React.FC<Props> = ({countryData, setSelectedCountryData}) => 
@@ -26,8 +26,13 @@ const EHSliderComponent : React.FC<Props> = ({countryData, setSelectedCountryDat
 
     useEffect(() => 
     {
-        if(countryData.length !== 0)
-            setSliderMaxValue(countryData.length-1);
+        var dataLength = Object.keys(countryData).length;
+        if(dataLength !== 0)
+        {
+            var maxValue = dataLength - 1;
+            console.log(maxValue);
+            setSliderMaxValue(maxValue);
+        }
     }, [countryData])
 
     return(

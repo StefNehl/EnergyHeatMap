@@ -6,10 +6,10 @@ import * as am5map from "@amcharts/amcharts5/map"
 import { createMapChart } from "../../../services/mapChartService";
 
 //models
-import { CountryData } from "../../../models/CountryData"
+import { CountryDataGroupByDate } from "../../../models/CountryDataGroupByDate"
 
 interface Props{
-    selectedCountryData: CountryData | undefined;
+    selectedCountryData: CountryDataGroupByDate | undefined;
 }
 
 const EHAmMapContainer : React.FC<Props> = ({ selectedCountryData }) => 

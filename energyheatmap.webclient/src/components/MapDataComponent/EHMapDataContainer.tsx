@@ -4,10 +4,10 @@ import EHAmMapContainer from "./MapComponent/EHAmMapContainer"
 import EHSliderComponent from "./DateSelectionComponent/EHSliderComponent"
 
 //Services
-import { getCountriesData } from "../../services/httpEnergyStatesService";
+import { getCountriesDataGroupedByDate } from "../../services/httpEnergyStatesService";
 
 //models
-import { CountryData } from "../../models/CountryData";
+import { CountryDataGroupByDate } from "../../models/CountryDataGroupByDate";
 import {User} from "../../models/User"
 
 //Styles
@@ -19,14 +19,14 @@ interface Props{
 
 const EHMapDataContainer: React.FC<Props> = ({ currentUser }) =>
 {
-    const [selectedCountryData, setSelectedCountryData] = useState<CountryData>();
-    const [countryData, setCountryData] = useState<CountryData[]>([]);
+    const [selectedCountryData, setSelectedCountryData] = useState<CountryDataGroupByDate>();
+    const [countryData, setCountryData] = useState<CountryDataGroupByDate[]>([]);
     
     let fetchEnergyStates = async () => {
         if(countryData.length !== 0)
             return;
 
-        let newData = await getCountriesData(
+        let newData = await getCountriesDataGroupedByDate(
             currentUser)
 
         if(newData === null)

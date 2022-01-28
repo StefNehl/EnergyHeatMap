@@ -1,12 +1,22 @@
+
+//Models
 import { User } from "../models/User"
 import { EnergyStateData } from "../models/EnergyStateData"
 import { CountryData } from "../models/CountryData"
+import { CountryDataGroupByCountry } from "../models/CountryDataGroupByCountry"
+import { CountryDataGroupByDate } from "../models/CountryDataGroupByDate"
 
+//Services
 import { getAuthRequestInit } from "./httpService"
 import { callService } from "./httpService"
 
+
+//Const
 const COUNTRIES_GET_ALL = "/countries";
 const COUNTRIES_DATA_GET_ALL = "/countriesdata";
+const COUNTRIES_DATA_GROUPEDBY_COUNTRY_GET_ALL = "/countriesdatagroupedbycountry";
+const COUNTRIES_DATA_GROUPEDBY_DATE_GET_ALL = "/countriesdatagroupedbydate";
+
 const ENERGYSTATE_VALUE_TYPES = "/energystatevaluetypes";
 
 const ENERGYSTATEDATA_GET_FILTERED_TYPES = "/energystatedata";
@@ -46,6 +56,41 @@ export async function getCountriesData(currentUser : User) : Promise<CountryData
     {
         console.log(error);
         throw new Error("API call " + COUNTRIES_DATA_GET_ALL + " throws an exception");
+    }
+}
+
+export async function getCountriesDataGroupedByCountry(currentUser : User) : Promise<CountryDataGroupByCountry[] | null>
+{
+    try
+    {
+        let result = await callService<CountryDataGroupByCountry[]>(
+            COUNTRIES_DATA_GROUPEDBY_COUNTRY_GET_ALL, 
+            getAuthRequestInit(currentUser.token, "GET"));
+            
+        return result;
+    }
+    catch(error)
+    {
+        console.log(error);
+        throw new Error("API call " + COUNTRIES_DATA_GROUPEDBY_COUNTRY_GET_ALL + " throws an exception");
+    }
+}
+
+export async function getCountriesDataGroupedByDate(currentUser : User) : Promise<CountryDataGroupByDate[] | null>
+{
+    try
+    {
+        let result = await callService<CountryDataGroupByDate[]>(
+            COUNTRIES_DATA_GROUPEDBY_DATE_GET_ALL, 
+            getAuthRequestInit(currentUser.token, "GET"));
+        
+        console.log(result?.length)
+        return result;
+    }
+    catch(error)
+    {
+        console.log(error);
+        throw new Error("API call " + COUNTRIES_DATA_GROUPEDBY_DATE_GET_ALL + " throws an exception");
     }
 }
 

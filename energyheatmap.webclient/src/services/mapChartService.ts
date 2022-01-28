@@ -3,9 +3,9 @@ import * as am5map from "@amcharts/amcharts5/map"
 import am5geodata_world from "@amcharts/amcharts5-geodata/worldHigh"
 
 //models
-import { CountryData } from "../models/CountryData"
+import { CountryDataGroupByDate } from "../models/CountryDataGroupByDate"
 
-export function createMapChart(root: am5.Root, countryData: CountryData) : am5map.MapChart
+export function createMapChart(root: am5.Root, countryData: CountryDataGroupByDate) : am5map.MapChart
 {    
     let map = root.container.children.push(
         am5map.MapChart.new(root, {
