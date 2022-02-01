@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "McKKfvxDYqyfqwU2lZ8apB58ZE3bJaoT7DvtsPegyCjPk+RghZx7c4oJ2mOqgMpmKSMq0EiatSsh0lOxuNUR5A==",
+  "dgSpecHash": "DD0twHxNm287NVroFcuJXKZ4s4XINYH/OCSLTn22X8mv3aQI7VSeqXv7lxvf+kUW2SRRyGkAPbOSFpYbyFHRuQ==",
   "success": true,
   "projectFilePath": "C:\\projects\\EnergyHeatMap\\Infrastructure\\EnergyHeatMap.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\stefa\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.15.1\\microsoft.identitymodel.jsonwebtokens.6.15.1.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\microsoft.identitymodel.logging\\6.15.1\\microsoft.identitymodel.logging.6.15.1.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.15.1\\microsoft.identitymodel.tokens.6.15.1.nupkg.sha512",
+    "C:\\Users\\stefa\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.15.1\\system.identitymodel.tokens.jwt.6.15.1.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"

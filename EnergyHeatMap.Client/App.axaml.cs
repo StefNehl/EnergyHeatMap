@@ -24,7 +24,7 @@ namespace EnergyHeatMap.Client
             AvaloniaXamlLoader.Load(this);
         }
 
-        public IHost IoC { get; private set; } 
+        public static IHost IoC { get; private set; } 
 
         public override void OnFrameworkInitializationCompleted()
         {

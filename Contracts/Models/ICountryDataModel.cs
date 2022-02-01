@@ -9,6 +9,7 @@ namespace EnergyHeatMap.Contracts.Models
     public interface ICountryDataModel
     {
         string CountryName { get; }
+        public string CountryCode { get; }
         DateTime DateTime { get; }  
         double HashrateAbs { get; }
         string HashrateAbsUnit { get; }

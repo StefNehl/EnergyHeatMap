@@ -312,6 +312,8 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             var result = new List<ICountryDataModel>();
 
+            var countryNameHelper = new CountryNameHelper();
+
             foreach (var country in countries)
             {
                 var hashrates = hashrateData.Where(c => c.Country == country);
@@ -333,7 +335,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                     if (worldEnergy.Primary_energy_consuption != 0)
                         energyPercentage = energy.Primary_energy_consuption / worldEnergy.Primary_energy_consuption;
 
-                    var newCountryData = new CountryDataModel(country, hashrate.DateTime,
+                    var newCountryData = new CountryDataModel(country, countryNameHelper.GetShortName(country), hashrate.DateTime,
                         hashrate.MonthlyHashrateAbsolut,
                         UnitHashrate,
                         hashrate.MonthlyHashratePercentage,

@@ -4,9 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:EnergyHeatMap.Client.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
              x:Class="EnergyHeatMap.Client.Views.MapView">
 	<Design.DataContext>
 		<vm:MapViewModel/>
 	</Design.DataContext>
-  Welcome to Avalonia!
+	
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<ProgressBar Grid.Row="0"
+					 IsIndeterminate="{Binding IsBusy}"
+					 IsVisible="{Binding IsBusy}"/>
+		
+		<lvc:GeoMap Grid.Row="0"
+					Series="{Binding Series}"
+					IsVisible="{Binding !IsBusy}"
+					MapProjection="Mercator" />
+
+		<Slider Grid.Row="1" 
+				Orientation="Horizontal" 
+				Minimum="0"
+				Maximum="{Binding SelectionRangeMaxValue}"
+				Value="{Binding SelectedDataIndex}"/>
+	</Grid>
 </UserControl>

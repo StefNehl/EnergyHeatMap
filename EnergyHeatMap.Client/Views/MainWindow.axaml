@@ -22,10 +22,10 @@
 		<TextBlock Grid.Row="0" Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 		<TabControl Grid.Row="2" >
 			<TabItem Header="Map">
-				<views:MapView/>
+				<views:MapView DataContext="{Binding MapViewModel}"/>
 			</TabItem>
 			<TabItem Header="Chart">
-				<views:ChartView/>
+				<views:ChartView DataContext="{Binding ChartViewModel}"/>
 			</TabItem>
 		</TabControl>
 	</Grid>
