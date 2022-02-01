@@ -1,13 +1,21 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using EnergyHeatMap.Contracts.Repositories;
 using EnergyHeatMap.Infrastructure;
-using EnergyHeatMapClient.ViewModels;
-using EnergyHeatMapClient.Views;
+using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Services;
+using EnergyHeatMap.Client.ViewModels;
+using EnergyHeatMap.Client.Views;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using MediatR;
+using System;
+using System.Reflection;
 
-
-namespace EnergyHeatMapClient
+namespace EnergyHeatMap.Client
 {
     public class App : Application
     {
@@ -16,30 +24,53 @@ namespace EnergyHeatMapClient
             AvaloniaXamlLoader.Load(this);
         }
 
+        public IHost IoC { get; private set; }
+
         public override void OnFrameworkInitializationCompleted()
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddInfrastructure();
+            IoC = Host.CreateDefaultBuilder().ConfigureServices(services=>
+            {
+                ConfigureServices(services);
+            }).Start();
 
-            var appSettingsSection = builder.Configuration.GetSection("SecuritySettings");
-            serviceCollection.Configure<SecuritySettings>(appSettingsSection);
+            var testQuery = new GetAllCountriesDataGroupedByCountryQuery();
+            var mediator = IoC.Services.GetRequiredService<IMediator>();
+            var result = mediator.Send(testQuery);
 
-            var dataPathSettings = builder.Configuration.GetSection("DataPaths");
-            serviceCollection.Configure<DataPathSettings>(dataPathSettings);
+
 
             var mainVm = new MainWindowViewModel();
-            
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = mainVm,
                 };
             }            
 
-
-
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+
+            //services.AddMediatR(typeof(App).Assembly);
+            services.AddInfrastructure();
+            services.AddLogging();
+            services.AddSingleton<ICountryEnergyStateServices, CountryEnergyStateService>();
+            services.AddSingleton<ICryptoCoinStateService, CryptoCoinStateService>();
+            services.AddSingleton<IUsersService, UsersService>();
+
+            var config = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var appSettingsSection = config.GetSection("SecuritySettings");
+            services.Configure<SecuritySettings>(Options.DefaultName, appSettingsSection);
+
+            var dataPathSettings = config.GetSection("DataPaths");
+            services.Configure<DataPathSettings>(dataPathSettings);
         }
     }
 }

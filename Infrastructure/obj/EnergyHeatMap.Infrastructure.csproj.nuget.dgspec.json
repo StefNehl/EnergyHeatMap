@@ -52,11 +52,11 @@
           "dependencies": {
             "MediatR": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             }
           },
           "imports": [
@@ -130,11 +130,11 @@
           "dependencies": {
             "MediatR": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             }
           },
           "imports": [
@@ -215,11 +215,11 @@
             },
             "MediatR": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             },
             "Microsoft.Extensions.Options": {
               "target": "Package",
@@ -227,7 +227,7 @@
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[6.14.1, )"
+              "version": "[6.15.1, )"
             }
           },
           "imports": [

@@ -1,9 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
+using EnergyHeatMap.Client;
 using System;
 
-namespace EnergyHeatMapClient
+namespace EnergyHeatMap.Client
 {
     internal class Program
     {

@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "upncFJNOzNGTPtcgurUrOcJLRZnejLVwSSxE4uj/QnpA8VZJPOz0DjesJY/bsTejsVc1yZVhYdNTIemXUknQhw==",
+  "dgSpecHash": "39tha/e188JU/PGWxSmCSIM7SZkJJMpDiibVyZ6C/1QwCseGdb0CxBNQUACIZMsE5Z0EPiPv3hMas5hZRuCCjw==",
   "success": true,
   "projectFilePath": "C:\\projects\\EnergyHeatMap\\Domain\\EnergyHeatMap.Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\stefa\\.nuget\\packages\\mediatr\\9.0.0\\mediatr.9.0.0.nupkg.sha512",
-    "C:\\Users\\stefa\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\9.0.0\\mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
-    "C:\\Users\\stefa\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.0.0\\microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512"
+    "C:\\Users\\stefa\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
+    "C:\\Users\\stefa\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\stefa\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\10.0.1\\mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512",
+    "C:\\Users\\stefa\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

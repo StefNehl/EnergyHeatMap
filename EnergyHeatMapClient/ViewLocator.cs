@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using EnergyHeatMapClient.ViewModels;
+using EnergyHeatMap.Client.ViewModels;
 using System;
 
-namespace EnergyHeatMapClient
+namespace EnergyHeatMap.Client
 {
     public class ViewLocator : IDataTemplate
     {

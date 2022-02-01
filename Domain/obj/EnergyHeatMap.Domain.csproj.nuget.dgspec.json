@@ -52,11 +52,11 @@
           "dependencies": {
             "MediatR": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             }
           },
           "imports": [
@@ -130,11 +130,11 @@
           "dependencies": {
             "MediatR": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.1, )"
             }
           },
           "imports": [

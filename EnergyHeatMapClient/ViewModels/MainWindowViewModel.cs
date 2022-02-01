@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EnergyHeatMapClient.ViewModels
+namespace EnergyHeatMap.Client.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
