@@ -24,21 +24,14 @@ namespace EnergyHeatMap.Client
             AvaloniaXamlLoader.Load(this);
         }
 
-        public IHost IoC { get; private set; }
+        public IHost IoC { get; private set; } 
 
         public override void OnFrameworkInitializationCompleted()
         {
             IoC = Host.CreateDefaultBuilder().ConfigureServices(services=>
             {
                 ConfigureServices(services);
-            }).Start();
-
-            var testQuery = new GetAllCountriesDataGroupedByCountryQuery();
-            var mediator = IoC.Services.GetRequiredService<IMediator>();
-            var result = mediator.Send(testQuery).Result;
-
-            var testQuery1 = new GetCryptoCoinsQuery();
-            var result1 = mediator.Send(testQuery1).Result;            
+            }).Start();           
 
 
             var mainVm = new MainWindowViewModel();

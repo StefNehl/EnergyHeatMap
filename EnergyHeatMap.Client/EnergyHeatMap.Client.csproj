@@ -41,4 +41,9 @@
     <ProjectReference Include="..\Domain\EnergyHeatMap.Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\EnergyHeatMap.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\ChartView.axaml.cs">
+      <DependentUpon>ChartView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
