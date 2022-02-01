@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ReactSlider from "react-slider";
 
 //Styles
 
@@ -34,6 +35,14 @@ const EHSliderComponent : React.FC<Props> = ({countryData, setSelectedCountryDat
 
     return(
         <div className="sliderDiv" id="sliderDiv">
+            <ReactSlider 
+                className="horizontal-slider" 
+                thumbClassName="slider-thumb"
+                trackClassName="slider-track"
+                min={0}
+                max={sliderMaxValue}
+                renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
+                />
         </div>
     )
 }
