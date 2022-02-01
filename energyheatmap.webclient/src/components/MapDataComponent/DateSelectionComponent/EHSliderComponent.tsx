@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Slider from 'rc-slider';
 
 //Styles
-import 'rc-slider/assets/index.css';
 
 //models
 import { CountryDataGroupByDate } from "../../../models/CountryDataGroupByDate";
@@ -30,14 +28,12 @@ const EHSliderComponent : React.FC<Props> = ({countryData, setSelectedCountryDat
         if(dataLength !== 0)
         {
             var maxValue = dataLength - 1;
-            console.log(maxValue);
             setSliderMaxValue(maxValue);
         }
     }, [countryData])
 
     return(
         <div className="sliderDiv" id="sliderDiv">
-            <Slider min={minValue} max={sliderMaxValue} onChange={selectData}/>
         </div>
     )
 }

@@ -19,6 +19,7 @@ const EHAmMapContainer : React.FC<Props> = ({ selectedCountryData }) =>
 
     useEffect(() => 
     {
+        console.log("laod data");
         if(mapRoot === undefined)
         {
             setMapRoot(am5.Root.new("chartdiv"));

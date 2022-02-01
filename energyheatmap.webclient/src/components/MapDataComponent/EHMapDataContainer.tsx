@@ -24,19 +24,28 @@ const EHMapDataContainer: React.FC<Props> = ({ currentUser }) =>
     
     let fetchEnergyStates = async () => {
         if(countryData.length !== 0)
+        {
             return;
+        }
 
         let newData = await getCountriesDataGroupedByDate(
-            currentUser)
+            currentUser) as CountryDataGroupByDate[];
 
         if(newData === null)
+        {
             return;
-        console.log(newData.length + " countryData items loaded");
+        }
+
+        var dataLength = Object.keys(newData).length;
+        console.log(dataLength + " countryData items loaded");
         
         setCountryData(newData);
 
         if(selectedCountryData === undefined)
-            setSelectedCountryData(newData[newData.length-1]);
+        {
+            let selectedItem = newData[dataLength-1] as CountryDataGroupByDate;
+            setSelectedCountryData(selectedItem);
+        }
     };
 
     useEffect(() => 
