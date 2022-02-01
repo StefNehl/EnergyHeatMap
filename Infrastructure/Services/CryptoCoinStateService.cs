@@ -5,6 +5,7 @@ using EnergyHeatMap.Domain;
 using EnergyHeatMap.Domain.Entities;
 using EnergyHeatMap.Domain.Extensions;
 using EnergyHeatMap.Domain.Models;
+using EnergyHeatMap.Infrastructure.Helpers;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace EnergyHeatMap.Infrastructure.Services
     public class CryptoCoinStateService : ICryptoCoinStateService
     {
         private List<ICryptoCoinStateEntity> _cryptoCoinStateEntities;
-        private readonly string CryptoDataPath;
+        private readonly string _cryptoDataPath;
         private const string BtcHistoricalDataFilename = @"bitcoin_2010-10-1_2021-11-29.csv";
         private const string BtcHashRateFilename = @"btc_hashrate.json";
         private const string BtcDifficultyFilename = @"btc_difficulty.json";
@@ -39,9 +40,9 @@ namespace EnergyHeatMap.Infrastructure.Services
             {
                 var path = optionsMonitor.CurrentValue.DataPathCrypto;
                 if(path == null)
-                    throw new ArgumentNullException(nameof(CryptoDataPath));
+                    throw new ArgumentNullException(nameof(_cryptoDataPath));
 
-                CryptoDataPath = path;
+                _cryptoDataPath = DataPathGenerator.Create(path);
             }
             catch (Exception)
             {
@@ -93,7 +94,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
         private void LoadCsvData(string filename, bool isBtc)
         {
-            var path = CryptoDataPath + filename;
+            var path = _cryptoDataPath + filename;
 
             try
             {
@@ -138,11 +139,11 @@ namespace EnergyHeatMap.Infrastructure.Services
         {
             try
             {
-                var jsonString = File.ReadAllText(CryptoDataPath + filename);
+                var jsonString = File.ReadAllText(_cryptoDataPath + filename);
                 var hashRateData = JsonSerializer.Deserialize<List<object>>(jsonString);
 
                 if (hashRateData == null)
-                    throw new ArgumentNullException(nameof(CryptoDataPath));
+                    throw new ArgumentNullException(nameof(_cryptoDataPath));
 
                 foreach (var dataSet in hashRateData)
                 {

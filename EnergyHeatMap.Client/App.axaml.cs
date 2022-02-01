@@ -35,8 +35,10 @@ namespace EnergyHeatMap.Client
 
             var testQuery = new GetAllCountriesDataGroupedByCountryQuery();
             var mediator = IoC.Services.GetRequiredService<IMediator>();
-            var result = mediator.Send(testQuery);
+            var result = mediator.Send(testQuery).Result;
 
+            var testQuery1 = new GetCryptoCoinsQuery();
+            var result1 = mediator.Send(testQuery1).Result;            
 
 
             var mainVm = new MainWindowViewModel();
@@ -53,8 +55,6 @@ namespace EnergyHeatMap.Client
 
         private static void ConfigureServices(IServiceCollection services)
         {
-
-            //services.AddMediatR(typeof(App).Assembly);
             services.AddInfrastructure();
             services.AddLogging();
             services.AddSingleton<ICountryEnergyStateServices, CountryEnergyStateService>();

@@ -5,6 +5,7 @@ using EnergyHeatMap.Contracts.Repositories;
 using EnergyHeatMap.Domain.Entities;
 using EnergyHeatMap.Domain.Enums;
 using EnergyHeatMap.Domain.Models;
+using EnergyHeatMap.Infrastructure.Helpers;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                 if (path == null)
                     throw new ArgumentNullException(nameof(_countryEnergyStatesPath));
 
-                _countryEnergyStatesPath = path;
+                _countryEnergyStatesPath = DataPathGenerator.Create(path);
             }
             catch (Exception)
             {
