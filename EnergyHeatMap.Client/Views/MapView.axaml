@@ -2,10 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
 			 xmlns:vm="using:EnergyHeatMap.Client.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
              x:Class="EnergyHeatMap.Client.Views.MapView">
+
+
+	
 	<Design.DataContext>
 		<vm:MapViewModel/>
 	</Design.DataContext>
@@ -17,18 +20,36 @@
 		</Grid.RowDefinitions>
 
 		<ProgressBar Grid.Row="0"
+					 Width="100"
+					 HorizontalAlignment="Center"
+					 VerticalAlignment="Center"
 					 IsIndeterminate="{Binding IsBusy}"
 					 IsVisible="{Binding IsBusy}"/>
 		
 		<lvc:GeoMap Grid.Row="0"
 					Series="{Binding Series}"
+					AutoUpdateEnabled="True"
 					IsVisible="{Binding !IsBusy}"
-					MapProjection="Mercator" />
+					MapProjection="Default"
+					/>
 
-		<Slider Grid.Row="1" 
-				Orientation="Horizontal" 
+		<Slider Grid.Row="1"
+				Margin="50, 0, 50, 0"
+				Orientation="Horizontal"
+				Ticks="1"
 				Minimum="0"
 				Maximum="{Binding SelectionRangeMaxValue}"
-				Value="{Binding SelectedDataIndex}"/>
+				Value="{Binding SelectedDataIndex}">
+			<Slider.Styles>
+				<Style Selector="Slider /template/ Thumb">
+					<Setter Property="ToolTip.Tip" Value="{Binding $parent[Slider].DataContext.SelectedDate, 
+							Mode=OneWay, 
+							StringFormat='Date \{0:d\}'}" />
+					<Setter Property="ToolTip.Placement" Value="Top" />
+					<Setter Property="ToolTip.VerticalOffset" Value="-10" />
+					<Setter Property="ToolTip.HorizontalOffset" Value="-30" />
+				</Style>
+			</Slider.Styles>
+		</Slider>
 	</Grid>
 </UserControl>

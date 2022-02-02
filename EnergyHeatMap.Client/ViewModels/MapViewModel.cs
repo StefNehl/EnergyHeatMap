@@ -18,6 +18,7 @@ namespace EnergyHeatMap.Client.ViewModels
         private bool _isBusy;
         private HeatLandSeries[] _series;
         private int _selectedDataIndex;
+        private DateTime _selectedDate;
         private int _selectionRangeMaxValue;
 
         public MapViewModel()
@@ -29,7 +30,7 @@ namespace EnergyHeatMap.Client.ViewModels
         {
             IsBusy = true;
 
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             await LoadMapData();
 
             SelectionRangeMaxValue = MapData.Keys.Count - 1;
@@ -42,7 +43,6 @@ namespace EnergyHeatMap.Client.ViewModels
         {
             var query = new GetAllCountriesDataGroupedByDateQuery();
             MapData = await _mediator.Send(query);
-
         }
 
         public async Task SetValuesForSelectedIndex()
@@ -58,6 +58,9 @@ namespace EnergyHeatMap.Client.ViewModels
                 var lands = new List<HeatLand>();
                 foreach (var item in data)
                 {
+                    if (string.IsNullOrWhiteSpace(item.CountryCode))
+                        continue;
+
                     var newLandData = new HeatLand()
                     {
                         Name = item.CountryCode,
@@ -71,13 +74,15 @@ namespace EnergyHeatMap.Client.ViewModels
                 {
                     new()
                     {
-                        Lands = lands,
+                        Lands = lands.ToArray(),
                         IsVisible = true
                     }
                 };
             }
             else
             {
+                await Task.Delay(1000);
+
                 foreach (var shape in Series[0].Lands)
                 {
                     var dataItem = data.FirstOrDefault(i => i.CountryCode == shape.Name);
@@ -87,8 +92,6 @@ namespace EnergyHeatMap.Client.ViewModels
                     shape.Value = dataItem.HashratePerc;
                 }
             }
-            
-            await Task.Delay(500);
         }
 
         public HeatLandSeries[] Series 
@@ -111,9 +114,17 @@ namespace EnergyHeatMap.Client.ViewModels
             set
             {
                 _selectedDataIndex = value;
+                SelectedDate = MapData.Keys.ToArray()[value];
+
                 SetValuesForSelectedIndex();
                 this.RaisePropertyChanged(nameof(SelectedDataIndex));
             }
+        }
+
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set => this.RaiseAndSetIfChanged(ref _selectedDate, value);
         }
 
         public bool IsBusy 

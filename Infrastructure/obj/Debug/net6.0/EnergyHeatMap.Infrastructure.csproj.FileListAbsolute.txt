@@ -1,3 +1,4 @@
+C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\Helpers\world-map-index.json
 C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Infrastructure.deps.json
 C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\EnergyHeatMap.Infrastructure.dll
 C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\ref\EnergyHeatMap.Infrastructure.dll
@@ -15,4 +16,3 @@ C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastr
 C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.dll
 C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\ref\EnergyHeatMap.Infrastructure.dll
 C:\projects\EnergyHeatMap\Infrastructure\obj\Debug\net6.0\EnergyHeatMap.Infrastructure.pdb
-C:\projects\EnergyHeatMap\Infrastructure\bin\Debug\net6.0\Helpers\world-map-index.json
