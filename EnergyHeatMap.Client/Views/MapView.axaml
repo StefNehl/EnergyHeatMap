@@ -11,10 +11,12 @@
 	<Design.DataContext>
 		<vm:MapViewModel/>
 	</Design.DataContext>
+
 	
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
 			<RowDefinition/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
@@ -23,46 +25,61 @@
 			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 
-		<ProgressBar Grid.Row="1"
+		<Grid Grid.Row="0"
+			  Grid.Column="1"
+			  Margin="5"
+			  HorizontalAlignment="Right">
+				
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			
+			<TextBlock Grid.Column="0"
+					   Margin="5"
+					   VerticalAlignment="Center"
+					   Text="{Binding SelectedDate, StringFormat='Date \{0:d\}'}"/>
+
+			<ComboBox Grid.Column="1"
+					  Margin="5"/>
+		</Grid>
+
+		<ProgressBar Grid.Row="0"
+					 Grid.RowSpan="2"
 					 Width="100"
 					 HorizontalAlignment="Center"
 					 VerticalAlignment="Center"
 					 IsIndeterminate="{Binding IsBusy}"
 					 IsVisible="{Binding IsBusy}"/>
 
-		<lvc:GeoMap Grid.Row="1"
+		<lvc:GeoMap Grid.Row="0"
+					Grid.RowSpan="3"
 					Series="{Binding Series}"
 					AutoUpdateEnabled="True"
 					IsVisible="{Binding !IsBusy}"
-					MapProjection="Default"
-					/>
-
-		<Grid Grid.Row="0"
-			  Grid.Column="0"
-			  Grid.ColumnSpan="2"
-			  Margin="5"
-			  HorizontalAlignment="Right">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
-			<TextBlock Grid.Column="0" 
-					   Margin="5"
-					   VerticalAlignment="Center"
-					   Text="{Binding SelectedDate, StringFormat='Date \{0:d\}'}"/>
-			
-			<ComboBox Grid.Column="1"
-					  Margin="5"/>
-		</Grid>
+					MapProjection="Default"/>
 
 		<controls:LegendControl Grid.Row="1"
 								Grid.Column="1"
 								Margin="5"
-								VerticalAlignment="Top"
+								VerticalAlignment="Stretch"
+								HorizontalAlignment="Right"
 								MaxBrush="#0288d1"
-								MaxValue="{Binding MaxDataValue}"/>
+								MaxValue="{Binding MaxDataValue}"
+								Height="420"/>
 
-		<Slider Grid.Row="2"
+		<DataGrid Grid.Row="2"
+				  Grid.Column="1"
+				  Items="{Binding SelectedData}"
+				  AutoGenerateColumns="False"
+				  VerticalAlignment="Center">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Country" Binding="{Binding Item1}"/>
+				<DataGridTextColumn Header="Value" Width="80" Binding="{Binding Item2, StringFormat='{}{0:N2}%'}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Slider Grid.Row="3"
 				Margin="50, 0, 50, 0"
 				Orientation="Horizontal"
 				Ticks="1"

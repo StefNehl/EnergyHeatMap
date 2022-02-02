@@ -95,6 +95,7 @@ namespace EnergyHeatMap.Client.ViewModels
             }
 
             MaxDataValue = data.Max(i => i.HashratePerc);
+            SelectedData = data.Select(i => new Tuple<string, double>(i.CountryName, i.HashratePerc));
         }
 
         public HeatLandSeries[] Series 
@@ -128,6 +129,14 @@ namespace EnergyHeatMap.Client.ViewModels
         {
             get => _selectedDate;
             set => this.RaiseAndSetIfChanged(ref _selectedDate, value);
+        }
+
+        private IEnumerable<Tuple<string, double>> _selectedData;   
+
+        public IEnumerable<Tuple<string, double>> SelectedData
+        {
+            get => _selectedData;
+            set => this.RaiseAndSetIfChanged(ref _selectedData, value); 
         }
 
         public bool IsBusy 
