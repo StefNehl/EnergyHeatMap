@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
 			 xmlns:vm="using:EnergyHeatMap.Client.ViewModels"
+			 xmlns:controls="using:EnergyHeatMap.Client.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="EnergyHeatMap.Client.Views.MapView">
 
@@ -18,6 +19,10 @@
 			<RowDefinition/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition Width="Auto"/>
+		</Grid.ColumnDefinitions>
 
 		<ProgressBar Grid.Row="0"
 					 Width="100"
@@ -32,6 +37,13 @@
 					IsVisible="{Binding !IsBusy}"
 					MapProjection="Default"
 					/>
+
+		<controls:LegendControl Grid.Column="1"
+								Margin="5"
+								VerticalAlignment="Top"
+								MaxBrush="#0288d1"
+								MaxValue="{Binding MaxDataValue}"/>
+
 
 		<Slider Grid.Row="1"
 				Margin="50, 0, 50, 0"

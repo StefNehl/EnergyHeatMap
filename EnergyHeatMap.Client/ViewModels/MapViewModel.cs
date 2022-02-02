@@ -20,6 +20,7 @@ namespace EnergyHeatMap.Client.ViewModels
         private int _selectedDataIndex;
         private DateTime _selectedDate;
         private int _selectionRangeMaxValue;
+        private double _maxDataValue;
 
         public MapViewModel()
         {
@@ -92,6 +93,8 @@ namespace EnergyHeatMap.Client.ViewModels
                     shape.Value = dataItem.HashratePerc;
                 }
             }
+
+            MaxDataValue = data.Max(i => i.HashratePerc);
         }
 
         public HeatLandSeries[] Series 
@@ -131,6 +134,12 @@ namespace EnergyHeatMap.Client.ViewModels
         { 
             get => _isBusy;
             set => this.RaiseAndSetIfChanged(ref _isBusy, value);
+        }
+
+        public double MaxDataValue
+        {
+            get => _maxDataValue;
+            set => this.RaiseAndSetIfChanged(ref _maxDataValue, value);
         }
     }
 }
