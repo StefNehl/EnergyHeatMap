@@ -42,8 +42,6 @@
 				<Rectangle.OpacityMask>
 					<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
 						<LinearGradientBrush.GradientStops>
-							<!--<GradientStop Offset="0" Color="#0288d1"/>
-							<GradientStop Offset="1" Color="#b3e5fc"/>-->
 							<GradientStop Offset="0" Color="Black"/>
 							<GradientStop Offset="1" Color="Transparent"/>
 						</LinearGradientBrush.GradientStops>
