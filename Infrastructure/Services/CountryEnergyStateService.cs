@@ -17,6 +17,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 {
     public class CountryEnergyStateService : ICountryEnergyStateServices
     {
+
         private readonly List<ICountryEnergyStateEntity> _countryEnergyStates;
         private readonly List<ICountryHashrateEntity> _countryHashrate;
         private readonly string _countryEnergyStatesPath;
@@ -306,7 +307,7 @@ namespace EnergyHeatMap.Infrastructure.Services
         public async Task<IEnumerable<ICountryDataModel>> GetCountriesData()
         {
             var hashrateData = _countryHashrate.Where(c => c.Country != AllCountries).ToList();
-            var countries = hashrateData.Select(c => c.Country).ToList();
+            var countries = hashrateData.Select(c => c.Country).Distinct().ToList();
             var energyData = _countryEnergyStates.Where(j => countries.Contains(j.Country)).ToList();
             var worldEnergyStates = _countryEnergyStates.Where(i => i.Country == AllCountries);
 
@@ -317,29 +318,31 @@ namespace EnergyHeatMap.Infrastructure.Services
             foreach (var country in countries)
             {
                 var hashrates = hashrateData.Where(c => c.Country == country);
-
                 if (hashrates == null)
                     continue;
 
                 foreach (var hashrate in hashrates)
                 {
-                    var energy = energyData.FirstOrDefault(e => e.Country == country && e.DateTime.Year == hashrate.DateTime.Year);
-                    if (energy == null)
-                        continue;
-
-                    var worldEnergy = worldEnergyStates.FirstOrDefault(e => e.DateTime == energy.DateTime);
-                    if (worldEnergy == null)
-                        continue;
-
                     var energyPercentage = 0.0m;
-                    if (worldEnergy.Primary_energy_consuption != 0)
-                        energyPercentage = energy.Primary_energy_consuption / worldEnergy.Primary_energy_consuption;
+                    var primaryEnergyConsuption = 0.0m;
+
+                    var energy = energyData.FirstOrDefault(e => e.Country == country && e.DateTime.Year == hashrate.DateTime.Year);
+                    if (energy != null)
+                    {
+                        primaryEnergyConsuption = energy.Primary_energy_consuption;
+                        var worldEnergy = worldEnergyStates.FirstOrDefault(e => e.DateTime == energy.DateTime);
+                        if (worldEnergy != null)
+                        {
+                            if (worldEnergy.Primary_energy_consuption != 0)
+                                energyPercentage = energy.Primary_energy_consuption / worldEnergy.Primary_energy_consuption;
+                        }
+                    }
 
                     var newCountryData = new CountryDataModel(country, countryNameHelper.GetShortName(country), hashrate.DateTime,
                         hashrate.MonthlyHashrateAbsolut,
                         UnitHashrate,
                         hashrate.MonthlyHashratePercentage,
-                        (double)energy.Primary_energy_consuption,
+                        (double)primaryEnergyConsuption,
                         UnitEnergy,
                         (double)energyPercentage);
 

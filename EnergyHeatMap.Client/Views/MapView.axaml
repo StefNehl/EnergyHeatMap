@@ -29,7 +29,7 @@
 					 VerticalAlignment="Center"
 					 IsIndeterminate="{Binding IsBusy}"
 					 IsVisible="{Binding IsBusy}"/>
-		
+
 		<lvc:GeoMap Grid.Row="1"
 					Series="{Binding Series}"
 					AutoUpdateEnabled="True"

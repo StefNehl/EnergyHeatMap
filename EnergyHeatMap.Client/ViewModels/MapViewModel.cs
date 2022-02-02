@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -65,7 +66,7 @@ namespace EnergyHeatMap.Client.ViewModels
                     var newLandData = new HeatLand()
                     {
                         Name = item.CountryCode,
-                        Value = item.HashratePerc,
+                        Value = item.HashratePerc
                     };
 
                     lands.Add(newLandData);
@@ -75,14 +76,13 @@ namespace EnergyHeatMap.Client.ViewModels
                 {
                     new()
                     {
-                        Lands = lands.ToArray(),
-                        IsVisible = true
+                        Lands = lands,
                     }
                 };
             }
             else
             {
-                await Task.Delay(1000);
+                await Task.Delay(100);
 
                 foreach (var shape in Series[0].Lands)
                 {
