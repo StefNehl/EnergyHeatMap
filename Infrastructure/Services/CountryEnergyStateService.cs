@@ -307,8 +307,10 @@ namespace EnergyHeatMap.Infrastructure.Services
         public async Task<IEnumerable<ICountryDataModel>> GetCountriesData()
         {
             var hashrateData = _countryHashrate.Where(c => c.Country != AllCountries).ToList();
-            var countries = hashrateData.Select(c => c.Country).Distinct().ToList();
-            var energyData = _countryEnergyStates.Where(j => countries.Contains(j.Country)).ToList();
+            var energyData = _countryEnergyStates.Where(j => j.Country != AllCountries).ToList();
+
+            var timeSteps = hashrateData.Select(c => c.DateTime).Distinct().ToList();
+            var countries = energyData.Select(c => c.Country).Distinct().ToList();
             var worldEnergyStates = _countryEnergyStates.Where(i => i.Country == AllCountries);
 
             var result = new List<ICountryDataModel>();
@@ -317,16 +319,12 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             foreach (var country in countries)
             {
-                var hashrates = hashrateData.Where(c => c.Country == country);
-                if (hashrates == null)
-                    continue;
-
-                foreach (var hashrate in hashrates)
+                foreach (var timeStep in timeSteps)
                 {
                     var energyPercentage = 0.0m;
                     var primaryEnergyConsuption = 0.0m;
 
-                    var energy = energyData.FirstOrDefault(e => e.Country == country && e.DateTime.Year == hashrate.DateTime.Year);
+                    var energy = energyData.FirstOrDefault(e => e.Country == country && e.DateTime.Year == timeStep.Year);
                     if (energy != null)
                     {
                         primaryEnergyConsuption = energy.Primary_energy_consuption;
@@ -338,10 +336,20 @@ namespace EnergyHeatMap.Infrastructure.Services
                         }
                     }
 
-                    var newCountryData = new CountryDataModel(country, countryNameHelper.GetShortName(country), hashrate.DateTime,
-                        hashrate.MonthlyHashrateAbsolut,
+                    var hashratePerc = 0.0;
+                    var hashrateAbs = 0.0;
+
+                    var hashRate = hashrateData.FirstOrDefault(e => e.DateTime == timeStep && e.Country == country);
+                    if(hashRate != null)
+                    {
+                        hashratePerc = hashRate.MonthlyHashratePercentage;
+                        hashrateAbs = hashRate.MonthlyHashrateAbsolut;
+                    }
+
+                    var newCountryData = new CountryDataModel(country, countryNameHelper.GetShortName(country), timeStep,
+                        hashrateAbs,
                         UnitHashrate,
-                        hashrate.MonthlyHashratePercentage,
+                        hashratePerc,
                         (double)primaryEnergyConsuption,
                         UnitEnergy,
                         (double)energyPercentage);

@@ -111,7 +111,9 @@ namespace EnergyHeatMap.Client.ViewModels
             }
 
             MaxDataValue = data.Max(i => i.HashratePerc);
-            SelectedData = data.Select(i => new Tuple<string, double>(i.CountryName, GetValueForHeatMapSettings(i)));
+            var dataSet = data.Select(i => new Tuple<string, double>(i.CountryName, GetValueForHeatMapSettings(i))).ToArray();
+            var oderedDataSet = dataSet.OrderByDescending(i => i.Item2).Take(10);
+            SelectedData = oderedDataSet;
         }
 
         private double GetValueForHeatMapSettings(ICountryDataModel countryDataModel)
