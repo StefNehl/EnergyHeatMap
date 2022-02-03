@@ -1,6 +1,8 @@
-﻿using EnergyHeatMap.Contracts.Models;
+﻿using EnergyHeatMap.Contracts.Enums;
+using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Domain.Enums;
 using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.HeatMap;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using MediatR;
@@ -23,6 +25,9 @@ namespace EnergyHeatMap.Client.ViewModels
         private DateTime _selectedDate;
         private int _selectionRangeMaxValue;
         private double _maxDataValue;
+        private IEnumerable<Tuple<string, double>> _selectedData;
+        private IEnumerable<IHeatMapValueType> _valueTypes;
+        private IHeatMapValueType? _selectedHeatMapValueType;
 
         public MapViewModel()
         {
@@ -34,20 +39,28 @@ namespace EnergyHeatMap.Client.ViewModels
             IsBusy = true;
 
             await Task.Delay(1000);
+
+            await LoadHeatMapValueTypes();
             await LoadMapData();
 
             SelectionRangeMaxValue = MapData.Keys.Count - 1;
             SelectedDataIndex = SelectionRangeMaxValue;
 
             IsBusy = false;
-
-            ValueTypes = EnergyStateValueTypesExtensions.GetValues();
         }
 
         private async Task LoadMapData()
         {
             var query = new GetAllCountriesDataGroupedByDateQuery();
             MapData = await _mediator.Send(query);
+        }
+
+        private async Task LoadHeatMapValueTypes()
+        {
+            var query = new GetHeatMapValueTypesQuery();
+            ValueTypes = await _mediator.Send(query);
+            _selectedHeatMapValueType = ValueTypes.FirstOrDefault(i => i.Type == HeatMapValueTypes.HashratePerc);
+            this.RaisePropertyChanged(nameof(SelectedHeatMapValueType));
         }
 
         public async Task SetValuesForSelectedIndex()
@@ -69,7 +82,7 @@ namespace EnergyHeatMap.Client.ViewModels
                     var newLandData = new HeatLand()
                     {
                         Name = item.CountryCode,
-                        Value = item.HashratePerc
+                        Value = GetValueForHeatMapSettings(item)
                     };
 
                     lands.Add(newLandData);
@@ -93,12 +106,28 @@ namespace EnergyHeatMap.Client.ViewModels
                     if (dataItem == null)
                         continue;
 
-                    shape.Value = dataItem.HashratePerc;
+                    shape.Value = GetValueForHeatMapSettings(dataItem);
                 }
             }
 
             MaxDataValue = data.Max(i => i.HashratePerc);
-            SelectedData = data.Select(i => new Tuple<string, double>(i.CountryName, i.HashratePerc));
+            SelectedData = data.Select(i => new Tuple<string, double>(i.CountryName, GetValueForHeatMapSettings(i)));
+        }
+
+        private double GetValueForHeatMapSettings(ICountryDataModel countryDataModel)
+        {
+            if (SelectedHeatMapValueType == null)
+                return 0;
+
+            switch (SelectedHeatMapValueType.Type)
+            {
+                case HeatMapValueTypes.HashratePerc:
+                    return countryDataModel.HashratePerc;
+                case HeatMapValueTypes.EnergyConsuptionPerc:
+                    return countryDataModel.EnergyConsumptionPerc;
+                default:
+                    return 0;
+            }
         }
 
         public HeatLandSeries[] Series 
@@ -131,15 +160,20 @@ namespace EnergyHeatMap.Client.ViewModels
         public DateTime SelectedDate
         {
             get => _selectedDate;
-            set => this.RaiseAndSetIfChanged(ref _selectedDate, value);
+            set
+            {
+                if (_selectedDate == value)
+                    return;
+
+                this.RaiseAndSetIfChanged(ref _selectedDate, value);
+            }
         }
 
-        private IEnumerable<Tuple<string, double>> _selectedData;   
 
         public IEnumerable<Tuple<string, double>> SelectedData
         {
             get => _selectedData;
-            set => this.RaiseAndSetIfChanged(ref _selectedData, value); 
+            set => this.RaiseAndSetIfChanged(ref _selectedData, value);
         }
 
         public bool IsBusy 
@@ -154,12 +188,23 @@ namespace EnergyHeatMap.Client.ViewModels
             set => this.RaiseAndSetIfChanged(ref _maxDataValue, value);
         }
 
-        private IEnumerable<EnergyStateValueType> _valueTypes;
-
-        public IEnumerable<EnergyStateValueType> ValueTypes
+        public IEnumerable<IHeatMapValueType> ValueTypes
         {
             get => _valueTypes; 
             set => this.RaiseAndSetIfChanged(ref _valueTypes, value);
+        }
+
+        public IHeatMapValueType? SelectedHeatMapValueType
+        {
+            get => _selectedHeatMapValueType;
+            set
+            {
+                if (value == _selectedHeatMapValueType)
+                    return;
+
+                SetValuesForSelectedIndex();
+                this.RaiseAndSetIfChanged(ref _selectedHeatMapValueType, value);
+            }
         }
     }
 }

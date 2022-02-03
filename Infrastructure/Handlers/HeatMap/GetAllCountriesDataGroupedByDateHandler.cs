@@ -1,12 +1,7 @@
 ﻿using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
-using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.HeatMap;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EnergyHeatMap.Infrastructure.Handlers.HeatMap
 {

@@ -44,7 +44,8 @@
 
 			<ComboBox Grid.Column="1"
 					  Margin="5"
-					  Items="{Binding ValueTypes, Mode=OneWay}">
+					  Items="{Binding ValueTypes, Mode=OneWay}"
+					  SelectedItem="{Binding SelectedHeatMapValueType, Mode=TwoWay}">
 				<ComboBox.DataTemplates>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name, Mode=OneWay}"/>
