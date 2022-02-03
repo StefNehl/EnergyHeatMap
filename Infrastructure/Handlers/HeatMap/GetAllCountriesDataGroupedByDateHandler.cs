@@ -8,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnergyHeatMap.Infrastructure.Handlers
+namespace EnergyHeatMap.Infrastructure.Handlers.HeatMap
 {
     public class GetAllCountriesDataGroupedByDateHandler : IRequestHandler<GetAllCountriesDataGroupedByDateQuery, IDictionary<DateTime, IEnumerable<ICountryDataModel>>>
     {
-        private readonly ICountryEnergyStateServices _service;
-        public GetAllCountriesDataGroupedByDateHandler(ICountryEnergyStateServices service)
+        private readonly IHeatMapService _service;
+        public GetAllCountriesDataGroupedByDateHandler(IHeatMapService service)
         {
             _service = service;
         }

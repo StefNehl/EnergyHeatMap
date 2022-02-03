@@ -370,22 +370,6 @@ namespace EnergyHeatMap.Infrastructure.Services
             return result;
         }
 
-        public async Task<Dictionary<DateTime, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByDateTime()
-        {
-            var countriesData = await GetCountriesData();
-
-            var groups = countriesData.GroupBy(i => i.DateTime);
-            var result = new Dictionary<DateTime, IEnumerable<ICountryDataModel>>();
-
-            foreach (var group in groups)
-            {
-                var countryGroupKey = group.Key;
-                var values = group;
-                result.Add(countryGroupKey, group.ToList());
-            }
-
-            return result;
-        }
 
     }
 }

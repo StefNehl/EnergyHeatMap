@@ -24,6 +24,7 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
         public void DefineServices(IServiceCollection services)
         {
             services.AddSingleton<ICountryEnergyStateServices, CountryEnergyStateService>();
+            services.AddSingleton<IHeatMapService, HeatMapService>();
         }
 
         [Authorize(Roles = $"{Role.User},{Role.Admin}")]

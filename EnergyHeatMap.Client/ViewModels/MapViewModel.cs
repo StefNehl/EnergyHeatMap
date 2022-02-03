@@ -1,4 +1,5 @@
 ﻿using EnergyHeatMap.Contracts.Models;
+using EnergyHeatMap.Domain.Enums;
 using EnergyHeatMap.Infrastructure.Queries;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
@@ -39,6 +40,8 @@ namespace EnergyHeatMap.Client.ViewModels
             SelectedDataIndex = SelectionRangeMaxValue;
 
             IsBusy = false;
+
+            ValueTypes = EnergyStateValueTypesExtensions.GetValues();
         }
 
         private async Task LoadMapData()
@@ -149,6 +152,14 @@ namespace EnergyHeatMap.Client.ViewModels
         {
             get => _maxDataValue;
             set => this.RaiseAndSetIfChanged(ref _maxDataValue, value);
+        }
+
+        private IEnumerable<EnergyStateValueType> _valueTypes;
+
+        public IEnumerable<EnergyStateValueType> ValueTypes
+        {
+            get => _valueTypes; 
+            set => this.RaiseAndSetIfChanged(ref _valueTypes, value);
         }
     }
 }
