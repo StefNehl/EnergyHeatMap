@@ -1,0 +1,15 @@
+C:\projects\EnergyHeatMap\Domain\bin\Release\net6.0\EnergyHeatMap.Domain.deps.json
+C:\projects\EnergyHeatMap\Domain\bin\Release\net6.0\EnergyHeatMap.Domain.dll
+C:\projects\EnergyHeatMap\Domain\bin\Release\net6.0\ref\EnergyHeatMap.Domain.dll
+C:\projects\EnergyHeatMap\Domain\bin\Release\net6.0\EnergyHeatMap.Domain.pdb
+C:\projects\EnergyHeatMap\Domain\bin\Release\net6.0\EnergyHeatMap.Contracts.dll
+C:\projects\EnergyHeatMap\Domain\bin\Release\net6.0\EnergyHeatMap.Contracts.pdb
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.csproj.AssemblyReference.cache
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.AssemblyInfoInputs.cache
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.AssemblyInfo.cs
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.csproj.CoreCompileInputs.cache
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.csproj.CopyComplete
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.dll
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\ref\EnergyHeatMap.Domain.dll
+C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.pdb

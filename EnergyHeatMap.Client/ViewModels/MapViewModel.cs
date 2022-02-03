@@ -171,7 +171,6 @@ namespace EnergyHeatMap.Client.ViewModels
             }
         }
 
-
         public IEnumerable<Tuple<string, double>> SelectedData
         {
             get => _selectedData;

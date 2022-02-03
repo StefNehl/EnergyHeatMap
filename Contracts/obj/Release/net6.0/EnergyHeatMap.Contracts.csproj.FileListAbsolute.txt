@@ -1,0 +1,12 @@
+C:\projects\EnergyHeatMap\Contracts\bin\Release\net6.0\EnergyHeatMap.Contracts.deps.json
+C:\projects\EnergyHeatMap\Contracts\bin\Release\net6.0\EnergyHeatMap.Contracts.dll
+C:\projects\EnergyHeatMap\Contracts\bin\Release\net6.0\ref\EnergyHeatMap.Contracts.dll
+C:\projects\EnergyHeatMap\Contracts\bin\Release\net6.0\EnergyHeatMap.Contracts.pdb
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.csproj.AssemblyReference.cache
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.AssemblyInfoInputs.cache
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.AssemblyInfo.cs
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.csproj.CoreCompileInputs.cache
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.dll
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\ref\EnergyHeatMap.Contracts.dll
+C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.pdb
