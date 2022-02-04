@@ -2,6 +2,7 @@
 using EnergyHeatMap.Contracts.Repositories;
 using EnergyHeatMap.Domain.Enums;
 using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.HeatMap;
 using EnergyHeatMap.Infrastructure.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

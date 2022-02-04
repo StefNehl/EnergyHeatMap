@@ -54,6 +54,7 @@ namespace EnergyHeatMap.Client
             services.AddSingleton<ICryptoCoinStateService, CryptoCoinStateService>();
             services.AddSingleton<IHeatMapService, HeatMapService>();
             services.AddSingleton<IUsersService, UsersService>();
+            services.AddSingleton<IAppColorService, AppColorService>();
 
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
