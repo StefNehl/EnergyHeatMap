@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Contracts\EnergyHeatMap.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
 </Project>

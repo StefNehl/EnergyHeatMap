@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using EnergyHeatMap.Contracts.Entities;
+using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
 using EnergyHeatMap.Domain.Entities;
@@ -376,6 +377,11 @@ namespace EnergyHeatMap.Infrastructure.Services
             }
 
             return result;
+        }
+
+        public async Task<IEnumerable<IEnergyStateValueType>> GetEnergyStateValueTypes()
+        {
+            return EnergyStateValueTypesExtensions.GetValues();
         }
 
 

@@ -42,8 +42,19 @@
 					 SelectedItems="{Binding SelectedCountries, Mode=TwoWay}">
 			</ListBox>
 
-			<ComboBox Grid.Row="2"
-					  Items="{Binding CryptoValueTypes, Mode=OneWay}"/>
+			<ListBox Grid.Row="2"
+					 SelectionMode="Multiple,Toggle"
+					 Items="{Binding EnergyStateValueTypes, Mode=OneWay}"
+					 SelectedItems="{Binding SelectedEnergyValueType, Mode=TwoWay}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Name}"
+									   VerticalAlignment="Center"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
 		</Grid>
 		<lvc:CartesianChart Grid.Column="0" 
 							Series="{Binding SeriesCollection}" 

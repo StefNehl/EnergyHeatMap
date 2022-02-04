@@ -1,4 +1,5 @@
-﻿using EnergyHeatMap.Contracts.Models;
+﻿using EnergyHeatMap.Contracts.Enums;
+using EnergyHeatMap.Contracts.Models;
 
 namespace EnergyHeatMap.Contracts.Repositories
 {
@@ -15,5 +16,7 @@ namespace EnergyHeatMap.Contracts.Repositories
         Task<IEnumerable<ICountryDataModel>> GetCountriesData();
 
         Task<Dictionary<string, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByCountry();
+
+        Task<IEnumerable<IEnergyStateValueType>> GetEnergyStateValueTypes();
     }
 }

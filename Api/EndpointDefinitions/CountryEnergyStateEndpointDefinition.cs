@@ -37,10 +37,11 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
         }
 
         [Authorize(Roles = $"{Role.User},{Role.Admin}")]
-        private IResult GetEnergyStateValueTypes([FromServices] IMediator mediator)
+        private async Task<IResult> GetEnergyStateValueTypes([FromServices] IMediator mediator)
         {
-            var types = EnergyStateValueTypesExtensions.GetValues();
-            return Results.Ok(types);
+            var query = new GetEnergyStateValueTypesQuery();
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
         }
 
         [Authorize(Roles = $"{Role.User},{Role.Admin}")]
