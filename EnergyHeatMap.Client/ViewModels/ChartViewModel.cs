@@ -1,4 +1,5 @@
-﻿using EnergyHeatMap.Contracts.Models;
+﻿using EnergyHeatMap.Contracts.Enums;
+using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
 using EnergyHeatMap.Infrastructure.Queries.Chart;
 using LiveChartsCore;
@@ -22,25 +23,87 @@ namespace EnergyHeatMap.Client.ViewModels
     {
         private readonly IMediator _mediator;
 
+        private ObservableCollection<ICryptoValueType> _selectedCryptoValueTypes = new ObservableCollection<ICryptoValueType>();
         private IEnumerable<ISeries> _seriesCollection;
         private DateTime _startDate;
         private DateTime _endDate;
 
         private readonly LvcColor _mainColor;
 
-
         public ChartViewModel()
         {
             _mediator = App.IoC.Services.GetService<IMediator>();
             var color = App.IoC.Services.GetService<IAppColorService>().MainColor;
             _mainColor = new LvcColor(color.R, color.G, color.B);
+
+            SelectedCryptoValueTypes.CollectionChanged += async (s, e) =>
+            {
+                await LoadChartData();
+                await SetChartValues();
+            };
         }
+
+
+        public ICryptoStateData[] CryptoCoinStates { get; set; }
+        public IEnumerable<ICryptoValueType> CryptoValueTypes { get; set; }
+
+        public ObservableCollection<ICryptoValueType> SelectedCryptoValueTypes
+        {
+            get => _selectedCryptoValueTypes;
+            set => this.RaiseAndSetIfChanged(ref _selectedCryptoValueTypes, value); 
+        }
+
+        public IEnumerable<ISeries> SeriesCollection
+        {
+            get => _seriesCollection;
+            set => this.RaiseAndSetIfChanged(ref _seriesCollection, value);
+        }
+
+        public DateTime StartDate
+        {
+            get => _startDate;
+            set => this.RaiseAndSetIfChanged(ref _startDate, value);
+        }
+
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set => this.RaiseAndSetIfChanged(ref _endDate, value);
+        }
+        public Axis[] XAxes { get; set; } = {
+            new()
+            {
+                LabelsRotation = 15,
+                Labeler = value => new DateTime((long)value).ToString("dd/MM/yyyy"),
+                // set the unit width of the axis to "days"
+                // since our X axis is of type date time and 
+                // the interval between our points is in days
+                UnitWidth = TimeSpan.FromDays(1).Ticks
+            }
+        };
+
+        public async Task LoadAndSetChartData()
+        {
+            await LoadAndSetFilterValues();
+            await LoadChartData();
+            await SetChartValues();
+        }
+
+        public async Task LoadAndSetFilterValues()
+        {
+            var typesQuery = new GetCryptoValueTypesQuery();
+            CryptoValueTypes = (await _mediator.Send(typesQuery)).ToArray();
+
+            if(CryptoValueTypes != null && CryptoValueTypes.Any())
+                SelectedCryptoValueTypes.Add(CryptoValueTypes.FirstOrDefault());
+        }
+
 
         public async Task LoadChartData()
         {
-            var query = new GetFilteredCryptoCoinStatesByTypeQuery(new string[1]{ "Btc" }, new string[1] {"Hashrate"}, StartDate, EndDate);
-            var data = await _mediator.Send(query);
-            CryptoCoinStates = data.ToArray();
+            var types = SelectedCryptoValueTypes.Select(x => x.Type.ToString()).ToArray();
+            var statesQuery = new GetFilteredCryptoCoinStatesByTypeQuery(new string[1] { "Btc" }, types, StartDate, EndDate);
+            CryptoCoinStates = (await _mediator.Send(statesQuery)).ToArray();
         }
 
         public async Task SetChartValues()
@@ -78,42 +141,5 @@ namespace EnergyHeatMap.Client.ViewModels
 
             SeriesCollection = series;
         }
-
-        public async Task LoadAndSetChartData()
-        {
-            await LoadChartData();
-            await SetChartValues();
-        }
-
-        public ICryptoStateData[] CryptoCoinStates { get; set; }
-
-        public IEnumerable<ISeries> SeriesCollection 
-        {
-            get => _seriesCollection;
-            set => this.RaiseAndSetIfChanged(ref _seriesCollection, value);
-        }
-
-        public DateTime StartDate
-        {
-            get => _startDate;
-            set => this.RaiseAndSetIfChanged(ref _startDate, value);
-        }
-
-        public DateTime EndDate
-        {
-            get => _endDate;
-            set => this.RaiseAndSetIfChanged(ref _endDate, value);
-        }
-        public Axis[] XAxes { get; set; } = {
-            new()
-            {
-                LabelsRotation = 15,
-                Labeler = value => new DateTime((long)value).ToString("dd/MM/yyyy"),
-                // set the unit width of the axis to "days"
-                // since our X axis is of type date time and 
-                // the interval between our points is in days
-                UnitWidth = TimeSpan.FromDays(1).Ticks
-            }
-        };
     }
 }

@@ -1,4 +1,5 @@
-﻿using EnergyHeatMap.Contracts.Models;
+﻿using EnergyHeatMap.Contracts.Enums;
+using EnergyHeatMap.Contracts.Models;
 
 namespace EnergyHeatMap.Infrastructure.Services
 {
@@ -20,5 +21,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             CancellationToken ct);
 
         Task<IEnumerable<string>> GetCryptoCoins(CancellationToken ct);
+
+        IEnumerable<ICryptoValueType> GetCryptoCoinValueTypes();
     }
 }

@@ -15,6 +15,33 @@
 			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+
+			<ListBox Grid.Row="0"
+					 SelectionMode="Multiple,Toggle"
+					 Items="{Binding CryptoValueTypes, Mode=OneWay}"
+					 SelectedItems="{Binding SelectedCryptoValueTypes, Mode=TwoWay}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Name}"
+									   VerticalAlignment="Center"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+
+			<ComboBox Grid.Row="1"
+					  Items="{Binding CryptoValueTypes, Mode=OneWay}"/>
+
+			<ComboBox Grid.Row="2"
+					  Items="{Binding CryptoValueTypes, Mode=OneWay}"/>
+		</Grid>
 		<lvc:CartesianChart Grid.Column="0" 
 							Series="{Binding SeriesCollection}" 
 							ZoomMode="Both"

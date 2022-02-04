@@ -70,10 +70,11 @@ namespace EnergyHeatMap.Api.EndpointDefinitions
         }
 
         [Authorize(Roles = $"{Role.User},{Role.Admin}")]
-        private IResult GetCryptoValueTypes([FromServices] IMediator mediator)
+        private async Task<IResult> GetCryptoValueTypes([FromServices] IMediator mediator)
         {
-            var types = Enum.GetValues(typeof(CryptoValueTypes)).Cast<CryptoValueTypes>().Select(x => x.ToString());
-            return Results.Ok(types);
+            var query = new GetCryptoValueTypesQuery();
+            var result = await mediator.Send(query);
+            return Results.Ok(result);
         }
     }
 }

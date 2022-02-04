@@ -1,5 +1,6 @@
 ﻿using CsvHelper;
 using EnergyHeatMap.Contracts.Entities;
+using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Domain;
 using EnergyHeatMap.Domain.Entities;
@@ -283,7 +284,12 @@ namespace EnergyHeatMap.Infrastructure.Services
             var groups = _cryptoCoinStateEntities.GroupBy(i => i.CoinName);
             await Task.Yield();
 
-            return groups.Where(i => i.Key == Contracts.Enums.CoinName.Btc).Select(i => i.Key);
+            return groups.Where(i => i.Key == CoinName.Btc).Select(i => i.Key);
+        }
+
+        public IEnumerable<ICryptoValueType> GetCryptoCoinValueTypes()
+        {
+            return CryptoValueTypesExtensions.GetValues();
         }
     }
 }
