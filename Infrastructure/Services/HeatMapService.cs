@@ -2,7 +2,7 @@
 using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
 using EnergyHeatMap.Domain.Enums;
-using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.Chart;
 using MediatR;
 
 namespace EnergyHeatMap.Infrastructure.Services

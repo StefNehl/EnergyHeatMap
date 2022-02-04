@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnergyHeatMap.Infrastructure.Queries
+namespace EnergyHeatMap.Infrastructure.Queries.Chart
 {
     public class GetFilteredEnergyStateDataQuery : IRequest<IEnumerable<IEnergyStateData>>
     {

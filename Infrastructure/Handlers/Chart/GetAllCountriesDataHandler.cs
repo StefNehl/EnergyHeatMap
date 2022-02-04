@@ -1,9 +1,9 @@
 ﻿using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
-using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.Chart;
 using MediatR;
 
-namespace EnergyHeatMap.Infrastructure.Handlers
+namespace EnergyHeatMap.Infrastructure.Handlers.Chart
 {
     public class GetAllCountriesDataHandler : IRequestHandler<GetAllCountriesDataQuery, IEnumerable<ICountryDataModel>>
     {

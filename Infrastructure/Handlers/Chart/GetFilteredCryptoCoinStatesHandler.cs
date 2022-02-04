@@ -1,9 +1,9 @@
 ﻿using EnergyHeatMap.Contracts.Models;
-using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.Chart;
 using EnergyHeatMap.Infrastructure.Services;
 using MediatR;
 
-namespace EnergyHeatMap.Infrastructure.Handlers
+namespace EnergyHeatMap.Infrastructure.Handlers.Chart
 {
     public class GetFilteredCryptoCoinStatesHandler : IRequestHandler<GetFilteredCryptoCoinStatesQuery, IEnumerable<ICryptoCoinState>>
     {

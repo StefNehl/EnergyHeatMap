@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnergyHeatMap.Infrastructure.Queries
+namespace EnergyHeatMap.Infrastructure.Queries.Chart
 {
-    public class GetAllCountriesDataQuery : IRequest<IEnumerable<ICountryDataModel>>
+    public class GetAllCountriesDataGroupedByCountryQuery : IRequest<IDictionary<string, IEnumerable<ICountryDataModel>>>
     {
     }
 }

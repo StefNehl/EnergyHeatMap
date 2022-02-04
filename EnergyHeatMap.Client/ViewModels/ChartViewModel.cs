@@ -1,12 +1,11 @@
 ﻿using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
-using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.Chart;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Drawing;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
-using LiveChartsCore.Themes;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
@@ -15,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EnergyHeatMap.Client.ViewModels

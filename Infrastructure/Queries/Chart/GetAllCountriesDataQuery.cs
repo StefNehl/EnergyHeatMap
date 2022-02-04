@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnergyHeatMap.Infrastructure.Queries
+namespace EnergyHeatMap.Infrastructure.Queries.Chart
 {
-    public class GetAllCryptoCoinStatesQuery : IRequest<IEnumerable<ICryptoCoinState>>
+    public class GetAllCountriesDataQuery : IRequest<IEnumerable<ICountryDataModel>>
     {
     }
 }

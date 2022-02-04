@@ -1,8 +1,8 @@
 ﻿using EnergyHeatMap.Contracts.Repositories;
-using EnergyHeatMap.Infrastructure.Queries;
+using EnergyHeatMap.Infrastructure.Queries.Chart;
 using MediatR;
 
-namespace EnergyHeatMap.Infrastructure.Handlers
+namespace EnergyHeatMap.Infrastructure.Handlers.Chart
 {
     public class GetCountriesHandler : IRequestHandler<GetCountriesQuery, IEnumerable<string>>
     {
