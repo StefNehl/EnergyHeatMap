@@ -24,6 +24,8 @@ namespace EnergyHeatMap.Client.ViewModels
         private readonly IMediator _mediator;
 
         private ObservableCollection<ICryptoValueType> _selectedCryptoValueTypes = new ObservableCollection<ICryptoValueType>();
+        private ObservableCollection<string> _selectedCountries = new ObservableCollection<string>();
+
         private IEnumerable<ISeries> _seriesCollection;
         private DateTime _startDate;
         private DateTime _endDate;
@@ -45,12 +47,21 @@ namespace EnergyHeatMap.Client.ViewModels
 
 
         public ICryptoStateData[] CryptoCoinStates { get; set; }
+
+        public string[] Countries { get; set; }
+
         public IEnumerable<ICryptoValueType> CryptoValueTypes { get; set; }
 
         public ObservableCollection<ICryptoValueType> SelectedCryptoValueTypes
         {
             get => _selectedCryptoValueTypes;
             set => this.RaiseAndSetIfChanged(ref _selectedCryptoValueTypes, value); 
+        }
+
+        public ObservableCollection<string> SelectedCountries
+        {
+            get => _selectedCountries;
+            set => this.RaiseAndSetIfChanged(ref _selectedCountries, value);
         }
 
         public IEnumerable<ISeries> SeriesCollection
@@ -96,6 +107,12 @@ namespace EnergyHeatMap.Client.ViewModels
 
             if(CryptoValueTypes != null && CryptoValueTypes.Any())
                 SelectedCryptoValueTypes.Add(CryptoValueTypes.FirstOrDefault());
+
+            var countriesQuery = new GetCountriesQuery();
+            Countries = (await _mediator.Send(countriesQuery)).ToArray();
+
+            if (Countries != null && Countries.Any())
+                SelectedCountries.Add(Countries.FirstOrDefault());
         }
 
 

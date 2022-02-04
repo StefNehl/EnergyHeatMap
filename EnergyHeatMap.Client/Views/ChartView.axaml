@@ -17,7 +17,7 @@
 
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="100"/>
 				<RowDefinition/>
 				<RowDefinition/>
 			</Grid.RowDefinitions>
@@ -36,8 +36,11 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 
-			<ComboBox Grid.Row="1"
-					  Items="{Binding CryptoValueTypes, Mode=OneWay}"/>
+			<ListBox Grid.Row="1"
+					 SelectionMode="Multiple,Toggle"
+					 Items="{Binding Countries, Mode=OneWay}"
+					 SelectedItems="{Binding SelectedCountries, Mode=TwoWay}">
+			</ListBox>
 
 			<ComboBox Grid.Row="2"
 					  Items="{Binding CryptoValueTypes, Mode=OneWay}"/>
