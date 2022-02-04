@@ -39,15 +39,16 @@ namespace EnergyHeatMap.Client.ViewModels
             var color = App.IoC.Services.GetService<IAppColorService>().MainColor;
             _mainColor = new LvcColor(color.R, color.G, color.B);
 
-            SelectedCryptoValueTypes.CollectionChanged += async (s, e) =>
-            {
-                await LoadChartData();
-                await SetChartValues();
-            };
+            SelectedCryptoValueTypes.CollectionChanged += RefreshAfterFilterSelection;
+            SelectedCountries.CollectionChanged += RefreshAfterFilterSelection;
+            SelectedEnergyValueType.CollectionChanged += RefreshAfterFilterSelection;
+
         }
 
 
         public ICryptoStateData[] CryptoCoinStates { get; set; }
+
+        public IEnergyStateData[] EnergyStates { get; set; }
 
         public string[] Countries { get; set; }
 
@@ -110,6 +111,12 @@ namespace EnergyHeatMap.Client.ViewModels
             await SetChartValues();
         }
 
+        public async void RefreshAfterFilterSelection(object? s, EventArgs e)
+        {
+            await LoadChartData();
+            await SetChartValues();
+        }
+
         public async Task LoadAndSetFilterValues()
         {
             var typesQuery = new GetCryptoValueTypesQuery();
@@ -127,22 +134,58 @@ namespace EnergyHeatMap.Client.ViewModels
             var energyValueTypesQuery = new GetEnergyStateValueTypesQuery();
             EnergyStateValueTypes = (await _mediator.Send(energyValueTypesQuery)).ToArray();
 
+            if (EnergyStateValueTypes != null && EnergyStateValueTypes.Any())
+                SelectedEnergyValueType.Add(EnergyStateValueTypes.FirstOrDefault());
         }
-
 
         public async Task LoadChartData()
         {
             var types = SelectedCryptoValueTypes.Select(x => x.Type.ToString()).ToArray();
             var statesQuery = new GetFilteredCryptoCoinStatesByTypeQuery(new string[1] { "Btc" }, types, StartDate, EndDate);
             CryptoCoinStates = (await _mediator.Send(statesQuery)).ToArray();
+
+            var energyTypes = SelectedEnergyValueType.Select(x => x.Type.ToString()).ToArray();
+            var selectedCountries = SelectedCountries.ToArray();
+            var energyStatesQuery = new GetFilteredEnergyStateDataQuery(selectedCountries, energyTypes, StartDate, EndDate);
+            EnergyStates = (await _mediator.Send(energyStatesQuery)).ToArray();
         }
 
         public async Task SetChartValues()
         {
-            var series = new ISeries[CryptoCoinStates.Count()];
-            for (int i = 0; i<series.Length; i++)
+            var series = new ISeries[CryptoCoinStates.Length + EnergyStates.Length];
+            for (int i = 0; i< CryptoCoinStates.Length; i++)
             {
                 var state = CryptoCoinStates[i];
+                var valuesToAdd = new ObservableCollection<FinancialPoint>();
+
+                if (state.Values == null)
+                    continue;
+
+                foreach (var value in state.Values)
+                {
+                    var newItemPrice = new FinancialPoint()
+                    {
+                        Date = value.DateTime,
+                        High = value.Value
+                    };
+                    valuesToAdd.Add(newItemPrice);
+                }
+
+                var newLineSeries = new LineSeries<FinancialPoint>()
+                {
+                    Values = valuesToAdd,
+                    LineSmoothness = 0,
+                    GeometrySize = 0,
+                    GeometryStroke = new SolidColorPaint(SKColor.Empty, 0),
+                    Stroke = new SolidColorPaint(new SKColor(_mainColor.R, _mainColor.G, _mainColor.B)) { StrokeThickness = 1 }
+                };
+
+                series[i] = newLineSeries;
+            }
+
+            for (int i = CryptoCoinStates.Length; i < series.Length; i++)
+            {
+                var state = EnergyStates[i - CryptoCoinStates.Length];
                 var valuesToAdd = new ObservableCollection<FinancialPoint>();
 
                 if (state.Values == null)
