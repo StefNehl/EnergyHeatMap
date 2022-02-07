@@ -9,3 +9,4 @@ C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.csp
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\ref\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.pdb
+C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.csproj.AssemblyReference.cache

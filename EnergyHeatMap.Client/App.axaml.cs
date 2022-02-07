@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using MediatR;
 using System;
 using System.Reflection;
+using EnergyHeatMap.Domain.Services;
 
 namespace EnergyHeatMap.Client
 {
@@ -55,6 +56,8 @@ namespace EnergyHeatMap.Client
             services.AddSingleton<IHeatMapService, HeatMapService>();
             services.AddSingleton<IUsersService, UsersService>();
             services.AddSingleton<IAppColorService, AppColorService>();
+            services.AddSingleton<IAnalysisService, AnalysisService>();
+            services.AddSingleton<IDataStatisticsService, DataStatisticsService>();
 
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)

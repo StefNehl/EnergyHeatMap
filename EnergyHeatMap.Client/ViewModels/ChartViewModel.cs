@@ -1,6 +1,7 @@
 ﻿using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
+using EnergyHeatMap.Infrastructure.Queries.Analysis;
 using EnergyHeatMap.Infrastructure.Queries.Chart;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
@@ -109,6 +110,9 @@ namespace EnergyHeatMap.Client.ViewModels
             await LoadAndSetFilterValues();
             await LoadChartData();
             await SetChartValues();
+
+            var testQuery = new GetCorrelationCoefficentForHashrateAndValueQuery();
+            var test = await _mediator.Send(testQuery);
         }
 
         public async void RefreshAfterFilterSelection(object? s, EventArgs e)
