@@ -109,13 +109,13 @@ namespace EnergyHeatMap.Infrastructure.Services
             dataItem.IsoCode = csvReader.GetField(0);
             dataItem.Country = csvReader.GetField(1);
 
-            var electricGenerationString = csvReader.GetField(29);
+            var electricGenerationString = csvReader.GetField(39);
             if (decimal.TryParse(electricGenerationString, out decimal electricGeneration))
                 dataItem.Electricity_generation = electricGeneration * (decimal)energyConvRate;
 
             var populationString = csvReader.GetField(99);
-            if (long.TryParse(populationString, out long population))
-                dataItem.Population = population;
+            if (double.TryParse(populationString, out double population))
+                dataItem.Population = (long)population;
 
             var primaryEnergyConString = csvReader.GetField(100);
             if (decimal.TryParse(primaryEnergyConString, out decimal primaryEnergyCon))
@@ -243,7 +243,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                                 return new DateTimeWithValue()
                                 {
                                     DateTime = i.DateTime,
-                                    Value = (double)i.Primary_energy_consuption
+                                    Value = (double)i.Population
                                 };
                             }).ToArray();
                             unit = "#";

@@ -12,7 +12,7 @@ namespace EnergyHeatMap.Client.ViewModels
             MapViewModel = new MapViewModel();
             ChartViewModel = new ChartViewModel();
 
-            //await MapViewModel.LoadAndSetMapData();
+            await MapViewModel.LoadAndSetMapData();
             await ChartViewModel.LoadAndSetChartData();
         }
 
