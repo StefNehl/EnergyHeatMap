@@ -18,7 +18,7 @@ namespace EnergyHeatMap.Infrastructure.Services
     {
         private List<ICryptoCoinStateEntity> _cryptoCoinStateEntities;
         private readonly string _cryptoDataPath;
-        private const string BtcHistoricalDataFilename = @"bitcoin_2010-10-1_2021-11-29.csv";
+        private const string BtcHistoricalDataFilename = @"Bitcoin Historical Data.csv";
         private const string BtcHashRateFilename = @"btc_hashrate.json";
         private const string BtcDifficultyFilename = @"btc_difficulty.json";
 
