@@ -52,9 +52,9 @@ namespace EnergyHeatMap.Client.ViewModels
 
         public string[] Countries { get; set; }
 
-        public IEnumerable<ICryptoValueType> CryptoValueTypes { get; set; }
+        public ICryptoValueType[] CryptoValueTypes { get; set; }
 
-        public IEnumerable<IEnergyStateValueType> EnergyStateValueTypes { get; set; }
+        public IEnergyStateValueType[] EnergyStateValueTypes { get; set; }
 
         public ObservableCollection<ICryptoValueType> SelectedCryptoValueTypes
         {
@@ -122,20 +122,20 @@ namespace EnergyHeatMap.Client.ViewModels
             var typesQuery = new GetCryptoValueTypesQuery();
             CryptoValueTypes = (await _mediator.Send(typesQuery)).ToArray();
 
-            if(CryptoValueTypes != null && CryptoValueTypes.Any())
-                SelectedCryptoValueTypes.Add(CryptoValueTypes.FirstOrDefault());
+            if(CryptoValueTypes != null && CryptoValueTypes.Length > 1)
+                SelectedCryptoValueTypes.Add(CryptoValueTypes[1]);
 
             var countriesQuery = new GetCountriesQuery();
             Countries = (await _mediator.Send(countriesQuery)).ToArray();
 
-            if (Countries != null && Countries.Any())
-                SelectedCountries.Add(Countries.FirstOrDefault());
+            if (Countries != null && Countries.Length != 0)
+                SelectedCountries.Add(Countries[0]);
 
             var energyValueTypesQuery = new GetEnergyStateValueTypesQuery();
             EnergyStateValueTypes = (await _mediator.Send(energyValueTypesQuery)).ToArray();
 
-            if (EnergyStateValueTypes != null && EnergyStateValueTypes.Any())
-                SelectedEnergyValueType.Add(EnergyStateValueTypes.FirstOrDefault());
+            if (EnergyStateValueTypes != null && EnergyStateValueTypes.Length > 4)
+                SelectedEnergyValueType.Add(EnergyStateValueTypes[4]);
         }
 
         public async Task LoadChartData()
