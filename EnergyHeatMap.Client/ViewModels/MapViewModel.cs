@@ -65,6 +65,7 @@ namespace EnergyHeatMap.Client.ViewModels
 
         public async Task SetValuesForSelectedIndex()
         {
+            return;
             var dateTime = MapData.Keys.ToArray()[SelectedDataIndex];
             var data = MapData[dateTime];
 

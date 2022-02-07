@@ -110,9 +110,6 @@ namespace EnergyHeatMap.Client.ViewModels
             await LoadAndSetFilterValues();
             await LoadChartData();
             await SetChartValues();
-
-            var testQuery = new GetCorrelationCoefficentForHashrateAndValueQuery();
-            var test = await _mediator.Send(testQuery);
         }
 
         public async void RefreshAfterFilterSelection(object? s, EventArgs e)

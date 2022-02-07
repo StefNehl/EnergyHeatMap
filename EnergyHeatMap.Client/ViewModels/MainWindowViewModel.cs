@@ -11,9 +11,11 @@ namespace EnergyHeatMap.Client.ViewModels
         {
             MapViewModel = new MapViewModel();
             ChartViewModel = new ChartViewModel();
+            AnalysisViewModel = new AnalysisViewModel();
 
             await MapViewModel.LoadAndSetMapData();
             await ChartViewModel.LoadAndSetChartData();
+            await AnalysisViewModel.LoadHashrateValueCoefData();
         }
 
 
@@ -21,5 +23,7 @@ namespace EnergyHeatMap.Client.ViewModels
 
         public MapViewModel MapViewModel { get; set; }
         public ChartViewModel ChartViewModel { get; set; }
+        public AnalysisViewModel AnalysisViewModel { get; set; }
+        
     }
 }
