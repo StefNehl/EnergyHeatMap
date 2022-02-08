@@ -27,7 +27,7 @@
 			<TabItem Header="Chart">
 				<views:ChartView DataContext="{Binding ChartViewModel}"/>
 			</TabItem>
-			<TabItem Header="Analysis">
+			<TabItem Header="Analysis" IsSelected="True">
 				<views:AnalysisView DataContext="{Binding AnalysisViewModel}"/>
 			</TabItem>
 		</TabControl>

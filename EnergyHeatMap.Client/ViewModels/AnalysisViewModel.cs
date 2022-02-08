@@ -1,4 +1,5 @@
-﻿using EnergyHeatMap.Infrastructure.Queries.Analysis;
+﻿using EnergyHeatMap.Contracts.Enums;
+using EnergyHeatMap.Infrastructure.Queries.Analysis;
 using EnergyHeatMap.Infrastructure.Queries.Chart;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
@@ -6,6 +7,7 @@ using LiveChartsCore.SkiaSharpView;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,7 +21,15 @@ namespace EnergyHeatMap.Client.ViewModels
 
         private double _correlationCoefficent;
         private double[,] _chartData = new double[5, 5];
-        private readonly ObservableCollection<ObservablePoint> _observableValues; 
+        private readonly ObservableCollection<ObservablePoint> _observableValues;
+
+        private IEnumerable<IAnalysisType> _analysisTypes;
+        private DateTimeOffset _startDate;
+        private DateTimeOffset _endDate;
+        private IAnalysisType _selectedAnalysisType;
+
+        private bool _isFilterBusy;
+        private bool _isChartBusy;
        
         public AnalysisViewModel()
         {
@@ -29,6 +39,21 @@ namespace EnergyHeatMap.Client.ViewModels
             {
                 new ScatterSeries<ObservablePoint>{ Values = _observableValues, GeometrySize = 2}
             };
+            StartDate = new DateTime(2010, 1, 1);
+            EndDate = DateTime.Now;
+
+            OnLoadDataCommand = ReactiveCommand.Create(async () =>
+            {
+                await LoadHashrateValueCoefData();
+            });
+        }
+
+        public IReactiveCommand OnLoadDataCommand { get; }
+
+        public IEnumerable<IAnalysisType> AnalysisTypes 
+        {
+            get => _analysisTypes;
+            set => this.RaiseAndSetIfChanged(ref _analysisTypes, value);
         }
 
         public double CorrelationCoefficent
@@ -37,24 +62,68 @@ namespace EnergyHeatMap.Client.ViewModels
             set => this.RaiseAndSetIfChanged(ref _correlationCoefficent, value);
         }
 
+        public ObservableCollection<ISeries> Series { get; set; }
+
+        public DateTimeOffset StartDate
+        {
+            get => _startDate;
+            set => this.RaiseAndSetIfChanged(ref _startDate, value);
+        }
+
+        public DateTimeOffset EndDate
+        {
+            get => _endDate;
+            set => this.RaiseAndSetIfChanged(ref _endDate, value);
+        }
+
+        public IAnalysisType SelectedAnalysisType
+        {
+            get => _selectedAnalysisType;
+            set => this.RaiseAndSetIfChanged(ref _selectedAnalysisType, value);
+        }
+
+        public bool IsFilterBusy
+        {
+            get => _isFilterBusy;
+            set => this.RaiseAndSetIfChanged(ref _isFilterBusy, value);
+        }
+
+        public bool IsChartBusy
+        {
+            get => _isChartBusy;
+            set => this.RaiseAndSetIfChanged(ref _isChartBusy, value);
+        }
+
+        public async Task LoadFilterValues()
+        {
+            IsFilterBusy = true;
+            var analysisTypesQuery = new GetAnalysisTypesQuery();
+            AnalysisTypes = await _mediator.Send(analysisTypesQuery);
+            if(AnalysisTypes != null && AnalysisTypes.Any())
+                SelectedAnalysisType = AnalysisTypes.First();
+            IsFilterBusy = false;
+        }
+
         public async Task LoadHashrateValueCoefData()
         {
-            var corCoeQuery = new GetCorrelationCoefficentForHashrateAndValueQuery();
+            IsChartBusy = true;
+            var corCoeQuery = new GetAnalysisValueQuery(_startDate.DateTime, _endDate.DateTime, _selectedAnalysisType);
             CorrelationCoefficent = await _mediator.Send(corCoeQuery);
 
-            var coinValueQuery = new GetAllCryptoCoinStatesQuery();
-            var coinState = await _mediator.Send(coinValueQuery);
+            var dataQuery = new GetAnalysisDataQuery(_startDate.DateTime, _endDate.DateTime, _selectedAnalysisType);
+            var coinState = await _mediator.Send(dataQuery);
 
-            var values = coinState.Select(x => x.Value).ToArray();
-            var hashRate = coinState.Select(y => y.Hashrate).ToArray();
+            IsChartBusy = false;
 
-
+            var hashRate = coinState.Select(y => y.Item1).ToArray();
+            var values = coinState.Select(x => x.Item2).ToArray();
+            _observableValues.Clear();
             for (int i = 0; i < values.Length; i++)
             {
                 _observableValues.Add(new(values[i], hashRate[i]));
             }
         }
 
-        public ObservableCollection<ISeries> Series { get; set; }
+
     }
 }

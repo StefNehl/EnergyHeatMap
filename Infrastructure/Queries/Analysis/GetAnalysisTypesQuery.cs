@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using EnergyHeatMap.Contracts.Enums;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EnergyHeatMap.Infrastructure.Queries.Analysis
 {
-    public class GetCorrelationCoefficentForHashrateAndValueQuery : IRequest<double>
+    public class GetAnalysisTypesQuery : IRequest<IEnumerable<IAnalysisType>>
     {
     }
 }

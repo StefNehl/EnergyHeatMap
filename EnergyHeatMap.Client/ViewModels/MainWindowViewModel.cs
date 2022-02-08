@@ -15,6 +15,8 @@ namespace EnergyHeatMap.Client.ViewModels
 
             await MapViewModel.LoadAndSetMapData();
             await ChartViewModel.LoadAndSetChartData();
+
+            await AnalysisViewModel.LoadFilterValues();
             await AnalysisViewModel.LoadHashrateValueCoefData();
         }
 

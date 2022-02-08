@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnergyHeatMap.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace EnergyHeatMap.Contracts.Repositories
 {
     public interface IAnalysisService
     {
-        Task<double> GetCorrelationCoefficentForHashrateAndValue();
+        Task<IEnumerable<IAnalysisType>> GetAnalysisTypes();
+        Task<IEnumerable<Tuple<double, double>>> GetAnalysisDataSet(DateTime startDate, DateTime endDate, IAnalysisType analysisType);
+        Task<double> GetAnalysisValue(DateTime startDate, DateTime endDate, IAnalysisType analysisType);
     }
 }
