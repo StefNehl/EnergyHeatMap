@@ -40,7 +40,6 @@ namespace EnergyHeatMap.Client.ViewModels
 
             await Task.Delay(1000);
 
-            await LoadHeatMapValueTypes();
             await LoadMapData();
 
             SelectionRangeMaxValue = MapData.Keys.Count - 1;
@@ -55,7 +54,7 @@ namespace EnergyHeatMap.Client.ViewModels
             MapData = await _mediator.Send(query);
         }
 
-        private async Task LoadHeatMapValueTypes()
+        public async Task LoadHeatMapValueTypes()
         {
             var query = new GetHeatMapValueTypesQuery();
             ValueTypes = await _mediator.Send(query);
@@ -65,7 +64,6 @@ namespace EnergyHeatMap.Client.ViewModels
 
         public async Task SetValuesForSelectedIndex()
         {
-            return;
             var dateTime = MapData.Keys.ToArray()[SelectedDataIndex];
             var data = MapData[dateTime];
 

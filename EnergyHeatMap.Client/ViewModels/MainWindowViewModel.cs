@@ -13,6 +13,7 @@ namespace EnergyHeatMap.Client.ViewModels
             ChartViewModel = new ChartViewModel();
             AnalysisViewModel = new AnalysisViewModel();
 
+            await MapViewModel.LoadHeatMapValueTypes();
             await MapViewModel.LoadAndSetMapData();
 
             await ChartViewModel.LoadAndSetFilterValues();
