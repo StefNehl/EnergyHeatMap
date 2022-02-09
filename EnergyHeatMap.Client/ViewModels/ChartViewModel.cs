@@ -15,6 +15,7 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,6 +24,7 @@ namespace EnergyHeatMap.Client.ViewModels
     public class ChartViewModel : ViewModelBase
     {
         private readonly IMediator _mediator;
+        private readonly IAppColorService _appColorService;
 
         private ObservableCollection<ICryptoValueType> _selectedCryptoValueTypes = new ();
         private ObservableCollection<string> _selectedCountries = new ();
@@ -32,13 +34,10 @@ namespace EnergyHeatMap.Client.ViewModels
         private DateTime _startDate;
         private DateTime _endDate;
 
-        private readonly LvcColor _mainColor;
-
         public ChartViewModel()
         {
             _mediator = App.IoC.Services.GetService<IMediator>();
-            var color = App.IoC.Services.GetService<IAppColorService>().MainColor;
-            _mainColor = new LvcColor(color.R, color.G, color.B);
+            _appColorService = App.IoC.Services.GetService<IAppColorService>();
 
             SelectedCryptoValueTypes.CollectionChanged += RefreshAfterFilterSelection;
             SelectedCountries.CollectionChanged += RefreshAfterFilterSelection;
@@ -172,13 +171,18 @@ namespace EnergyHeatMap.Client.ViewModels
                     valuesToAdd.Add(newItemPrice);
                 }
 
+                var lineColor = _appColorService.SeriesColors[i];
+                var fillColor = Color.FromArgb(_appColorService.AlphaValueForOpacity, lineColor);
+
                 var newLineSeries = new LineSeries<FinancialPoint>()
                 {
                     Values = valuesToAdd,
                     LineSmoothness = 0,
                     GeometrySize = 0,
                     GeometryStroke = new SolidColorPaint(SKColor.Empty, 0),
-                    Stroke = new SolidColorPaint(new SKColor(_mainColor.R, _mainColor.G, _mainColor.B)) { StrokeThickness = 1 }
+                    Stroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A)) { StrokeThickness = 1 },
+                    Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A))
+
                 };
 
                 series[i] = newLineSeries;
@@ -202,13 +206,17 @@ namespace EnergyHeatMap.Client.ViewModels
                     valuesToAdd.Add(newItemPrice);
                 }
 
+                var lineColor = _appColorService.SeriesColors[i];
+                var fillColor = Color.FromArgb(_appColorService.AlphaValueForOpacity, lineColor);
+
                 var newLineSeries = new LineSeries<FinancialPoint>()
                 {
                     Values = valuesToAdd,
                     LineSmoothness = 0,
                     GeometrySize = 0,
                     GeometryStroke = new SolidColorPaint(SKColor.Empty, 0),
-                    Stroke = new SolidColorPaint(new SKColor(_mainColor.R, _mainColor.G, _mainColor.B)) { StrokeThickness = 1 }
+                    Stroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A)) { StrokeThickness = 1 },
+                    Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A))
                 };
 
                 series[i] = newLineSeries;

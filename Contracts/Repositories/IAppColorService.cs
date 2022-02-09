@@ -10,5 +10,7 @@ namespace EnergyHeatMap.Contracts.Repositories
     public interface IAppColorService
     {
         Color MainColor { get; set; }
+        Color[] SeriesColors { get; set; }
+        int AlphaValueForOpacity { get; set; }    
     }
 }
