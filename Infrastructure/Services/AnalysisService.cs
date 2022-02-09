@@ -20,13 +20,13 @@ namespace EnergyHeatMap.Infrastructure.Services
             _mediator = mediator;
         }
 
-        public async Task<IEnumerable<ICryptoCoinState>> GetHashrateAndValueData(DateTime startDate, DateTime endDate)
+        private async Task<IEnumerable<ICryptoCoinState>> GetHashrateAndValueData(DateTime startDate, DateTime endDate)
         {
             var coinValueQuery = new GetAllCryptoCoinStatesQuery();
             return (await _mediator.Send(coinValueQuery)).Where(i => i.DateTime >= startDate && i.DateTime <= endDate);
         }
 
-        public async Task<double> GetCorrelationCoefficentForHashrateAndValue(DateTime startDate, DateTime endDate)
+        private async Task<double> GetCorrelationCoefficentForHashrateAndValue(DateTime startDate, DateTime endDate)
         {
             var coinState = await GetHashrateAndValueData(startDate, endDate);
 

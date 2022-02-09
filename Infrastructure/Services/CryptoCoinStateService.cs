@@ -2,11 +2,14 @@
 using EnergyHeatMap.Contracts.Entities;
 using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Contracts.Models;
+using EnergyHeatMap.Contracts.Repositories;
 using EnergyHeatMap.Domain;
 using EnergyHeatMap.Domain.Entities;
 using EnergyHeatMap.Domain.Extensions;
 using EnergyHeatMap.Domain.Models;
 using EnergyHeatMap.Infrastructure.Helpers;
+using EnergyHeatMap.Infrastructure.Queries.Domain;
+using MediatR;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Diagnostics;
@@ -16,27 +19,19 @@ namespace EnergyHeatMap.Infrastructure.Services
 {
     public class CryptoCoinStateService : ICryptoCoinStateService
     {
+        private readonly IDataUnitService _dataUnitService;
+
         private List<ICryptoCoinStateEntity> _cryptoCoinStateEntities;
         private readonly string _cryptoDataPath;
         private const string BtcHistoricalDataFilename = @"Bitcoin Historical Data.csv";
         private const string BtcHashRateFilename = @"btc_hashrate.json";
-        private const string BtcDifficultyFilename = @"btc_difficulty.json";
 
         private const string EthHistoricalDataFilename = @"ethereum_2015-8-7_2021-11-29.csv";
         private const string EthHashRateFilename = @"eth_hashrate.json";
-        private const string EthDifficultyFilename = @"eth_difficulty.json";
 
-        private readonly double hashrateConvRate;
-        private const string hashRateUnit = "EH/s";
-
-        private readonly double valueConvRate;
-        private const string CoinValueUnit = "TUSD";
-
-        public CryptoCoinStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
+        public CryptoCoinStateService(IOptionsMonitor<DataPathSettings> optionsMonitor, IDataUnitService dataUnitService)
         {
-            hashrateConvRate = Math.Pow(10, 18);
-            valueConvRate = Math.Pow(10, 3);
-
+            _dataUnitService = dataUnitService;
             try
             {
                 var path = optionsMonitor.CurrentValue.DataPathCrypto;
@@ -53,11 +48,9 @@ namespace EnergyHeatMap.Infrastructure.Services
             _cryptoCoinStateEntities = new List<ICryptoCoinStateEntity>();
             LoadBtcHistoricalData();
             LoadBtcHashrateData();
-            LoadBtcDifficulty();
 
             LoadEthHistoricaldata();
             LoadEthHashrateData();
-            LoadEthDifficulty();
 
         }
 
@@ -68,12 +61,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
         private void LoadBtcHashrateData()
         {
-            LoadJsonData(BtcHashRateFilename, true, Contracts.Enums.CoinName.Btc);
-        }
-
-        private void LoadBtcDifficulty()
-        {
-            LoadJsonData(BtcDifficultyFilename, false, Contracts.Enums.CoinName.Btc);
+            LoadJsonData(BtcHashRateFilename, CoinName.Btc);
         }
 
 
@@ -84,12 +72,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
         private void LoadEthHashrateData()
         {
-            LoadJsonData(EthHashRateFilename, true, Contracts.Enums.CoinName.Eth);
-        }
-
-        private void LoadEthDifficulty()
-        {
-            LoadJsonData(EthDifficultyFilename, false, Contracts.Enums.CoinName.Eth);
+            LoadJsonData(EthHashRateFilename, CoinName.Eth);
         }
 
 
@@ -112,21 +95,17 @@ namespace EnergyHeatMap.Infrastructure.Services
                     if (!DateTime.TryParse(dateString, out DateTime dateTime))
                         continue;
 
-                    var btcDataItem = new CryptoCoinStateEntity()
-                    {
-                        DateTime = dateTime
-                    };
-
+                    var coinEnum = CoinName.None;
                     if (isBtc)
-                        btcDataItem.CoinName = Contracts.Enums.CoinName.Btc;
+                        coinEnum = CoinName.Btc;
                     else
-                        btcDataItem.CoinName = Contracts.Enums.CoinName.Eth;
+                        coinEnum = CoinName.Eth;
 
                     //Take high value 
                     var valueString = csvReader.GetField(2);
-                    if (double.TryParse(valueString, out double value))
-                        btcDataItem.Value = value;
+                    var value = _dataUnitService.ConvertValue(double.Parse(valueString));
 
+                    var btcDataItem = new CryptoCoinStateEntity(dateTime, coinEnum, value, _dataUnitService.UnitValue);
                     _cryptoCoinStateEntities.Add(btcDataItem);
                 }
             }
@@ -136,7 +115,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             }
         }
 
-        private bool LoadJsonData(string filename, bool isHashRate, string coinname)
+        private bool LoadJsonData(string filename, string coinname)
         {
             try
             {
@@ -162,12 +141,9 @@ namespace EnergyHeatMap.Infrastructure.Services
                     if (hdSet == null)
                         continue;
 
-                    if (isHashRate)
-                    {
-                        hdSet.Hashrate = value;
-                    }
-                    else
-                        hdSet.Difficulty = value;
+                    //10^3 to get the same value than the country depending hashrate values
+                    hdSet.Hashrate = _dataUnitService.ConvertHashrate(value / Math.Pow(3,10));
+                    hdSet.HashrateUnit = _dataUnitService.UnitHashrate;
                 }
             }
             catch
@@ -247,28 +223,19 @@ namespace EnergyHeatMap.Infrastructure.Services
                         case CryptoValueTypes.Value:
                             values = filteredResult.Select(i =>
                             {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = i.Value / valueConvRate
-                                };
+                                return new DateTimeWithValue(i.DateTime, i.Value);
                             }).ToArray();
-                            unit = CoinValueUnit;
+                            unit = _dataUnitService.UnitValue;
                             break;
                         case CryptoValueTypes.Hashrate:
                             values = filteredResult.Select(i =>
                             {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = i.Hashrate / hashrateConvRate
-                                };
+                                return new DateTimeWithValue(i.DateTime, i.Hashrate);
                             }).ToArray();
-                            unit = hashRateUnit;
+                            unit = _dataUnitService.UnitHashrate;
                             break;
                         default:
                             continue;
-
                     }
 
                     var newData = new CryptoStateData(coin, typeString, unit, values);
@@ -287,7 +254,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             return groups.Where(i => i.Key == CoinName.Btc).Select(i => i.Key);
         }
 
-        public IEnumerable<ICryptoValueType> GetCryptoCoinValueTypes()
+        public IEnumerable<ICryptoValueType> GetCryptoCoinValueTypes(CancellationToken ct)
         {
             return CryptoValueTypesExtensions.GetValues();
         }

@@ -13,10 +13,10 @@ namespace EnergyHeatMap.Contracts.Repositories
            DateTime enddate = default,
            CancellationToken ct = default);
 
-        Task<IEnumerable<ICountryDataModel>> GetCountriesData();
+        Task<IEnumerable<ICountryDataModel>> GetCountriesData(CancellationToken ct);
 
-        Task<Dictionary<string, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByCountry();
+        Task<Dictionary<string, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByCountry(CancellationToken ct);
 
-        Task<IEnumerable<IEnergyStateValueType>> GetEnergyStateValueTypes();
+        Task<IEnumerable<IEnergyStateValueType>> GetEnergyStateValueTypes(CancellationToken ct);
     }
 }

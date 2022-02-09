@@ -19,12 +19,12 @@ namespace EnergyHeatMap.Domain.Models
             Longname = $"{Country} {EnergyStateValueType} ({Unit})";
         }
 
-        public string ISOCode { get; } = string.Empty;
-        public string Country { get; } = string.Empty;
-        public string EnergyStateValueType { get; } = string.Empty;
-        public string Unit { get; } = string.Empty;
+        public string ISOCode { get; }
+        public string Country { get; }
+        public string EnergyStateValueType { get; } 
+        public string Unit { get; }
         public IDateTimeWithValue[]? Values { get; }
 
-        public string Longname { get; } = string.Empty;
+        public string Longname { get; }
     }
 }

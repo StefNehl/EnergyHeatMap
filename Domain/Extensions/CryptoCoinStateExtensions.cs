@@ -14,26 +14,15 @@ namespace EnergyHeatMap.Domain.Extensions
     {
         public static ICryptoCoinState ToModel(this ICryptoCoinStateEntity entity)
         {
-            return new CryptoCoinState()
-            {
-                CoinName = entity.CoinName,
-                DateTime = entity.DateTime,
-                Difficulty = entity.Difficulty,
-                Hashrate = entity.Hashrate,
-                Value = entity.Value
-            };
+            return new CryptoCoinState(entity.DateTime, entity.CoinName, entity.Value, entity.ValueUnit, entity.Hashrate, entity.HashrateUnit);
         }
 
         public static ICryptoCoinStateEntity ToEntity(this ICryptoCoinState model)
         {
-            return new CryptoCoinStateEntity()
-            {
-                CoinName = model.CoinName,
-                DateTime = model.DateTime,
-                Difficulty = model.Difficulty,
-                Hashrate = model.Hashrate,
-                Value = model.Value
-            };
+            var newItem =  new CryptoCoinStateEntity(model.DateTime, model.CoinName, model.Value, model.ValueUnit);
+            newItem.Hashrate = model.Hashrate;
+            newItem.HashrateUnit = model.HashrateUnit;
+            return newItem;
         }
     }
 }

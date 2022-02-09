@@ -5,7 +5,12 @@ namespace EnergyHeatMap.Domain.Models
 {
     public class DateTimeWithValue : IDateTimeWithValue
     {
-        public DateTime DateTime { get; set; }
-        public double Value { get; set; }
+        public DateTimeWithValue(DateTime dateTime, double value)
+        {
+            DateTime = dateTime;
+            Value = value;
+        }
+        public DateTime DateTime { get; }
+        public double Value { get; }
     }
 }

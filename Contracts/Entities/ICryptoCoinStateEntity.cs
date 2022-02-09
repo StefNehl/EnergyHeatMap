@@ -4,10 +4,11 @@ namespace EnergyHeatMap.Contracts.Entities
 {
     public interface ICryptoCoinStateEntity
     {
-        string CoinName { get; set; }
-        DateTime DateTime { get; set; }
-        double Difficulty { get; set; }
+        string CoinName { get; }
+        DateTime DateTime { get; }
         double Hashrate { get; set; }
-        double Value { get; set; }
+        string HashrateUnit { get; set; }
+        double Value { get; }
+        string ValueUnit { get; }
     }
 }

@@ -7,6 +7,8 @@ using EnergyHeatMap.Domain.Entities;
 using EnergyHeatMap.Domain.Enums;
 using EnergyHeatMap.Domain.Models;
 using EnergyHeatMap.Infrastructure.Helpers;
+using EnergyHeatMap.Infrastructure.Queries.Domain;
+using MediatR;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 {
     public class CountryEnergyStateService : ICountryEnergyStateServices
     {
+        private readonly IDataUnitService _dataUnitService;
 
         private readonly List<ICountryEnergyStateEntity> _countryEnergyStates;
         private readonly List<ICountryHashrateEntity> _countryHashrate;
@@ -25,15 +28,12 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string CountryEnergyStateFileName = "owid-energy-data.csv";
         private const string HashrateProductionFileName = "hashrate_production.csv";
 
-        private readonly double hashrateConvRate;
-        private const string UnitHashrate = "EH/s";
-
         private const string AllCountries = "World";
-        private readonly double energyConvRate;
-        private const string UnitEnergy = "TWh";
 
-        public CountryEnergyStateService(IOptionsMonitor<DataPathSettings> optionsMonitor)
+        public CountryEnergyStateService(IOptionsMonitor<DataPathSettings> optionsMonitor, IDataUnitService dataUnitService)
         {
+            _dataUnitService = dataUnitService;
+
             try
             {
                 var path = optionsMonitor.CurrentValue.DataPathEnergy;
@@ -46,9 +46,6 @@ namespace EnergyHeatMap.Infrastructure.Services
             {
                 throw;
             }
-
-            hashrateConvRate = 1;//Math.Pow(10, 3);
-            energyConvRate = 1;// Math.Pow(10, 3);
 
             _countryEnergyStates = new List<ICountryEnergyStateEntity>();
             _countryHashrate = new List<ICountryHashrateEntity>();
@@ -67,8 +64,10 @@ namespace EnergyHeatMap.Infrastructure.Services
                     new StreamReader(File.OpenRead(path)), new System.Globalization.CultureInfo("us"));
 
                 var stepOverFirstLine = true;
+                int count = 0;
                 while (csvReader.Read())
                 {
+                    count++;
                     if (stepOverFirstLine)
                     {
                         stepOverFirstLine = false;
@@ -76,9 +75,9 @@ namespace EnergyHeatMap.Infrastructure.Services
                     }
 
                     if (isEnergyData)
-                        LoadEnergyData(csvReader);
+                        LoadEnergyData(csvReader, count);
                     else
-                        LoadHashrateData(csvReader);
+                        LoadHashrateData(csvReader, count);
 
                 }
             }
@@ -88,80 +87,83 @@ namespace EnergyHeatMap.Infrastructure.Services
             }
         }
 
-        private void LoadEnergyData(CsvReader csvReader)
+        private void LoadEnergyData(CsvReader csvReader, int rowCount)
         {
-            var dateString = csvReader.GetField(2)?.ToString();
-
-            if (string.IsNullOrWhiteSpace(dateString))
-                return;
-
-            if (!int.TryParse(dateString, out var year))
-                return;
-
-            if (year < 2000)
-                return;
-
-            var dataItem = new CountryEnergyStateEntity()
+            try
             {
-                DateTime = new DateTime(year, 12, 31)
-            };
+                var dateString = csvReader.GetField(2)?.ToString();
 
-            dataItem.IsoCode = csvReader.GetField(0);
-            dataItem.Country = csvReader.GetField(1);
+                if (string.IsNullOrWhiteSpace(dateString))
+                    return;
 
-            var electricGenerationString = csvReader.GetField(39);
-            if (decimal.TryParse(electricGenerationString, out decimal electricGeneration))
-                dataItem.Electricity_generation = electricGeneration * (decimal)energyConvRate;
+                if (!int.TryParse(dateString, out var year))
+                    return;
 
-            var populationString = csvReader.GetField(99);
-            if (double.TryParse(populationString, out double population))
-                dataItem.Population = (long)population;
+                if (year < 2000)
+                    return;
 
-            var primaryEnergyConString = csvReader.GetField(100);
-            if (decimal.TryParse(primaryEnergyConString, out decimal primaryEnergyCon))
-                dataItem.Primary_energy_consuption = primaryEnergyCon * (decimal)energyConvRate;
 
-            _countryEnergyStates.Add(dataItem);
+                var date = new DateTime(year, 12, 31);
+                var isoCode = csvReader.GetField(0);
+                var country = csvReader.GetField(1);
+
+                var populationString = csvReader.GetField(99);
+                _ = double.TryParse(populationString, out double population);
+
+                var primaryEnergyConString = csvReader.GetField(100);
+                _ = double.TryParse(primaryEnergyConString, out double primaryEnergyCon);
+                primaryEnergyCon = _dataUnitService.ConvertEnergy(primaryEnergyCon);
+
+                var primaryEnergyConUnit = _dataUnitService.UnitEnergy;
+
+                var electricGenerationString = csvReader.GetField(39);
+                _ = double.TryParse(electricGenerationString, out double electricGeneration);
+                electricGeneration = _dataUnitService.ConvertEnergy(electricGeneration);
+
+                var electricityGenerationUnit = _dataUnitService.UnitEnergy;
+
+                var dataItem = new CountryEnergyStateEntity(isoCode, country, date, population,
+                    primaryEnergyCon, primaryEnergyConUnit,
+                    electricGeneration, electricityGenerationUnit);
+                _countryEnergyStates.Add(dataItem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error loading energy in line: {rowCount}", ex);
+            }
+            
         }
 
-        private void LoadHashrateData(CsvReader csvReader)
+        private void LoadHashrateData(CsvReader csvReader, int rowCount)
         {
-            var newData = new CountryHashrateEntity()
+            try
             {
-                Country = csvReader.GetField(1)
-            };
+                var country = csvReader.GetField(1);
+                var dateString = csvReader.GetField(0)?.ToString();
 
-            var dateString = csvReader.GetField(0)?.ToString();
+                if (string.IsNullOrWhiteSpace(dateString))
+                    return;
 
-            if (string.IsNullOrWhiteSpace(dateString))
-                return;
+                var dateTime = DateTime.Parse(dateString);
 
-            if (!DateTime.TryParse(dateString, out DateTime dateTime))
-                return;
+                var percString = csvReader.GetField(2)?.ToString();
+                if (string.IsNullOrWhiteSpace(percString))
+                    return;
+                percString = percString.Substring(0, percString.Length - 1);
+                var percentage = double.Parse(percString);
 
-            newData.DateTime = dateTime;
+                var absString = csvReader.GetField(3)?.ToString();
+                if (string.IsNullOrWhiteSpace(absString))
+                    return;
+                var abs = _dataUnitService.ConvertHashrate(double.Parse(absString));
 
-            var percString = csvReader.GetField(2)?.ToString();
-            if (string.IsNullOrWhiteSpace(percString))
-                return;
-
-            percString = percString.Substring(0, percString.Length - 1);
-
-            if (!double.TryParse(percString, out double percentage))
-                return;
-
-            newData.MonthlyHashratePercentage = percentage;
-
-            var absString = csvReader.GetField(3)?.ToString();
-            if (string.IsNullOrWhiteSpace(absString))
-                return;
-
-            if (!double.TryParse(absString, out double abs))
-                return;
-
-            newData.MonthlyHashrateAbsolut = abs;
-
-            _countryHashrate.Add(newData);
+                var newData = new CountryHashrateEntity(dateTime, country, percentage, abs, _dataUnitService.UnitHashrate);
+                _countryHashrate.Add(newData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error loading hashrate in line: {rowCount} and column: {csvReader.ColumnCount}", ex);
+            }
         }
 
         private void LoadWorldHashrate()
@@ -170,13 +172,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             foreach (var group in dateGroups)
             {
-                var dataItem = new CountryHashrateEntity()
-                {
-                    Country = AllCountries,
-                    DateTime = group.Key,
-                    MonthlyHashrateAbsolut = group.Sum(i => i.MonthlyHashrateAbsolut),
-                    MonthlyHashratePercentage = 100
-                };
+                var dataItem = new CountryHashrateEntity(group.Key, AllCountries, 100, group.Sum(i => i.MonthlyHashrateAbsolut), _dataUnitService.UnitHashrate);
                 _countryHashrate.Add(dataItem);
             }
         }
@@ -211,8 +207,6 @@ namespace EnergyHeatMap.Infrastructure.Services
             if (enddate == default)
                 enddate = DateTime.Now;
 
-
-
             var timeFilteredEnergyDate = _countryEnergyStates
                 .Where(j => j.DateTime >= startdate &&
                             j.DateTime <= enddate);
@@ -222,6 +216,8 @@ namespace EnergyHeatMap.Infrastructure.Services
                             j.DateTime <= enddate);
 
             var resultByType = new List<EnergyStateData>();
+
+
 
             foreach (var country in countries)
             {
@@ -240,57 +236,37 @@ namespace EnergyHeatMap.Infrastructure.Services
                         case EnergyStateValueTypes.Population:
                             values = filteredEnergyData.Select(i =>
                             {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = (double)i.Population
-                                };
+                                return new DateTimeWithValue(i.DateTime, i.Population);
                             }).ToArray();
                             unit = "#";
                             break;
                         case EnergyStateValueTypes.ElectricityGeneration:
                             values = filteredEnergyData.Select(i =>
                             {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = (double)i.Electricity_generation
-                                };
+                                return new DateTimeWithValue(i.DateTime, i.ElectricityGeneration);
                             }).ToArray();
-                            unit = UnitEnergy;
+                            unit = _dataUnitService.UnitEnergy;
                             break;
                         case EnergyStateValueTypes.PrimaryEnergyConsumption:
                             values = filteredEnergyData.Select(i =>
                             {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = (double)i.Primary_energy_consuption
-                                };
+                                return new DateTimeWithValue(i.DateTime, i.PrimaryEnergyConsuption);
                             }).ToArray();
-                            unit = UnitEnergy;
+                            unit = _dataUnitService.UnitEnergy;
                             break;
                         case EnergyStateValueTypes.HashrateProductionInPercentage:
                             values = filteredHashrateData.Select(i =>
                             {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = (double)i.MonthlyHashratePercentage
-                                };
+                                return new DateTimeWithValue(i.DateTime, i.MonthlyHashratePercentage);
                             }).ToArray();
                             unit = "%";
                             break;
                         case EnergyStateValueTypes.HashrateProductionInAbs:
                             values = filteredHashrateData.Select(i =>
                             {
-                                return new DateTimeWithValue()
-                                {
-                                    DateTime = i.DateTime,
-                                    Value = (double)i.MonthlyHashrateAbsolut * hashrateConvRate
-                                };
+                                return new DateTimeWithValue(i.DateTime, i.MonthlyHashrateAbsolut);
                             }).ToArray();
-                            unit = UnitHashrate;
+                            unit = _dataUnitService.UnitHashrate;
                             break;
                         default:
                             continue;
@@ -305,7 +281,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             return resultByType;
         }
 
-        public async Task<IEnumerable<ICountryDataModel>> GetCountriesData()
+        public async Task<IEnumerable<ICountryDataModel>> GetCountriesData(CancellationToken ct = default)
         {
             var hashrateData = _countryHashrate.Where(c => c.Country != AllCountries).ToList();
             var energyData = _countryEnergyStates.Where(j => j.Country != AllCountries).ToList();
@@ -322,18 +298,18 @@ namespace EnergyHeatMap.Infrastructure.Services
             {
                 foreach (var timeStep in timeSteps)
                 {
-                    var energyPercentage = 0.0m;
-                    var primaryEnergyConsuption = 0.0m;
+                    var energyPercentage = 0.0;
+                    var primaryEnergyConsuption = 0.0;
 
                     var energy = energyData.FirstOrDefault(e => e.Country == country && e.DateTime.Year == timeStep.Year);
                     if (energy != null)
                     {
-                        primaryEnergyConsuption = energy.Primary_energy_consuption;
+                        primaryEnergyConsuption = energy.PrimaryEnergyConsuption;
                         var worldEnergy = worldEnergyStates.FirstOrDefault(e => e.DateTime == energy.DateTime);
                         if (worldEnergy != null)
                         {
-                            if (worldEnergy.Primary_energy_consuption != 0)
-                                energyPercentage = energy.Primary_energy_consuption / worldEnergy.Primary_energy_consuption;
+                            if (worldEnergy.PrimaryEnergyConsuption != 0)
+                                energyPercentage = energy.PrimaryEnergyConsuption / worldEnergy.PrimaryEnergyConsuption;
                         }
                     }
 
@@ -349,10 +325,10 @@ namespace EnergyHeatMap.Infrastructure.Services
 
                     var newCountryData = new CountryDataModel(country, countryNameHelper.GetShortName(country), timeStep,
                         hashrateAbs,
-                        UnitHashrate,
+                        _dataUnitService.UnitHashrate,
                         hashratePerc,
                         (double)primaryEnergyConsuption,
-                        UnitEnergy,
+                        _dataUnitService.UnitEnergy,
                         (double)energyPercentage);
 
                     result.Add(newCountryData);
@@ -362,7 +338,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             return result;
         }
 
-        public async Task<Dictionary<string, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByCountry()
+        public async Task<Dictionary<string, IEnumerable<ICountryDataModel>>> GetCountriesDataGroupedByCountry(CancellationToken ct = default)
         {
             var countriesData = await GetCountriesData();
 
@@ -379,7 +355,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             return result;
         }
 
-        public async Task<IEnumerable<IEnergyStateValueType>> GetEnergyStateValueTypes()
+        public async Task<IEnumerable<IEnergyStateValueType>> GetEnergyStateValueTypes(CancellationToken ct = default)
         {
             return EnergyStateValueTypesExtensions.GetValues();
         }

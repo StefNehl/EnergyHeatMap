@@ -22,6 +22,6 @@ namespace EnergyHeatMap.Infrastructure.Services
 
         Task<IEnumerable<string>> GetCryptoCoins(CancellationToken ct);
 
-        IEnumerable<ICryptoValueType> GetCryptoCoinValueTypes();
+        IEnumerable<ICryptoValueType> GetCryptoCoinValueTypes(CancellationToken ct);
     }
 }

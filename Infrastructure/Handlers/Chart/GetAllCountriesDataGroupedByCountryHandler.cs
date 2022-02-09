@@ -20,7 +20,7 @@ namespace EnergyHeatMap.Infrastructure.Handlers.Chart
 
         public async Task<IDictionary<string, IEnumerable<ICountryDataModel>>> Handle(GetAllCountriesDataGroupedByCountryQuery request, CancellationToken cancellationToken)
         {
-            return await _service.GetCountriesDataGroupedByCountry();
+            return await _service.GetCountriesDataGroupedByCountry(cancellationToken);
         }
     }
 }

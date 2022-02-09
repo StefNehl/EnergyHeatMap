@@ -5,10 +5,20 @@ namespace EnergyHeatMap.Domain.Entities
 {
     public class CryptoCoinStateEntity : ICryptoCoinStateEntity
     {
-        public DateTime DateTime { get; set; }
-        public string CoinName { get; set; } = Contracts.Enums.CoinName.None;
-        public double Value { get; set; }
+        public CryptoCoinStateEntity(DateTime dateTime, string coinName, double value, string valueUnit)
+        {
+            DateTime = dateTime;
+            CoinName = coinName;
+            Value = value;
+            ValueUnit = valueUnit;
+        }
+
+        public DateTime DateTime { get; }
+        public string CoinName { get; }
+        public double Value { get; }
+        public string ValueUnit { get; }
         public double Hashrate { get; set; }
-        public double Difficulty { get; set; }
+        public string HashrateUnit { get; set; }
+
     }
 }

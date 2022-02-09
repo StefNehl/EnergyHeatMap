@@ -9,9 +9,19 @@ namespace EnergyHeatMap.Domain.Entities
 {
     public class CountryHashrateEntity : ICountryHashrateEntity
     {
-        public DateTime DateTime { get; set; }
-        public string Country { get; set; } = string.Empty;
-        public double MonthlyHashratePercentage { get; set; }
-        public double MonthlyHashrateAbsolut { get; set; }
+        public CountryHashrateEntity(DateTime dateTime, string country, double monthlyHashratePerc, double monthlyHashrateAbs, string monthlyHashrateAbsUnit)
+        {
+            DateTime = dateTime;
+            Country = country;  
+            MonthlyHashratePercentage = monthlyHashratePerc;
+            MonthlyHashrateAbsolut  = monthlyHashrateAbs;
+            MonthlyHashrateUnit = monthlyHashrateAbsUnit;
+        }
+
+        public DateTime DateTime { get; }
+        public string Country { get; }
+        public double MonthlyHashratePercentage { get; }
+        public double MonthlyHashrateAbsolut { get; }
+        public string MonthlyHashrateUnit { get; }
     }
 }

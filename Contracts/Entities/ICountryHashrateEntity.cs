@@ -8,10 +8,11 @@ namespace EnergyHeatMap.Contracts.Entities
 {
     public interface ICountryHashrateEntity
     {
-        DateTime DateTime { get; set; }
-        string Country { get; set; }    
-        double MonthlyHashratePercentage { get; set; }
-        double MonthlyHashrateAbsolut { get; set; }
+        DateTime DateTime { get; }
+        string Country { get; }    
+        double MonthlyHashratePercentage { get; }
+        double MonthlyHashrateAbsolut { get; }
+        string MonthlyHashrateUnit { get; }
         
     }
 }

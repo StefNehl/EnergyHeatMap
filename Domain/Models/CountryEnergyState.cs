@@ -4,11 +4,26 @@ namespace EnergyHeatMap.Domain.Models
 {
     public class CountryEnergyStateModel : ICountryEnergyStateModel
     {
-        public string IsoCode { get; set; }
-        public string Country { get; set; }
-        public DateTime Year { get; set; }
-        public decimal Population { get; set; }
-        public decimal Primary_energy_consuption { get; set; }
-        public decimal Electricity_generation { get; set; }
+        public CountryEnergyStateModel(string isoCode, string country, DateTime year, double population, 
+            double primaryEnergyCons, string primaryEnergyConsUnit, double electricityGeneration, string electricityGenerationUnit)
+        {
+            IsoCode = isoCode;
+            Country = country;
+            Year = year;
+            Population = population;
+            PrimaryEnergyConsuption = primaryEnergyCons;
+            PrimaryEnergyConsuptionUnit = primaryEnergyConsUnit;
+            ElectricityGeneration = electricityGeneration;
+            ElectricityGenerationUnit = electricityGenerationUnit;
+        }
+
+        public string IsoCode { get; }
+        public string Country { get; }
+        public DateTime Year { get; }
+        public double Population { get; }
+        public double PrimaryEnergyConsuption { get; }
+        public string PrimaryEnergyConsuptionUnit { get; }
+        public double ElectricityGeneration { get; }
+        public string ElectricityGenerationUnit { get; }
     }
 }

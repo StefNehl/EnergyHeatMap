@@ -20,7 +20,7 @@ namespace EnergyHeatMap.Infrastructure.Handlers.Chart
 
         public async Task<IEnumerable<ICryptoValueType>> Handle(GetCryptoValueTypesQuery request, CancellationToken cancellationToken)
         {
-            return _service.GetCryptoCoinValueTypes();
+            return _service.GetCryptoCoinValueTypes(cancellationToken);
         }
     }
 }

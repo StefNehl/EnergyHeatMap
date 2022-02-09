@@ -14,7 +14,7 @@ namespace EnergyHeatMap.Infrastructure.Handlers.Chart
         }
         public async Task<IEnumerable<IEnergyStateValueType>> Handle(GetEnergyStateValueTypesQuery request, CancellationToken cancellationToken)
         {
-            return await _countryEnergyStateServices.GetEnergyStateValueTypes();
+            return await _countryEnergyStateServices.GetEnergyStateValueTypes(cancellationToken);
         }
     }
 }

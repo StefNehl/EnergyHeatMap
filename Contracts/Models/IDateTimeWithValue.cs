@@ -2,7 +2,7 @@
 {
     public interface IDateTimeWithValue
     {
-        DateTime DateTime { get; set; }
-        double Value { get; set; }
+        DateTime DateTime { get; }
+        double Value { get; }
     }
 }

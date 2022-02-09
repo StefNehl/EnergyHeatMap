@@ -14,9 +14,9 @@ namespace EnergyHeatMap.Domain.Models
             Longname = $"{CoinName} {ValueType} ({Unit})";
         }
 
-        public string CoinName { get; } = string.Empty;
-        public string ValueType { get; } = string.Empty;
-        public string Unit { get; } = string.Empty;
+        public string CoinName { get; }
+        public string ValueType { get; }
+        public string Unit { get; }
         public IDateTimeWithValue[]? Values { get; }
         public string Longname { get; }
     }

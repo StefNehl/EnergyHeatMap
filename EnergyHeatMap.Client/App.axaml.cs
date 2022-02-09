@@ -51,6 +51,7 @@ namespace EnergyHeatMap.Client
         {
             services.AddInfrastructure();
             services.AddLogging();
+            services.AddSingleton<IDataUnitService, DataUnitService>();
             services.AddSingleton<ICountryEnergyStateServices, CountryEnergyStateService>();
             services.AddSingleton<ICryptoCoinStateService, CryptoCoinStateService>();
             services.AddSingleton<IHeatMapService, HeatMapService>();
