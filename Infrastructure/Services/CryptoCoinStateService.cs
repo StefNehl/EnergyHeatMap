@@ -141,8 +141,8 @@ namespace EnergyHeatMap.Infrastructure.Services
                     if (hdSet == null)
                         continue;
 
-                    //10^3 to get the same value than the country depending hashrate values
-                    hdSet.Hashrate = _dataUnitService.ConvertHashrate(value / Math.Pow(3,10));
+                    //10^18 to get the same value than the country depending hashrate values (EH/S)
+                    hdSet.Hashrate = _dataUnitService.ConvertHashrate(value / Math.Pow(10,18));
                     hdSet.HashrateUnit = _dataUnitService.UnitHashrate;
                 }
             }
