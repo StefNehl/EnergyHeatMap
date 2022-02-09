@@ -20,7 +20,6 @@ namespace EnergyHeatMap.Client.ViewModels
         private readonly IMediator _mediator;
 
         private double _correlationCoefficent;
-        private double[,] _chartData = new double[5, 5];
         private readonly ObservableCollection<ObservablePoint> _observableValues;
 
         private IEnumerable<IAnalysisType> _analysisTypes;

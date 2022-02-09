@@ -31,8 +31,8 @@ namespace EnergyHeatMap.Client.ViewModels
         private ObservableCollection<IEnergyStateValueType> _selectedEnergyValueType = new ();
 
         private IEnumerable<ISeries> _seriesCollection;
-        private DateTime _startDate;
-        private DateTime _endDate;
+        private DateTimeOffset _startDate;
+        private DateTimeOffset _endDate;
 
         public ChartViewModel()
         {
@@ -43,8 +43,15 @@ namespace EnergyHeatMap.Client.ViewModels
             SelectedCountries.CollectionChanged += RefreshAfterFilterSelection;
             SelectedEnergyValueType.CollectionChanged += RefreshAfterFilterSelection;
 
-        }
+            _startDate = new DateTime(2010, 1, 1);
+            _endDate = DateTime.Now;
 
+            OnLoadDataCommand = ReactiveCommand.Create(async () =>
+            {
+                await LoadAndSetChartData();
+            });
+        }
+        public IReactiveCommand OnLoadDataCommand { get; }
 
         public ICryptoStateData[] CryptoCoinStates { get; set; }
 
@@ -81,17 +88,33 @@ namespace EnergyHeatMap.Client.ViewModels
             set => this.RaiseAndSetIfChanged(ref _seriesCollection, value);
         }
 
-        public DateTime StartDate
+        public DateTimeOffset StartDate
         {
             get => _startDate;
-            set => this.RaiseAndSetIfChanged(ref _startDate, value);
+            set 
+            {
+                this.RaiseAndSetIfChanged(ref _startDate, value);
+                Task.Run(async () =>
+                {
+                    await LoadAndSetChartData();
+                });
+            }
         }
 
-        public DateTime EndDate
+        public DateTimeOffset EndDate
         {
             get => _endDate;
-            set => this.RaiseAndSetIfChanged(ref _endDate, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _endDate, value);
+                Task.Run(async () =>
+                {
+                    await LoadAndSetChartData();
+                });
+            }
         }
+
+
         public Axis[] XAxes { get; set; } = {
             new()
             {
@@ -106,7 +129,6 @@ namespace EnergyHeatMap.Client.ViewModels
 
         public async Task LoadAndSetChartData()
         {
-            await LoadAndSetFilterValues();
             await LoadChartData();
             await SetChartValues();
         }
@@ -141,12 +163,12 @@ namespace EnergyHeatMap.Client.ViewModels
         public async Task LoadChartData()
         {
             var types = SelectedCryptoValueTypes.Select(x => x.Type.ToString()).ToArray();
-            var statesQuery = new GetFilteredCryptoCoinStatesByTypeQuery(new string[1] { "Btc" }, types, StartDate, EndDate);
+            var statesQuery = new GetFilteredCryptoCoinStatesByTypeQuery(new string[1] { "Btc" }, types, StartDate.DateTime, EndDate.DateTime);
             CryptoCoinStates = (await _mediator.Send(statesQuery)).ToArray();
 
             var energyTypes = SelectedEnergyValueType.Select(x => x.Type.ToString()).ToArray();
             var selectedCountries = SelectedCountries.ToArray();
-            var energyStatesQuery = new GetFilteredEnergyStateDataQuery(selectedCountries, energyTypes, StartDate, EndDate);
+            var energyStatesQuery = new GetFilteredEnergyStateDataQuery(selectedCountries, energyTypes, StartDate.DateTime, EndDate.DateTime);
             EnergyStates = (await _mediator.Send(energyStatesQuery)).ToArray();
         }
 
@@ -176,13 +198,16 @@ namespace EnergyHeatMap.Client.ViewModels
 
                 var newLineSeries = new LineSeries<FinancialPoint>()
                 {
+                    Name = state.Longname,
                     Values = valuesToAdd,
+                    TooltipLabelFormatter = (x) => { return $"{x.Context.Series.Name} {x.PrimaryValue.ToString("N2")}"; },
+                    DataLabelsFormatter = (x) => { return x.PrimaryValue.ToString("N2"); },
                     LineSmoothness = 0,
                     GeometrySize = 0,
-                    GeometryStroke = new SolidColorPaint(SKColor.Empty, 0),
+                    GeometryStroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A), 0),
+                    GeometryFill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A)),
                     Stroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A)) { StrokeThickness = 1 },
                     Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A))
-
                 };
 
                 series[i] = newLineSeries;
@@ -211,11 +236,15 @@ namespace EnergyHeatMap.Client.ViewModels
 
                 var newLineSeries = new LineSeries<FinancialPoint>()
                 {
+                    Name = state.Longname,
                     Values = valuesToAdd,
+                    TooltipLabelFormatter = (x) => { return $"{x.Context.Series.Name} {x.PrimaryValue.ToString("N2")}"; },
+                    DataLabelsFormatter = (x) => { return x.PrimaryValue.ToString("N2"); },
                     LineSmoothness = 0,
-                    GeometrySize = 0,
-                    GeometryStroke = new SolidColorPaint(SKColor.Empty, 0),
-                    Stroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A)) { StrokeThickness = 1 },
+                    GeometrySize = 15,
+                    GeometryStroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A), 2),
+                    GeometryFill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A)),
+                    Stroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A)) { StrokeThickness = 2 },
                     Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A))
                 };
 

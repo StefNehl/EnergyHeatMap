@@ -14,6 +14,8 @@ namespace EnergyHeatMap.Client.ViewModels
             AnalysisViewModel = new AnalysisViewModel();
 
             await MapViewModel.LoadAndSetMapData();
+
+            await ChartViewModel.LoadAndSetFilterValues();
             await ChartViewModel.LoadAndSetChartData();
 
             await AnalysisViewModel.LoadFilterValues();

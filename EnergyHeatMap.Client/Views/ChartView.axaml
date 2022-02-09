@@ -3,8 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:EnergyHeatMap.Client.ViewModels"
+			 xmlns:ctx="using:LiveChartsCore.Kernel"
 			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1080"
              x:Class="EnergyHeatMap.Client.Views.ChartView">
 	<Design.DataContext>
 		<vm:ChartViewModel/>
@@ -17,12 +18,38 @@
 
 		<Grid Grid.Column="1">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="100"/>
-				<RowDefinition/>
-				<RowDefinition/>
+				<RowDefinition Height="70"/>
+				<RowDefinition Height="70"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="80"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="200"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="200"/>
 			</Grid.RowDefinitions>
 
-			<ListBox Grid.Row="0"
+			<DatePicker Grid.Row="0"
+						Grid.Column="0"
+						Grid.ColumnSpan="2"
+						Header="From"
+						SelectedDate="{Binding StartDate}"
+						MonthFormat="m"
+						DayVisible="False"/>
+
+			<DatePicker Grid.Row="1"
+						Grid.Column="0"
+						Grid.ColumnSpan="2"
+						Header="To"
+						SelectedDate="{Binding EndDate}"
+						MonthFormat="m"
+						DayVisible="False"/>
+			
+			<TextBlock Grid.Row="2" 
+					   Margin="5"
+					   Text="World Data"
+					   VerticalAlignment="Bottom"
+					   FontWeight="Bold"/>
+			<ListBox Grid.Row="3"
 					 SelectionMode="Multiple,Toggle"
 					 Items="{Binding CryptoValueTypes, Mode=OneWay}"
 					 SelectedItems="{Binding SelectedCryptoValueTypes, Mode=TwoWay}">
@@ -36,13 +63,23 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 
-			<ListBox Grid.Row="1"
+			<TextBlock Grid.Row="4"
+					   Margin="5"
+					   Text="Countries"
+					   VerticalAlignment="Bottom"
+					   FontWeight="Bold"/>
+			<ListBox Grid.Row="5"
 					 SelectionMode="Multiple,Toggle"
 					 Items="{Binding Countries, Mode=OneWay}"
 					 SelectedItems="{Binding SelectedCountries, Mode=TwoWay}">
 			</ListBox>
 
-			<ListBox Grid.Row="2"
+			<TextBlock Grid.Row="6"
+					   Text="Country Data"
+					   Margin="5"
+					   VerticalAlignment="Bottom"
+					   FontWeight="Bold"/>
+			<ListBox Grid.Row="7"
 					 SelectionMode="Multiple,Toggle"
 					 Items="{Binding EnergyStateValueTypes, Mode=OneWay}"
 					 SelectedItems="{Binding SelectedEnergyValueType, Mode=TwoWay}">
@@ -56,9 +93,51 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 		</Grid>
-		<lvc:CartesianChart Grid.Column="0" 
-							Series="{Binding SeriesCollection}" 
+		<lvc:CartesianChart Grid.Column="0"
+							Series="{Binding SeriesCollection}"
 							ZoomMode="Both"
-							XAxes="{Binding XAxes}"/>
+							XAxes="{Binding XAxes}"
+							LegendPosition="Top">
+			<lvc:CartesianChart.TooltipTemplate>
+				<DataTemplate>
+					<Border Background="Transparent" Padding="12">
+						<Border Background="#353535" CornerRadius="4"
+							 BoxShadow="0 0 10 0 #40000000, 0 0 10 0 #40000000, 0 0 10 0 #40000000, 0 0 10 0 #40000000">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="30"/>
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+								<TextBlock Grid.Row="0"
+										   Foreground="#fafafa"
+										   Text="{Binding DataContext.Date, Mode=OneWay}"
+										   VerticalAlignment="Center"/>
+								<ItemsControl Grid.Row="1" 
+											  Items="{Binding Points, RelativeSource={RelativeSource AncestorType=lvc:DefaultTooltip}}">
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+									<ItemsControl.ItemTemplate>
+										<DataTemplate DataType="{x:Type ctx:ChartPoint}">
+											<Border Padding="7 5">
+												<StackPanel Orientation="Horizontal">
+													<TextBlock
+														Foreground="#fafafa"
+														Text="{Binding AsTooltipString}"
+														Margin="0 0 8 0"
+														VerticalAlignment="Center"/>
+												</StackPanel>
+											</Border>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</Grid>
+						</Border>
+					</Border>
+				</DataTemplate>
+			</lvc:CartesianChart.TooltipTemplate>
+		</lvc:CartesianChart>
 	</Grid>
 </UserControl>
