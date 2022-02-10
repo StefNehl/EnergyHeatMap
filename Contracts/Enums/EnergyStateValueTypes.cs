@@ -16,9 +16,9 @@ namespace EnergyHeatMap.Contracts.Enums
         {
             var result = new List<EnergyStateValueType>();
 
-            result.Add(new EnergyStateValueType(EnergyStateValueTypes.Population, EnergyStateValueTypes.Population.ToString()));
+            //result.Add(new EnergyStateValueType(EnergyStateValueTypes.Population, EnergyStateValueTypes.Population.ToString()));
             result.Add(new EnergyStateValueType(EnergyStateValueTypes.PrimaryEnergyConsumption, "Primary Energy Consumption"));
-            result.Add(new EnergyStateValueType(EnergyStateValueTypes.ElectricityGeneration, "Electricity Generation"));
+            //result.Add(new EnergyStateValueType(EnergyStateValueTypes.ElectricityGeneration, "Electricity Generation"));
             result.Add(new EnergyStateValueType(EnergyStateValueTypes.HashrateProductionInPercentage, "Hashrate Generation Percentage"));
             result.Add(new EnergyStateValueType(EnergyStateValueTypes.HashrateProductionInAbs, "Hashrate Generation Abs."));
 

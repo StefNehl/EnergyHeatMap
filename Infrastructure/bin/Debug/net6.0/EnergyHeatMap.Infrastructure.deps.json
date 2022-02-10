@@ -29,6 +29,14 @@
           }
         }
       },
+      "MathNet.Numerics/5.0.0-alpha08": {
+        "runtime": {
+          "lib/net5.0/MathNet.Numerics.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
       "MediatR/10.0.1": {
         "dependencies": {
           "MediatR.Contracts": "1.0.1"
@@ -158,6 +166,7 @@
       "EnergyHeatMap.Domain/1.0.0": {
         "dependencies": {
           "EnergyHeatMap.Contracts": "1.0.0",
+          "MathNet.Numerics": "5.0.0-alpha08",
           "MediatR": "10.0.1",
           "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1"
         },
@@ -179,6 +188,13 @@
       "sha512": "sha512-uS5ix5hL9gL5taiAG//CScyJa8Fn1ZOh3FDhDvf4laboESFs84mCNropfp7PIt8xCkyQofljFpqu1B5UnSXjyA==",
       "path": "csvhelper/27.2.1",
       "hashPath": "csvhelper.27.2.1.nupkg.sha512"
+    },
+    "MathNet.Numerics/5.0.0-alpha08": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Hu/i3gxr/3ZwadSgStvjbxdqVLI68USa8X5imu2tYEEK0CzGBUPuYYucmDYUG7zjKAyLhDFyzdlXS6LdKa2rDw==",
+      "path": "mathnet.numerics/5.0.0-alpha08",
+      "hashPath": "mathnet.numerics.5.0.0-alpha08.nupkg.sha512"
     },
     "MediatR/10.0.1": {
       "type": "package",

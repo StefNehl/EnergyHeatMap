@@ -8,8 +8,8 @@ namespace EnergyHeatMap.Contracts.Repositories
 {
     public interface IDataPreparationService
     {
-        public IEnumerable<Tuple<DateTime, double>> Interpolate(IEnumerable<Tuple<DateTime, double>> data);
+        public Tuple<double, double>[] Interpolate(double[] points, double[] value, Tuple<double, double>[] arrayForInterpolation);
 
-        public IEnumerable<Tuple<DateTime, double>> Extrapolate(IEnumerable<Tuple<DateTime, double>> data);
+        public double[] Extrapolate(double[] points, double[] values, double[] pointForInterpolation);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EnergyHeatMap.Contracts.Repositories;
+using MathNet.Numerics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,11 @@ namespace EnergyHeatMap.Domain.Services
 
             return result;
         }
+
+        public async Task<double[]> GetPolynomiamRegression(double[] firstSet, double[] secondSet, int order)
+        {
+            return Fit.Polynomial(firstSet, secondSet, order);
+        }
+
     }
 }

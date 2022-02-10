@@ -1,6 +1,7 @@
 ﻿using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Infrastructure.Queries.Analysis;
 using EnergyHeatMap.Infrastructure.Queries.Chart;
+using EnergyHeatMap.Infrastructure.Queries.Domain;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
@@ -112,10 +113,22 @@ namespace EnergyHeatMap.Client.ViewModels
             var dataQuery = new GetAnalysisDataQuery(_startDate.DateTime, _endDate.DateTime, _selectedAnalysisType);
             var coinState = await _mediator.Send(dataQuery);
 
-            IsChartBusy = false;
+            
+
 
             var hashRate = coinState.Select(y => y.Item1).ToArray();
             var values = coinState.Select(x => x.Item2).ToArray();
+
+            if(hashRate.Length != 0)
+            {
+                var regressionQuery = new GetPolynomiamRegressionQuery(hashRate, values, 3);
+                var regData = await _mediator.Send(regressionQuery);
+            }
+
+
+
+            IsChartBusy = false;
+
             _observableValues.Clear();
             for (int i = 0; i < values.Length; i++)
             {

@@ -1,14 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using EnergyHeatMap.Contracts.Repositories;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EnergyHeatMap.Client.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public async Task InitApplication()
+        public async Task InitApplication(CancellationToken ct = default)
         {
+            var service = App.IoC.Services.GetService<ICountryEnergyStateServices>();
+            if (service != null)
+                await service.InitService(ct);
+
             MapViewModel = new MapViewModel();
             ChartViewModel = new ChartViewModel();
             AnalysisViewModel = new AnalysisViewModel();

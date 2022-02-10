@@ -38,11 +38,10 @@ namespace EnergyHeatMap.Client.ViewModels
         {
             IsBusy = true;
 
-            await Task.Delay(1000);
-
             await LoadMapData();
 
-            SelectionRangeMaxValue = MapData.Keys.Count - 1;
+            if(MapData.Keys.Count > 0)
+                SelectionRangeMaxValue = MapData.Keys.Count - 1;
             SelectedDataIndex = SelectionRangeMaxValue;
 
             IsBusy = false;
@@ -151,7 +150,9 @@ namespace EnergyHeatMap.Client.ViewModels
             set
             {
                 _selectedDataIndex = value;
-                SelectedDate = MapData.Keys.ToArray()[value];
+
+                if(MapData.Count != 0)
+                    SelectedDate = MapData.Keys.ToArray()[value];
 
                 SetValuesForSelectedIndex();
                 this.RaisePropertyChanged(nameof(SelectedDataIndex));

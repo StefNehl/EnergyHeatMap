@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "MathNet.Numerics/5.0.0-alpha08": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/MathNet.Numerics.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/MathNet.Numerics.dll": {}
+        }
+      },
       "MediatR/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -65,6 +74,26 @@
     }
   },
   "libraries": {
+    "MathNet.Numerics/5.0.0-alpha08": {
+      "sha512": "Hu/i3gxr/3ZwadSgStvjbxdqVLI68USa8X5imu2tYEEK0CzGBUPuYYucmDYUG7zjKAyLhDFyzdlXS6LdKa2rDw==",
+      "type": "package",
+      "path": "mathnet.numerics/5.0.0-alpha08",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/net461/MathNet.Numerics.dll",
+        "lib/net461/MathNet.Numerics.xml",
+        "lib/net48/MathNet.Numerics.dll",
+        "lib/net48/MathNet.Numerics.xml",
+        "lib/net5.0/MathNet.Numerics.dll",
+        "lib/net5.0/MathNet.Numerics.xml",
+        "lib/netstandard2.0/MathNet.Numerics.dll",
+        "lib/netstandard2.0/MathNet.Numerics.xml",
+        "mathnet.numerics.5.0.0-alpha08.nupkg.sha512",
+        "mathnet.numerics.nuspec"
+      ]
+    },
     "MediatR/10.0.1": {
       "sha512": "vnjbk4giDJzJelh34Ygt0eorApCKrRFB7j0pauFPY1oxfO3cEZ7FugBrIOjCM76SDGTOmPFfbfmVnz1t3iFrGA==",
       "type": "package",
@@ -142,6 +171,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "EnergyHeatMap.Contracts >= 1.0.0",
+      "MathNet.Numerics >= 5.0.0-alpha08",
       "MediatR >= 10.0.1",
       "MediatR.Extensions.Microsoft.DependencyInjection >= 10.0.1"
     ]
@@ -200,6 +230,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "MathNet.Numerics": {
+            "target": "Package",
+            "version": "[5.0.0-alpha08, )"
+          },
           "MediatR": {
             "target": "Package",
             "version": "[10.0.1, )"

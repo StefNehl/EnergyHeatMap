@@ -21,6 +21,7 @@ namespace EnergyHeatMap.Infrastructure.Services
     public class CountryEnergyStateService : ICountryEnergyStateServices
     {
         private readonly IDataUnitService _dataUnitService;
+        private readonly IDataPreparationService _dataPreparationService;
 
         private readonly List<ICountryEnergyStateEntity> _countryEnergyStates;
         private readonly List<ICountryHashrateEntity> _countryHashrate;
@@ -29,10 +30,14 @@ namespace EnergyHeatMap.Infrastructure.Services
         private const string HashrateProductionFileName = "hashrate_production.csv";
 
         private const string AllCountries = "World";
+        private const int MinYear = 2010;
 
-        public CountryEnergyStateService(IOptionsMonitor<DataPathSettings> optionsMonitor, IDataUnitService dataUnitService)
+        public CountryEnergyStateService(IOptionsMonitor<DataPathSettings> optionsMonitor, 
+            IDataUnitService dataUnitService, 
+            IDataPreparationService dataPreparationService)
         {
             _dataUnitService = dataUnitService;
+            _dataPreparationService = dataPreparationService;
 
             try
             {
@@ -49,12 +54,17 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             _countryEnergyStates = new List<ICountryEnergyStateEntity>();
             _countryHashrate = new List<ICountryHashrateEntity>();
-            LoadCsvData(CountryEnergyStateFileName, true);
-            LoadCsvData(HashrateProductionFileName, false);
-            LoadWorldHashrate();
         }
 
-        private void LoadCsvData(string filename, bool isEnergyData)
+        public async Task InitService(CancellationToken ct)
+        {
+            await LoadCsvDataAsync(HashrateProductionFileName, false, ct);
+            LoadWorldHashrate();
+            await LoadCsvDataAsync(CountryEnergyStateFileName, true, ct);
+            await Task.Run(() => InterpolateEnergyData(), ct);
+        }
+
+        private async Task LoadCsvDataAsync(string filename, bool isEnergyData, CancellationToken ct)
         {
             var path = _countryEnergyStatesPath + filename;
 
@@ -65,7 +75,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
                 var stepOverFirstLine = true;
                 int count = 0;
-                while (csvReader.Read())
+                while (await csvReader.ReadAsync())
                 {
                     count++;
                     if (stepOverFirstLine)
@@ -75,9 +85,9 @@ namespace EnergyHeatMap.Infrastructure.Services
                     }
 
                     if (isEnergyData)
-                        LoadEnergyData(csvReader, count);
+                        await LoadEnergyDataAsync(csvReader, count, ct);
                     else
-                        LoadHashrateData(csvReader, count);
+                        await LoadHashrateDataAsync(csvReader, count, ct);
 
                 }
             }
@@ -87,7 +97,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             }
         }
 
-        private void LoadEnergyData(CsvReader csvReader, int rowCount)
+        private async Task LoadEnergyDataAsync(CsvReader csvReader, int rowCount, CancellationToken ct)
         {
             try
             {
@@ -99,13 +109,16 @@ namespace EnergyHeatMap.Infrastructure.Services
                 if (!int.TryParse(dateString, out var year))
                     return;
 
-                if (year < 2000)
+                if (year < MinYear)
                     return;
 
 
                 var date = new DateTime(year, 12, 31);
                 var isoCode = csvReader.GetField(0);
                 var country = csvReader.GetField(1);
+
+                if ((await GetCountries(ct)).Contains(country) == false)
+                    return;
 
                 var populationString = csvReader.GetField(99);
                 _ = double.TryParse(populationString, out double population);
@@ -134,7 +147,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             
         }
 
-        private void LoadHashrateData(CsvReader csvReader, int rowCount)
+        private async Task LoadHashrateDataAsync(CsvReader csvReader, int rowCount, CancellationToken ct)
         {
             try
             {
@@ -177,13 +190,93 @@ namespace EnergyHeatMap.Infrastructure.Services
             }
         }
 
+        private void InterpolateEnergyData()
+        {
+            var countries = _countryEnergyStates.GroupBy(x => x.Country).Select(i => i.Key);
+
+            var interpolatedData = new List<ICountryEnergyStateEntity>();
+
+            //Only Interpolate Data after 2000 
+            var statesForInterPolation = _countryEnergyStates.Where(i => i.DateTime.Year >= MinYear);
+            foreach(var country in countries)
+            {
+                var energyStatesForThisCountry = statesForInterPolation.Where(i => i.Country == country);
+
+                var values = energyStatesForThisCountry
+                    .Where(c => c.PrimaryEnergyConsuption != 0)
+                    .Select(i => i.PrimaryEnergyConsuption).ToArray();
+
+                if (values.Length == 0)
+                    continue;
+
+                var points = new double[values.Length];
+                for (int i = 0; i < points.Length; i++)
+                    points[i] = (i + 1) * 12;
+
+                //20 Year with 12 Months
+                var dataPointsNeeded = 20 * 12;
+
+                var finishedPoints = new double[dataPointsNeeded];
+                var finishedValues = new double[dataPointsNeeded];
+                var pointsToInterPolate = new double[finishedPoints.Length - points.Length];
+
+                for(int i = 0; i < finishedPoints.Length; i++)
+                {
+                    finishedPoints[i] = i + 1;
+                    if((i + 1) % 12 == 0)
+                    {
+                        var valueIndex = ((i + 1) / 12) - 1;
+                        if(valueIndex < values.Length && values[valueIndex] != 0)
+                            finishedValues[i] = values[valueIndex];
+                    }
+                }
+
+                var arrayToInterpolate = new Tuple<double, double>[dataPointsNeeded];
+
+                for(int i = 0; i < arrayToInterpolate.Length; i++)
+                    arrayToInterpolate[i] = new Tuple<double, double>(finishedPoints[i], finishedValues[i]);
+
+                var interPolatedValues = _dataPreparationService.Interpolate(
+                    points, 
+                    values,
+                    arrayToInterpolate);
+                //Replace value with interpolatedValues
+
+                var baseDateTime = new DateTime(MinYear, 1, 1);
+                var baseState = energyStatesForThisCountry.FirstOrDefault();
+                if (baseState == null)
+                    continue;
+
+                foreach (var value in interPolatedValues)
+                {
+                    var valueDate = baseDateTime.AddMonths((int)value.Item1);
+                    var state = energyStatesForThisCountry.FirstOrDefault(i => i.DateTime == valueDate);
+
+                    if (state == null)
+                    {
+                        state = new CountryEnergyStateEntity(
+                            baseState.IsoCode, 
+                            baseState.Country, 
+                            valueDate, 
+                            0, 
+                            value.Item2, 
+                            baseState.PrimaryEnergyConsuptionUnit, 
+                            0, 
+                            baseState.PrimaryEnergyConsuptionUnit);
+                        _countryEnergyStates.Add(state);
+                    }
+
+                }
+
+            }
+        }
+
         public async Task<IEnumerable<string>> GetCountries(CancellationToken ct)
         {
             var groups = _countryHashrate.GroupBy(x => x.Country)
                 .Select(i => i.Key)
                 .OrderBy(i => i)
                 .ToList();
-            await Task.Yield();
 
             var countries = new List<string>();
 

@@ -23,7 +23,10 @@ namespace EnergyHeatMap.Infrastructure.Services
         private async Task<IEnumerable<ICryptoCoinState>> GetHashrateAndValueData(DateTime startDate, DateTime endDate)
         {
             var coinValueQuery = new GetAllCryptoCoinStatesQuery();
-            return (await _mediator.Send(coinValueQuery)).Where(i => i.DateTime >= startDate && i.DateTime <= endDate);
+            var data = await _mediator.Send(coinValueQuery);
+
+
+            return data.Where(i => i.DateTime >= startDate && i.DateTime <= endDate);
         }
 
         private async Task<double> GetCorrelationCoefficentForHashrateAndValue(DateTime startDate, DateTime endDate)
@@ -34,6 +37,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             var hashRate = coinState.Select(y => y.Hashrate).ToArray();
 
             var corrCoefQuery = new GetCorrelationCoefficentQuery(values, hashRate);
+            
             return await _mediator.Send(corrCoefQuery);
         }
 
@@ -41,7 +45,6 @@ namespace EnergyHeatMap.Infrastructure.Services
         {
             var typeEnum = analysisType.Type;
             var result = new List<Tuple<double, double>>();
-
 
             switch(analysisType.Type)
             {

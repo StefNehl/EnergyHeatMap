@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "6l0ew/NhkFgF91TywIYOyzB8F97HFcbnChpyC1U8y968kf9h6gMq1SLaSYTTW1kdP/pLa3mhRLwYhUkvYzP3NQ==",
+  "dgSpecHash": "8xBNd93FuKav7A3EtD5i8Y6mtM5QtVfLCULvqBDQxv3tv/sZHQHwZ02hTtP2HTdCrm8OHuHmAdl0mL/daKbyYA==",
   "success": true,
   "projectFilePath": "C:\\projects\\EnergyHeatMap\\Infrastructure\\EnergyHeatMap.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\stefa\\.nuget\\packages\\csvhelper\\27.2.1\\csvhelper.27.2.1.nupkg.sha512",
+    "C:\\Users\\stefa\\.nuget\\packages\\mathnet.numerics\\5.0.0-alpha08\\mathnet.numerics.5.0.0-alpha08.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\stefa\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\10.0.1\\mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512",
