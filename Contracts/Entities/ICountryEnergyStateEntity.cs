@@ -6,7 +6,7 @@
         string Country { get; }
         DateTime DateTime { get; }
         double Population { get; }
-        double PrimaryEnergyConsuption { get; }
+        double PrimaryEnergyConsuption { get; set; }
         string PrimaryEnergyConsuptionUnit { get; }
         double ElectricityGeneration { get; }
         string ElectricityGenerationUnit { get; }

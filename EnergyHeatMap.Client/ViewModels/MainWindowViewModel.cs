@@ -1,5 +1,6 @@
 using EnergyHeatMap.Contracts.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using ReactiveUI;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,8 +8,10 @@ namespace EnergyHeatMap.Client.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private bool isBusy;
         public async Task InitApplication(CancellationToken ct = default)
         {
+            IsBusy = true;
             var service = App.IoC.Services.GetService<ICountryEnergyStateServices>();
             if (service != null)
                 await service.InitService(ct);
@@ -25,6 +28,7 @@ namespace EnergyHeatMap.Client.ViewModels
 
             await AnalysisViewModel.LoadFilterValues();
             await AnalysisViewModel.LoadHashrateValueCoefData();
+            IsBusy = false;
         }
 
 
@@ -34,5 +38,10 @@ namespace EnergyHeatMap.Client.ViewModels
         public ChartViewModel ChartViewModel { get; set; }
         public AnalysisViewModel AnalysisViewModel { get; set; }
         
+        public bool IsBusy
+        {
+            get => isBusy;
+            set => this.RaiseAndSetIfChanged(ref isBusy, value);
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace EnergyHeatMap.Client.ViewModels
 
         private bool _isFilterBusy;
         private bool _isChartBusy;
-       
+
         public AnalysisViewModel()
         {
             _mediator = App.IoC.Services.GetService<IMediator>();
@@ -39,6 +39,7 @@ namespace EnergyHeatMap.Client.ViewModels
             {
                 new ScatterSeries<ObservablePoint>{ Values = _observableValues, GeometrySize = 2}
             };
+
             StartDate = new DateTime(2010, 1, 1);
             EndDate = DateTime.Now;
 
@@ -107,14 +108,12 @@ namespace EnergyHeatMap.Client.ViewModels
         public async Task LoadHashrateValueCoefData()
         {
             IsChartBusy = true;
+
             var corCoeQuery = new GetAnalysisValueQuery(_startDate.DateTime, _endDate.DateTime, _selectedAnalysisType);
             CorrelationCoefficent = await _mediator.Send(corCoeQuery);
 
             var dataQuery = new GetAnalysisDataQuery(_startDate.DateTime, _endDate.DateTime, _selectedAnalysisType);
             var coinState = await _mediator.Send(dataQuery);
-
-            
-
 
             var hashRate = coinState.Select(y => y.Item1).ToArray();
             var values = coinState.Select(x => x.Item2).ToArray();
@@ -124,8 +123,6 @@ namespace EnergyHeatMap.Client.ViewModels
                 var regressionQuery = new GetPolynomiamRegressionQuery(hashRate, values, 3);
                 var regData = await _mediator.Send(regressionQuery);
             }
-
-
 
             IsChartBusy = false;
 

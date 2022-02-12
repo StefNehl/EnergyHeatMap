@@ -20,7 +20,15 @@
 		</Grid.RowDefinitions>
 
 		<TextBlock Grid.Row="0" Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-		<TabControl Grid.Row="2" >
+
+		<ProgressBar Grid.Row="2"
+			 Width="100"
+			 HorizontalAlignment="Center"
+			 VerticalAlignment="Center"
+			 IsIndeterminate="{Binding IsBusy}"
+			 IsVisible="{Binding IsBusy}"/>
+		
+		<TabControl Grid.Row="2" IsVisible="{Binding !IsBusy}">
 			<TabItem Header="Map" IsSelected="True">
 				<views:MapView DataContext="{Binding MapViewModel}"/>
 			</TabItem>

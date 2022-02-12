@@ -61,7 +61,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             await LoadCsvDataAsync(HashrateProductionFileName, false, ct);
             LoadWorldHashrate();
             await LoadCsvDataAsync(CountryEnergyStateFileName, true, ct);
-            //await Task.Run(() => InterpolateEnergyData(), ct);
+            await Task.Run(() => InterpolateEnergyData(), ct);
         }
 
         private async Task LoadCsvDataAsync(string filename, bool isEnergyData, CancellationToken ct)
@@ -113,7 +113,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                     return;
 
 
-                var date = new DateTime(year, 12, 31);
+                var date = new DateTime(year, 12, 1);
                 var isoCode = csvReader.GetField(0);
                 var country = csvReader.GetField(1);
 
@@ -266,9 +266,14 @@ namespace EnergyHeatMap.Infrastructure.Services
                         _countryEnergyStates.Add(state);
                     }
 
+                    if (state.PrimaryEnergyConsuption == 0)
+                        state.PrimaryEnergyConsuption = value.Item2;
+
                 }
 
             }
+
+            var test = _countryEnergyStates.Where(j => j.Country == "World").GroupBy(i => i.DateTime).Where(c => c.Count() > 1);
         }
 
         public async Task<IEnumerable<string>> GetCountries(CancellationToken ct)
