@@ -62,6 +62,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             LoadWorldHashrate();
             await LoadCsvDataAsync(CountryEnergyStateFileName, true, ct);
             await Task.Run(() => InterpolateEnergyData(), ct);
+            CalculateWorldEnergyData();
         }
 
         private async Task LoadCsvDataAsync(string filename, bool isEnergyData, CancellationToken ct)
@@ -274,6 +275,17 @@ namespace EnergyHeatMap.Infrastructure.Services
             }
 
             var test = _countryEnergyStates.Where(j => j.Country == "World").GroupBy(i => i.DateTime).Where(c => c.Count() > 1);
+        }
+
+        private void CalculateWorldEnergyData()
+        {
+            var worldStates = _countryEnergyStates.Where(i => i.Country == AllCountries);
+
+            foreach (var worldState in worldStates)
+            {
+                var countries = _countryEnergyStates.Where(i => i.DateTime == worldState.DateTime && i.Country != AllCountries);
+                worldState.PrimaryEnergyConsuption = countries.Sum(i => i.PrimaryEnergyConsuption);
+            }
         }
 
         public async Task<IEnumerable<string>> GetCountries(CancellationToken ct)
