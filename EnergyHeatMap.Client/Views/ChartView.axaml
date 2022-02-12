@@ -97,6 +97,7 @@
 							Series="{Binding SeriesCollection}"
 							ZoomMode="Both"
 							XAxes="{Binding XAxes}"
+							YAxes="{Binding YAxes}"
 							LegendPosition="Top">
 			<lvc:CartesianChart.TooltipTemplate>
 				<DataTemplate>

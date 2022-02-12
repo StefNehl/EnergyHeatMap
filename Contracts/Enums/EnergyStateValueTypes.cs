@@ -7,7 +7,8 @@ namespace EnergyHeatMap.Contracts.Enums
         PrimaryEnergyConsumption = 1,
         ElectricityGeneration = 2,
         HashrateProductionInPercentage = 3,
-        HashrateProductionInAbs = 4
+        HashrateProductionInAbs = 4,
+        None = 5
     }
 
     public static class EnergyStateValueTypesExtensions
@@ -32,6 +33,11 @@ namespace EnergyHeatMap.Contracts.Enums
                 return string.Empty;
 
             return value.Name;
+        }
+
+        public static EnergyStateValueTypes GetEnum(string valueString)
+        {
+            return GetValues().FirstOrDefault(i => i.Name == valueString)?.Type ?? EnergyStateValueTypes.None;
         }
     }
 

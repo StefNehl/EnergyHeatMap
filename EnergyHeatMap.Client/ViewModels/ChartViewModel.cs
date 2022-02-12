@@ -1,6 +1,7 @@
 ﻿using EnergyHeatMap.Contracts.Enums;
 using EnergyHeatMap.Contracts.Models;
 using EnergyHeatMap.Contracts.Repositories;
+using EnergyHeatMap.Domain.Enums;
 using EnergyHeatMap.Infrastructure.Queries.Analysis;
 using EnergyHeatMap.Infrastructure.Queries.Chart;
 using LiveChartsCore;
@@ -124,6 +125,19 @@ namespace EnergyHeatMap.Client.ViewModels
                 // since our X axis is of type date time and 
                 // the interval between our points is in days
                 UnitWidth = TimeSpan.FromDays(1).Ticks
+            }, 
+        };
+
+        public Axis[] YAxes { get; set; } = {
+            new()
+            {
+                Name = "Hashrate",
+                Position = LiveChartsCore.Measure.AxisPosition.Start
+            },
+            new()
+            {
+                Name = "Primary Energy Consumption",
+                Position = LiveChartsCore.Measure.AxisPosition.End
             }
         };
 
@@ -207,7 +221,8 @@ namespace EnergyHeatMap.Client.ViewModels
                     GeometryStroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A), 0),
                     GeometryFill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A)),
                     Stroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A)) { StrokeThickness = 1 },
-                    Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A))
+                    Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A)),
+                    ScalesYAt = 0
                 };
 
                 series[i] = newLineSeries;
@@ -245,8 +260,13 @@ namespace EnergyHeatMap.Client.ViewModels
                     GeometryStroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A), 2),
                     GeometryFill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A)),
                     Stroke = new SolidColorPaint(new SKColor(lineColor.R, lineColor.G, lineColor.B, lineColor.A)) { StrokeThickness = 2 },
-                    Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A))
+                    Fill = new SolidColorPaint(new SKColor(fillColor.R, fillColor.G, fillColor.B, fillColor.A)),
                 };
+
+                if (EnergyStateValueTypesExtensions.GetEnum(state.EnergyStateValueType) == Contracts.Enums.EnergyStateValueTypes.HashrateProductionInAbs)
+                    newLineSeries.ScalesYAt = 0;
+                else
+                    newLineSeries.ScalesYAt = 1;
 
                 series[i] = newLineSeries;
             }

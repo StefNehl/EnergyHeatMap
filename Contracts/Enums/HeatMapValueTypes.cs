@@ -10,7 +10,8 @@ namespace EnergyHeatMap.Domain.Enums
     public enum HeatMapValueTypes
     {
         HashratePerc = 0,
-        EnergyConsuptionPerc = 1
+        EnergyConsuptionPerc = 1,
+        None = 2
     }
 
     public static class HeatMapValueTypesExtensions
@@ -32,6 +33,11 @@ namespace EnergyHeatMap.Domain.Enums
                 return string.Empty;
 
             return value.Name;
+        }
+
+        public static HeatMapValueTypes GetEnum(string valueString)
+        {
+            return GetValues().FirstOrDefault(i => i.Name == valueString)?.Type ?? HeatMapValueTypes.None;
         }
     }
 
