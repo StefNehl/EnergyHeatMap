@@ -149,8 +149,7 @@ namespace EnergyHeatMap.Client.ViewModels
 
         public async void RefreshAfterFilterSelection(object? s, EventArgs e)
         {
-            await LoadChartData();
-            await SetChartValues();
+            await LoadAndSetChartData();
         }
 
         public async Task LoadAndSetFilterValues()

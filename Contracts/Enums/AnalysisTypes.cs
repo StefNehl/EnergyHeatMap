@@ -10,6 +10,7 @@ namespace EnergyHeatMap.Contracts.Enums
     {
         None = 0,
         CorrelationHashrateValue = 1,
+        CorrelationEnergyHashrate = 2,
     }
 
     public class AnalysisTypesExtansion
@@ -20,6 +21,7 @@ namespace EnergyHeatMap.Contracts.Enums
 
             result.Add(new AnalysisType(AnalysisTypes.None, "None"));
             result.Add(new AnalysisType(AnalysisTypes.CorrelationHashrateValue, "Correlation of Hashrate and Value"));
+            result.Add(new AnalysisType(AnalysisTypes.CorrelationEnergyHashrate, "Correlation of Energy Consumption and Hashrate"));
 
             return result;
         }
