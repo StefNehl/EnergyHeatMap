@@ -61,7 +61,7 @@ namespace EnergyHeatMap.Infrastructure.Services
             await LoadCsvDataAsync(HashrateProductionFileName, false, ct);
             LoadWorldHashrate();
             await LoadCsvDataAsync(CountryEnergyStateFileName, true, ct);
-            await Task.Run(() => InterpolateEnergyData(), ct);
+            //await Task.Run(() => InterpolateEnergyData(), ct);
         }
 
         private async Task LoadCsvDataAsync(string filename, bool isEnergyData, CancellationToken ct)
@@ -402,7 +402,7 @@ namespace EnergyHeatMap.Infrastructure.Services
                         if (worldEnergy != null)
                         {
                             if (worldEnergy.PrimaryEnergyConsuption != 0)
-                                energyPercentage = energy.PrimaryEnergyConsuption / worldEnergy.PrimaryEnergyConsuption;
+                                energyPercentage = (energy.PrimaryEnergyConsuption / worldEnergy.PrimaryEnergyConsuption) * 100;
                         }
                     }
 

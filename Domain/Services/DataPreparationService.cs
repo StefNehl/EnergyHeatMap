@@ -17,7 +17,7 @@ namespace EnergyHeatMap.Domain.Services
 
         public Tuple<double, double>[] Interpolate(double[] points, double[] value, Tuple<double, double>[] arrayForInterpolation)
         {
-            var interPolate = MathNet.Numerics.Interpolate.Linear(points, value);
+            var interPolate = MathNet.Numerics.Interpolate.RationalWithoutPoles(points, value);
 
             for(int i = 0; i < arrayForInterpolation.Length; i++)
             {
