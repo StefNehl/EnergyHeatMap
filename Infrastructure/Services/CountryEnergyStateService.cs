@@ -23,8 +23,8 @@ namespace EnergyHeatMap.Infrastructure.Services
         private readonly IDataUnitService _dataUnitService;
         private readonly IDataPreparationService _dataPreparationService;
 
-        private readonly List<ICountryEnergyStateEntity> _countryEnergyStates;
-        private readonly List<ICountryHashrateEntity> _countryHashrate;
+        private List<ICountryEnergyStateEntity> _countryEnergyStates;
+        private List<ICountryHashrateEntity> _countryHashrate;
         private readonly string _countryEnergyStatesPath;
         private const string CountryEnergyStateFileName = "owid-energy-data.csv";
         private const string HashrateProductionFileName = "hashrate_production.csv";
@@ -274,7 +274,7 @@ namespace EnergyHeatMap.Infrastructure.Services
 
             }
 
-            var test = _countryEnergyStates.Where(j => j.Country == "World").GroupBy(i => i.DateTime).Where(c => c.Count() > 1);
+            _countryEnergyStates = _countryEnergyStates.OrderBy(i => i.Country).ThenBy(j => j.DateTime).ToList();
         }
 
         private void CalculateWorldEnergyData()
