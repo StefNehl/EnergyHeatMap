@@ -3,10 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:EnergyHeatMap.Client.ViewModels"
+			 xmlns:converters="using:EnergyHeatMap.Client.Converters"						 
 			 xmlns:ctx="using:LiveChartsCore.Kernel"
 			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="1080"
              x:Class="EnergyHeatMap.Client.Views.ChartView">
+	<UserControl.Resources>
+		<converters:PointValueToDateTimeConverter x:Key="PointValueToDateTimeConverter"/>
+	</UserControl.Resources>
 	<Design.DataContext>
 		<vm:ChartViewModel/>
 	</Design.DataContext>
@@ -93,7 +97,8 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 		</Grid>
-		<lvc:CartesianChart Grid.Column="0"
+		<lvc:CartesianChart Name="chartControl" 
+							Grid.Column="0"
 							Series="{Binding SeriesCollection}"
 							ZoomMode="Both"
 							XAxes="{Binding XAxes}"
@@ -104,14 +109,19 @@
 					<Border Background="Transparent" Padding="12">
 						<Border Background="#353535" CornerRadius="4"
 							 BoxShadow="0 0 10 0 #40000000, 0 0 10 0 #40000000, 0 0 10 0 #40000000, 0 0 10 0 #40000000">
-							<Grid>
+							<Grid >
 								<Grid.RowDefinitions>
 									<RowDefinition Height="30"/>
 									<RowDefinition/>
 								</Grid.RowDefinitions>
-								<TextBlock Grid.Row="0"
+								<TextBlock Name="dateTextBlock"	
+										   Margin="5"
+										   Grid.Row="0"
 										   Foreground="#fafafa"
-										   Text="{Binding DataContext.Date, Mode=OneWay}"
+										   Text="{Binding , 
+												Mode=OneWay, 
+												Converter={StaticResource PointValueToDateTimeConverter}, 
+												RelativeSource={RelativeSource AncestorType=lvc:DefaultTooltip}}"
 										   VerticalAlignment="Center"/>
 								<ItemsControl Grid.Row="1" 
 											  Items="{Binding Points, RelativeSource={RelativeSource AncestorType=lvc:DefaultTooltip}}">

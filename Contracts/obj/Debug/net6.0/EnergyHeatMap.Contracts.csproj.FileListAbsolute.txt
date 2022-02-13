@@ -2,6 +2,7 @@ C:\projects\EnergyHeatMap\Contracts\bin\Debug\net6.0\EnergyHeatMap.Contracts.dep
 C:\projects\EnergyHeatMap\Contracts\bin\Debug\net6.0\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\bin\Debug\net6.0\ref\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\bin\Debug\net6.0\EnergyHeatMap.Contracts.pdb
+C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.csproj.AssemblyReference.cache
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.GeneratedMSBuildEditorConfig.editorconfig
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.AssemblyInfoInputs.cache
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.AssemblyInfo.cs
@@ -9,4 +10,3 @@ C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.csp
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\ref\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.pdb
-C:\projects\EnergyHeatMap\Contracts\obj\Debug\net6.0\EnergyHeatMap.Contracts.csproj.AssemblyReference.cache

@@ -6,7 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-    <Folder Include="Views\Converter\" />
     <None Remove=".gitignore" />
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />

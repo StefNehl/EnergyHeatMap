@@ -51,8 +51,15 @@ namespace EnergyHeatMap.Client.ViewModels
             {
                 await LoadAndSetChartData();
             });
+
+            OnToolTipDataContextChangedCommand = ReactiveCommand.Create(async () =>
+            {
+                Console.WriteLine("Test");
+            });
         }
         public IReactiveCommand OnLoadDataCommand { get; }
+
+        public IReactiveCommand OnToolTipDataContextChangedCommand { get; }
 
         public ICryptoStateData[] CryptoCoinStates { get; set; }
 
