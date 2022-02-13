@@ -12,4 +12,4 @@ C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.csproj.
 C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.dll
 C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\ref\EnergyHeatMap.Domain.dll
 C:\projects\EnergyHeatMap\Domain\obj\Release\net6.0\EnergyHeatMap.Domain.pdb
-C:\projects\EnergyHeatMap\Domain\bin\Release\net6.0\ref\EnergyHeatMap.Domain.dll
+C:\projects\EnergyHeatMap\Domain\obj\release\net6.0\refint\EnergyHeatMap.Domain.dll

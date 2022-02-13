@@ -9,4 +9,4 @@ C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.c
 C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\ref\EnergyHeatMap.Contracts.dll
 C:\projects\EnergyHeatMap\Contracts\obj\Release\net6.0\EnergyHeatMap.Contracts.pdb
-C:\projects\EnergyHeatMap\Contracts\bin\Release\net6.0\ref\EnergyHeatMap.Contracts.dll
+C:\projects\EnergyHeatMap\Contracts\obj\release\net6.0\refint\EnergyHeatMap.Contracts.dll
