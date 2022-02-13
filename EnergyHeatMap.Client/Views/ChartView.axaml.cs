@@ -13,24 +13,6 @@ namespace EnergyHeatMap.Client.Views
         public ChartView()
         {
             InitializeComponent();
-
-            var textbox = this.FindControl<TextBlock>("dateTextBlock");
-
-            var chart = this.FindControl<CartesianChart>("chartControl");
-            var tooltip = chart.Tooltip as DefaultTooltip;
-            tooltip.PointerMoved += (e,a) =>
-            {
-                var tip = e as DefaultTooltip;
-                if (tip == null)
-                    return;
-
-                if (!tip.Points.Any())
-                    return;
-
-                var value = tip.Points.FirstOrDefault().SecondaryValue;
-
-                System.Console.WriteLine(new DateTime((long)value));
-            };
         }
 
         private void InitializeComponent()
