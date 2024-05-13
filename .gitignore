@@ -1,8 +1,8 @@
-/Data
-Contracts/bin
-Contracts/obj
-Domain/bin
-Domain/obj
-Infrastructure/bin
-Infrastructure/obj
+/Data/
+Contracts/bin/
+Contracts/obj/
+Domain/bin/
+Domain/obj/
+Infrastructure/bin/
+Infrastructure/obj/
 
