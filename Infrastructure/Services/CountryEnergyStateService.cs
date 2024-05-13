@@ -26,7 +26,7 @@ namespace EnergyHeatMap.Infrastructure.Services
         private List<ICountryEnergyStateEntity> _countryEnergyStates;
         private List<ICountryHashrateEntity> _countryHashrate;
         private readonly string _countryEnergyStatesPath;
-        private const string CountryEnergyStateFileName = "owid-energy-data.csv";
+        private const string CountryEnergyStateFileName = "energy-data.csv";
         private const string HashrateProductionFileName = "hashrate_production.csv";
 
         private const string AllCountries = "World";
